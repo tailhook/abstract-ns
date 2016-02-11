@@ -1,0 +1,15 @@
+[package]
+name = "abstract-ns"
+description = """
+    Abstract name service implementation
+"""
+license = "MIT/Apache-2.0"
+readme = "README.rst"
+keywords = ["dns", "rotor", "name", "service", "discovery"]
+homepage = "http://github.com/tailhook/abstract-ns"
+documentation = "http://tailhook.github.io/abstract-ns"
+version = "0.1.0"
+authors = ["paul@colomiets.name"]
+
+[lib]
+name = "abstract_ns"
