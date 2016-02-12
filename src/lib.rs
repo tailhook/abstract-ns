@@ -1,7 +1,11 @@
 mod channels;
 mod stdlib_dns;
+mod threaded;
+mod async;
 
 pub use stdlib_dns::StdResolver;
+pub use threaded::{ResolverThread, resolver_thread};
+pub use async::AsyncResolver;
 
 pub trait Resolver<R: Receiver> {
     type Name;
