@@ -10,8 +10,10 @@ interoperable implementations of name dicovery.
 Features:
 
 * Customized name resolving
-* Push-style refreshes of the names
 * Works with both threaded and asynchronous IO
+* Includes one line resolver based on ``std::net`` (i.e. DNS via libc)
+* Has mock resolvers
+* [TODO] Push-style refreshes of the names
 
 
 License
