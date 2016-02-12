@@ -5,9 +5,7 @@ use std::sync::mpsc::TrySendError::{Disconnected, Full};
 use {Receiver};
 
 
-impl<A, E> Receiver for SyncSender<Result<A, E>> {
-    type Address = A;
-    type Error = E;
+impl<A, E> Receiver<A, E> for SyncSender<Result<A, E>> {
     fn result(&mut self, addr: Result<A, E>) {
         match self.try_send(addr) {
             Ok(()) => {}
@@ -23,9 +21,7 @@ impl<A, E> Receiver for SyncSender<Result<A, E>> {
     }
 }
 
-impl<A, E> Receiver for Sender<Result<A, E>> {
-    type Address = A;
-    type Error = E;
+impl<A, E> Receiver<A, E> for Sender<Result<A, E>> {
     fn result(&mut self, addr: Result<A, E>) {
         // If receiver is already dead its fine
         self.send(addr).ok();

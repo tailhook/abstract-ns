@@ -8,7 +8,7 @@ fn main() {
     let (_join_handle, mut std) = resolver_thread(|| {
         StdResolver::new()
     });
-    let moz = std.resolve_async(("mozilla.org", 80));
+    let moz = AsyncResolver::resolve_async(&mut std, ("mozilla.org", 80));
     let rust = std.resolve_async(("rust-lang.org", 80));
 
     println!("Asked to mozilla.org and rust-lang.org");
