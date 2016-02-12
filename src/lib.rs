@@ -25,13 +25,33 @@ pub use threaded::{ResolverThread, resolver_thread};
 pub use async::{AsyncResolver};
 pub use mocks::Mock;
 
+/// A traits that encapsulates name resolution
+///
+/// If your're implementing a name service you should implement this trait.
 pub trait Resolver<R: Receiver<Self::Address, Self::Error>> {
+    /// The name that can be resolved via this name service. Note in many
+    /// cases type should implement Send
     type Name;
+    /// The value of the address returned back
     type Address;
+    /// Error that name resolver can return
     type Error;
+    /// The method which does name resolution
+    ///
+    /// When name resolution is done, you should use `dest.result(x)` to
+    /// deliver result.
+    ///
+    /// This trait is inherently asynchronous. For synchronous (blocking)
+    /// implementations you should use `BlockingResolver`. This gives clear
+    /// indicator for user that process may be slow, so they can offload it to
+    /// thread if needed.
     fn request(&mut self, name: Self::Name, dest: R);
 }
 
+/// A helper trait used to deliver final name resolve result
+///
+/// This trait is implemented on rust channels, and should be implemented for
+/// popular asynchronous main loops.
 pub trait Receiver<A, E> {
     fn result(&mut self, addr: Result<A, E>);
 }

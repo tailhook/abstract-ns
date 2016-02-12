@@ -11,40 +11,31 @@ use {Resolver, Receiver, BlockingResolver};
 ///
 /// # Example With HashMap
 ///
-/// ```
-///     use std::net::Ipv4Addr;
-///     use std::collections::HashMap;
-///     use abstract_ns::{Mock, BlockingResolver};
+/// ``` use std::net::Ipv4Addr; use std::collections::HashMap; use
+/// abstract_ns::{Mock, BlockingResolver};
 ///
-///     let mut ns = Mock::table(vec![
-///         ("example.com", Ipv4Addr::new(127, 0, 0, 1)),
-///         ]);
+///     let mut ns = Mock::table(vec![ ("example.com", Ipv4Addr::new(127, 0, 0,
+///     1)), ]);
 ///
-///     let ip = ns.resolve("example.com").unwrap();
-///     assert_eq!("127.0.0.1", &format!("{}", ip));
-/// ```
+///     let ip = ns.resolve("example.com").unwrap(); assert_eq!("127.0.0.1",
+///     &format!("{}", ip)); ```
 ///
 /// # Example With Closure
 ///
-/// ```
-///     use std::net::Ipv4Addr;
-///     use std::collections::HashMap;
-///     use abstract_ns::{Mock, BlockingResolver};
+/// ``` use std::net::Ipv4Addr; use std::collections::HashMap; use
+/// abstract_ns::{Mock, BlockingResolver};
 ///
-///     let mut ns = Mock::new(|n| match n {
-///             "example.com" => Ok(Ipv4Addr::new(127, 0, 0, 1)),
-///             _ => Err(()),
-///         });
+///     let mut ns = Mock::new(|n| match n { "example.com" =>
+///     Ok(Ipv4Addr::new(127, 0, 0, 1)), _ => Err(()), });
 ///
-///     let ip = ns.resolve("example.com").unwrap();
-///     assert_eq!("127.0.0.1", &format!("{}", ip));
-/// ```
+///     let ip = ns.resolve("example.com").unwrap(); assert_eq!("127.0.0.1",
+///     &format!("{}", ip)); ```
 ///
 /// # Testing
 ///
-/// While there are use cases of both hash table lookups and functional
-/// name lookup, it's advised to implement the trait directly for production
-/// purposes.
+/// While there are production use cases of both hash table lookups and
+/// functional name lookup, it's advised to implement the trait directly
+/// instead of using `Mock` for those cases.
 pub struct Mock<N, M>(M, PhantomData<*const N>);
 
 impl<N, M> Mock<N, M> {

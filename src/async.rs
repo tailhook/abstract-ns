@@ -4,8 +4,8 @@ use {Resolver, Receiver as RecvTrait};
 
 /// Async resolver extension trait
 ///
-/// This is a convenience trait for using asynchronous resolvers using
-/// blocking thread model.
+/// This is a convenience trait for using asynchronous resolvers via rust
+/// channels (`std::sync::mpsc`)
 pub trait AsyncResolver<R: RecvTrait<Self::Address, Self::Error>>: Resolver<R>
 {
     fn resolve_async(&mut self, name: Self::Name)

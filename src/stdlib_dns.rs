@@ -7,7 +7,8 @@ use {BlockingResolver};
 
 /// A name resolver that uses libc name resolution
 ///
-/// It can't be asynchronous
+/// Unfortunately it can't be asynchronous, so we implement `BlockingResolver`.
+/// You can put it in the thread, however (see `resolver_thread`)
 pub struct StdResolver<T:ToSocketAddrs>(PhantomData<T>);
 
 

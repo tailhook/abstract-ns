@@ -6,6 +6,11 @@ use std::sync::mpsc::{channel, Sender};
 use {BlockingResolver, Resolver, Receiver};
 
 
+/// An asynchronous resolver that offloads a slow resolver to thread
+///
+/// It's created with `resolve_thread()` function.
+///
+/// Thread will shut down automatically when all `Sender`s are closed
 #[derive(Clone)]
 pub struct ResolverThread<N, R, A, E>(Sender<(N, R)>,
                                       PhantomData<*const (A, E)>)
@@ -23,6 +28,24 @@ impl<N, R, A, E> Resolver<R> for ResolverThread<N, R, A, E>
     }
 }
 
+/// Create a ResolverThread
+///
+/// This function receives a lambda which should create a resolver and
+/// return it.
+///
+/// # Example
+///
+/// ```
+/// use abstract_ns::{resolver_thread, StdResolver, AsyncResolver};
+///
+/// let (_join_handle, mut std) = resolver_thread(|| {
+///     StdResolver::new()
+/// });
+///
+/// let value = std.resolve_async(("rust-lang.org", 80)).recv();
+///
+/// ```
+///
 pub fn resolver_thread<F, B, N, R, A, E>(fun: F)
     -> (JoinHandle<()>, ResolverThread<N, R, A, E>)
     where F: FnOnce() -> B + Send + 'static,
