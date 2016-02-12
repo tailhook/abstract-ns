@@ -11,5 +11,10 @@ documentation = "http://tailhook.github.io/abstract-ns"
 version = "0.1.0"
 authors = ["paul@colomiets.name"]
 
+[dev-dependencies]
+argparse = "0.2.1"
+rotor = "0.5.1"
+rotor-dns = "0.2.0"
+
 [lib]
 name = "abstract_ns"
