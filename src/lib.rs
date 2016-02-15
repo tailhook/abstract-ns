@@ -19,11 +19,13 @@ mod stdlib_dns;
 mod threaded;
 mod async;
 mod mocks;
+mod identity;
 
 pub use stdlib_dns::StdResolver;
 pub use threaded::{ResolverThread, resolver_thread};
 pub use async::{AsyncResolver};
 pub use mocks::Mock;
+pub use identity::IdentityResolver;
 
 /// A traits that encapsulates name resolution
 ///
