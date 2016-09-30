@@ -20,3 +20,5 @@ argparse = "0.2.1"
 
 [lib]
 name = "abstract_ns"
+
+[workspace]

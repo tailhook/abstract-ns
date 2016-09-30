@@ -5,6 +5,6 @@ use {Name, Address, Error};
 
 
 pub trait Resolver {
-    fn resolve(name: Name) -> BoxFuture<Address, Error>;
-    fn subscribe(name: Name) -> BoxStream<Address, Error>;
+    fn resolve(&self, name: Name) -> BoxFuture<Address, Error>;
+    fn subscribe(&self, name: Name) -> BoxStream<Address, Error>;
 }

@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use std::net::SocketAddr;
+use std::net::{IpAddr, SocketAddr};
 
 use {Weight};
 
@@ -17,23 +17,31 @@ pub struct Address(Arc<Internal>);
 
 #[derive(Debug)]
 struct Internal {
-    names: Vec<Vec<(Weight, SocketAddr)>>,
+    addresses: Vec<Vec<(Weight, SocketAddr)>>,
 }
 
 /// A builder interface for `Address`
 pub struct AddressBuilder {
-    names: Vec<Vec<(Weight, SocketAddr)>>,
+    addresses: Vec<Vec<(Weight, SocketAddr)>>,
+}
+
+impl From<(IpAddr, u16)> for Address {
+    fn from((ip, port): (IpAddr, u16)) -> Address {
+        Address(Arc::new(Internal {
+            addresses: vec![vec![(0, SocketAddr::new(ip, port))]],
+        }))
+    }
 }
 
 impl AddressBuilder {
     pub fn new() -> AddressBuilder {
         return AddressBuilder {
-            names: vec![Vec::new()],
+            addresses: vec![Vec::new()],
         }
     }
     pub fn into_address(self) -> Address {
         Address(Arc::new(Internal {
-            names: self.names,
+            addresses: self.addresses,
         }))
     }
 }
