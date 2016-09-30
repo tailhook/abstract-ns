@@ -10,11 +10,12 @@ interoperable implementations of name dicovery.
 
 Features:
 
-* Customized name resolving
-* Works with both threaded and asynchronous IO
-* Includes one line resolver based on ``std::net`` (i.e. DNS via libc)
-* Has mock resolvers
-* [TODO] Push-style refreshes of the names
+* Defines what is a name and what is a result of service discovery
+* Uses futures-rs for asynchronous stuff
+* Has interface to receive updates (name changes)
+
+
+Note: abstract-ns v0.2 is very different product than v0.1
 
 
 License
