@@ -1,5 +1,12 @@
 [package]
 name = "ns-std-threaded"
+description = """
+    Name service implementations based on stdlib's implementation run in
+    a thread pool
+"""
+license = "MIT/Apache-2.0"
+keywords = ["dns", "rotor", "name", "service", "discovery"]
+homepage = "http://github.com/tailhook/abstract-ns"
 version = "0.1.0"
 authors = ["Paul Colomiets <paul@colomiets.name>"]
 workspace = '../'
