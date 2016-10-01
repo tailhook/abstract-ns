@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use std::iter::FromIterator;
 use std::net::{IpAddr, SocketAddr};
 
 use {Weight};
@@ -29,6 +30,15 @@ impl From<(IpAddr, u16)> for Address {
     fn from((ip, port): (IpAddr, u16)) -> Address {
         Address(Arc::new(Internal {
             addresses: vec![vec![(0, SocketAddr::new(ip, port))]],
+        }))
+    }
+}
+impl FromIterator<SocketAddr> for Address {
+    fn from_iter<T>(iter: T) -> Self
+        where T: IntoIterator<Item=SocketAddr>
+    {
+        Address(Arc::new(Internal {
+            addresses: vec![iter.into_iter().map(|a| (0, a)).collect()],
         }))
     }
 }

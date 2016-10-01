@@ -8,7 +8,7 @@ readme = "README.rst"
 keywords = ["dns", "rotor", "name", "service", "discovery"]
 homepage = "http://github.com/tailhook/abstract-ns"
 documentation = "http://tailhook.github.io/abstract-ns"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["paul@colomiets.name"]
 
 [dependencies]
@@ -22,3 +22,4 @@ argparse = "0.2.1"
 name = "abstract_ns"
 
 [workspace]
+members = ["ns-std-threaded"]

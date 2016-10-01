@@ -1,3 +1,5 @@
+use std::error::{Error as StdError};
+
 quick_error! {
     /// A generic name resolution error
     ///
@@ -20,10 +22,10 @@ quick_error! {
         /// This means either name server returned this kind of error or
         /// we couldn't connect to a name server itself. It's safe to assume
         /// that you can retry name resolution in a moment
-        TemporaryError(err: Box<Error>) {
+        TemporaryError(err: Box<StdError + Send>) {
             description("temporary name resolution error")
             display("temporary name resolution error: {}", err)
-            cause(err)
+            cause(&**err)
         }
         /// We have sucessfully done name resolution but there is no such name
         NameNotFound {
