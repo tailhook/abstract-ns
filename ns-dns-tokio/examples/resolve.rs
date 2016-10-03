@@ -26,7 +26,8 @@ fn main() {
     let resolver = DnsResolver::system_config(&core.handle())
         .expect("initializing DNS resolver");
     let res = core.run(resolver.resolve(&name).map(|x| {
-        println!("{:?}", x)
+        println!("Addresses: {:?}", x);
+        println!("Pick one: {}", x.pick_one().unwrap());
     }));
     match res {
         Ok(()) => {}

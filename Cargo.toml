@@ -14,6 +14,7 @@ authors = ["paul@colomiets.name"]
 [dependencies]
 futures = "0.1.1"
 quick-error = "1.1.0"
+rand = "0.3.14"
 
 [dev-dependencies]
 argparse = "0.2.1"

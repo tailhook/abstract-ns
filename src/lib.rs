@@ -16,6 +16,7 @@
 //!
 
 extern crate futures;
+extern crate rand;
 #[macro_use] extern crate quick_error;
 
 pub type Name<'a> = &'a str;

@@ -20,7 +20,8 @@ fn main() {
     let mut resolver = StubResolver::new();
     resolver.add_host("localhost", "127.0.0.1".parse().unwrap());
     let res = resolver.resolve(&name).map(|x| {
-        println!("{:?}", x)
+        println!("Addresses: {:?}", x);
+        println!("Pick one: {}", x.pick_one().unwrap());
     }).wait();
     match res {
         Ok(()) => {}

@@ -23,7 +23,8 @@ fn main() {
     }
     let resolver = ThreadedResolver::new(CpuPool::new(20));
     let res = resolver.resolve(&name).map(|x| {
-        println!("{:?}", x)
+        println!("Addresses: {:?}", x);
+        println!("Pick one: {}", x.pick_one().unwrap());
     }).wait();
     match res {
         Ok(()) => {}

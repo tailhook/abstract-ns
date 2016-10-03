@@ -2,6 +2,9 @@ use std::sync::Arc;
 use std::iter::FromIterator;
 use std::net::{IpAddr, SocketAddr};
 
+use rand::thread_rng;
+use rand::distributions::{IndependentSample, Range};
+
 use {Weight};
 
 /// Address that nameservice has returned
@@ -38,17 +41,21 @@ impl FromIterator<SocketAddr> for Address {
         where T: IntoIterator<Item=SocketAddr>
     {
         Address(Arc::new(Internal {
-            addresses: vec![iter.into_iter().map(|a| (0, a)).collect()],
+            addresses: vec![iter.into_iter().map(|a| (1, a)).collect()],
         }))
     }
 }
 
 impl AddressBuilder {
+    /// Create a new empty address builder
     pub fn new() -> AddressBuilder {
         return AddressBuilder {
             addresses: vec![Vec::new()],
         }
     }
+    /// Finish building the Address object
+    ///
+    /// Returns none if there is no single address in the builder
     pub fn into_address(self) -> Address {
         Address(Arc::new(Internal {
             addresses: self.addresses,
@@ -56,3 +63,33 @@ impl AddressBuilder {
     }
 }
 
+
+impl Address {
+    /// Select one random address to connect to
+    ///
+    /// Picks a single address from the set of high priority addresses, with
+    /// the random distribution according to the weights.
+    ///
+    /// This method is stateless so it can't find out that high priority
+    /// addresses are all inaccessible and fallback addresses should be used.
+    ///
+    /// Returns `None` if address is empty
+    pub fn pick_one(&self) -> Option<SocketAddr> {
+        if self.0.addresses.len() == 0 || self.0.addresses[0].len() == 0 {
+            return None
+        }
+        let total_weight = self.0.addresses[0].iter().map(|&(w, _)| w).sum();
+        if total_weight == 0 {
+            return Some(self.0.addresses[0][0].1);
+        }
+        let range = Range::new(0, total_weight);
+        let mut n = range.ind_sample(&mut thread_rng());
+        for &(w, addr) in &self.0.addresses[0] {
+            if n < w {
+                return Some(addr);
+            }
+            n -= w;
+        }
+        unreachable!();
+    }
+}
