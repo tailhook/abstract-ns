@@ -2,7 +2,6 @@ use std::collections::HashMap;
 use std::net::IpAddr;
 
 use futures::{BoxFuture, IntoFuture, Future};
-use futures::stream::BoxStream;
 
 use {Name, Address, Resolver, Error};
 
@@ -65,8 +64,5 @@ impl Resolver for StubResolver {
                     "default port can't be parsed"))
             }
         }.into_future().boxed()
-    }
-    fn subscribe(&self, _name: Name) -> BoxStream<Address, Error> {
-        unimplemented!();
     }
 }

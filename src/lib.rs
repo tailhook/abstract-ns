@@ -25,6 +25,7 @@ mod address;
 mod resolver;
 mod error;
 mod stub;
+mod into_stream;  // Temporary
 
 pub use address::{Address, AddressBuilder};
 pub use resolver::Resolver;

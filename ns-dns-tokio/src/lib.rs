@@ -6,7 +6,6 @@ use std::str::FromStr;
 use std::net::{IpAddr, SocketAddr};
 
 use futures::{BoxFuture, Future, failed};
-use futures::stream::BoxStream;
 use domain::resolv;
 use domain::iana::{RRType, Class};
 use domain::rdata::A;
@@ -105,8 +104,5 @@ impl abstract_ns::Resolver for DnsResolver {
                     .boxed()
             }
         }
-    }
-    fn subscribe(&self, _name: Name) -> BoxStream<Address, Error> {
-        unimplemented!();
     }
 }

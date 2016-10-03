@@ -5,7 +5,6 @@ extern crate futures_cpupool;
 use std::net::ToSocketAddrs;
 
 use futures::{BoxFuture, failed, Future};
-use futures::stream::BoxStream;
 use abstract_ns::{Resolver, Name, Address, Error};
 use futures_cpupool::CpuPool;
 
@@ -58,8 +57,5 @@ impl Resolver for ThreadedResolver {
                     .boxed()
             }
         }
-    }
-    fn subscribe(&self, _name: Name) -> BoxStream<Address, Error> {
-        unimplemented!();
     }
 }

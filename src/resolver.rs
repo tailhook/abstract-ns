@@ -1,10 +1,22 @@
 use futures::BoxFuture;
-use futures::stream::BoxStream;
+use futures::stream::{Stream, BoxStream};
 
 use {Name, Address, Error};
+use into_stream;
 
 
 pub trait Resolver {
+
+    /// Resolve a name to an address once
     fn resolve(&self, name: Name) -> BoxFuture<Address, Error>;
-    fn subscribe(&self, name: Name) -> BoxStream<Address, Error>;
+
+    /// Resolve a name and subscribe to the updates
+    ///
+    /// Default implementation just yield a value once. But even if your source
+    /// doesn't provide updates, you should implement some polling. The reason
+    /// we don't do poling by default is because polling interval should either
+    /// depend on TTL (of a DNS record for example) or on user-defined setting.
+    fn subscribe(&self, name: Name) -> BoxStream<Address, Error> {
+        into_stream::new(self.resolve(name)).boxed()
+    }
 }
