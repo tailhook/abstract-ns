@@ -22,4 +22,4 @@ argparse = "0.2.1"
 name = "abstract_ns"
 
 [workspace]
-members = ["ns-std-threaded"]
+members = ["ns-std-threaded", "ns-dns-tokio"]

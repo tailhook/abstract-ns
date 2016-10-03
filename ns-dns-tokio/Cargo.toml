@@ -1,0 +1,24 @@
+[package]
+name = "ns-dns-tokio"
+description = """
+    Name service implementation for abstract-ns that uses domain name system
+    (DNS) run in tokio event loop
+"""
+license = "MIT/Apache-2.0"
+keywords = ["dns", "tokio", "name", "service", "discovery"]
+homepage = "http://github.com/tailhook/abstract-ns"
+version = "0.1.0"
+authors = ["Paul Colomiets <paul@colomiets.name>"]
+workspace = '../'
+
+[dependencies]
+futures = "0.1.1"
+tokio-core = "0.1.0"
+abstract-ns = { path="../" } #"0.2.0"
+domain = { git="git://github.com/partim/domain.git", rev="6ca1cdf" }
+
+[dev-dependencies]
+argparse = "0.2.1"
+
+[lib]
+name = "ns_dns_tokio"
