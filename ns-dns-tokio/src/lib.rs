@@ -1,11 +1,14 @@
 extern crate futures;
 extern crate abstract_ns;
 extern crate domain;
+extern crate tokio_core;
 
 use std::str::FromStr;
 use std::net::{IpAddr, SocketAddr};
+use std::error::Error as StdError;
 
 use futures::{BoxFuture, Future, failed};
+use tokio_core::reactor::Handle;
 use domain::resolv;
 use domain::iana::{RRType, Class};
 use domain::rdata::A;
@@ -18,7 +21,16 @@ pub struct DnsResolver {
 
 
 impl DnsResolver {
-    pub fn new(internal: resolv::Resolver) -> DnsResolver {
+    /// Create a DNS resolver with system config
+    pub fn system_config(lp: &Handle) -> Result<DnsResolver, Box<StdError>> {
+        Ok(DnsResolver {
+            internal: try!(resolv::Resolver::new(lp)),
+        })
+    }
+    /// Create a resolver from `domain::resolv::Resolver` instance
+    ///
+    /// This method provides the most comprehensive configuration
+    pub fn new_from_resolver(internal: resolv::Resolver) -> DnsResolver {
         DnsResolver {
             internal: internal,
         }

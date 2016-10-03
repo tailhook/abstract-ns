@@ -12,7 +12,6 @@ use futures::{Future};
 use tokio_core::reactor::Core;
 use abstract_ns::Resolver;
 use argparse::{ArgumentParser, Store};
-use domain::resolv;
 use ns_dns_tokio::DnsResolver;
 
 fn main() {
@@ -24,8 +23,8 @@ fn main() {
         ap.parse_args_or_exit();
     }
     let mut core = Core::new().unwrap();
-    let resolver = DnsResolver::new(
-        resolv::Resolver::new(&core.handle()).unwrap());
+    let resolver = DnsResolver::system_config(&core.handle())
+        .expect("initializing DNS resolver");
     let res = core.run(resolver.resolve(&name).map(|x| {
         println!("{:?}", x)
     }));
