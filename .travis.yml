@@ -14,6 +14,8 @@ after_success: |
   [ $TRAVIS_BRANCH = master ] &&
   [ $TRAVIS_PULL_REQUEST = false ] &&
   cargo doc &&
+  (cd ns-dns-dokio && cargo doc) &&
+  (cd ns-std-threaded && cargo doc) &&
   echo "<meta http-equiv=refresh content=0;url=`echo $TRAVIS_REPO_SLUG | cut -d '/' -f 2 | tr '-' '_'`/index.html>" > target/doc/index.html &&
   pip install ghp-import --user &&
   ~/.local/bin/ghp-import -n target/doc &&
