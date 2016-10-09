@@ -9,16 +9,16 @@ use {Name, Address, Resolver, Error};
 ///
 /// While this resolver is mostly useful in tests, you can also use it inside
 /// a chain of resolvers to resolve localhost or other built-in names.
-pub struct StubResolver {
+pub struct MemResolver {
     names: HashMap<String, IpAddr>,
 }
 
-impl StubResolver {
+impl MemResolver {
     /// Create new empty stub resolver
     ///
     /// You should add some hosts to make it useful
-    pub fn new() -> StubResolver {
-        StubResolver {
+    pub fn new() -> MemResolver {
+        MemResolver {
             names: HashMap::new(),
         }
     }
@@ -45,7 +45,7 @@ fn parse_name(name: &str) -> Option<(&str, Option<u16>)> {
 }
 
 
-impl Resolver for StubResolver {
+impl Resolver for MemResolver {
     fn resolve(&self, name: Name) -> BoxFuture<Address, Error> {
         match parse_name(name) {
             Some((_, None)) => {

@@ -10,7 +10,7 @@
 //!   many different resolvers in your application.
 //!   Use `Resolver::resolve(name)` to get a future `Resolver::subscribe(name)`
 //!   to get a stream of updates.
-//! * `StubResolver` is an in-memory hash table for addresses you may use for
+//! * `MemResolver` is an in-memory hash table for addresses you may use for
 //!   tests
 //!
 
@@ -24,10 +24,10 @@ pub type Weight = u32;
 mod address;
 mod resolver;
 mod error;
-mod stub;
+mod mem;
 mod into_stream;  // Temporary
 
 pub use address::{Address, AddressBuilder};
 pub use resolver::Resolver;
 pub use error::Error;
-pub use stub::StubResolver;
+pub use mem::MemResolver;

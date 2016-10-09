@@ -6,7 +6,7 @@ use std::io::{stderr, Write};
 use std::process::exit;
 
 use futures::{Future};
-use abstract_ns::{StubResolver, Resolver};
+use abstract_ns::{MemResolver, Resolver};
 use argparse::{ArgumentParser, Store};
 
 fn main() {
@@ -17,7 +17,7 @@ fn main() {
             .add_argument("hostname", Store, "Name to resolve");
         ap.parse_args_or_exit();
     }
-    let mut resolver = StubResolver::new();
+    let mut resolver = MemResolver::new();
     resolver.add_host("localhost", "127.0.0.1".parse().unwrap());
     let res = resolver.resolve(&name).map(|x| {
         println!("Addresses: {:?}", x);
