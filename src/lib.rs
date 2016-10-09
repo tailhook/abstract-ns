@@ -2,10 +2,9 @@
 //!
 //! Here are small breakdown:
 //!
-//! * `Name` is basically `AsRef<str>` but we would like to keep it as a trait
-//!   for later extension
+//! * `Name` is currently an alias to `&str` (but it may change in future)
 //! * `Address` is a structure which address resolves to. It's more than just
-//!   a `SocketAddr` you have used to, but there is `Address::pick_addr()`
+//!   a `SocketAddr` you have used to, but there is `Address::pick_one()`
 //!   which does quick and dirty solution
 //! * `Resolver` is a structure which is a configured resolver. You may use
 //!   many different resolvers in your application.
