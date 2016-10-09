@@ -25,7 +25,7 @@ mod address;
 mod resolver;
 mod error;
 mod mem;
-mod into_stream;  // Temporary
+mod stream_once;
 
 pub use address::{Address, AddressBuilder};
 pub use resolver::Resolver;

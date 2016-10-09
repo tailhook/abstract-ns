@@ -2,7 +2,7 @@ use futures::BoxFuture;
 use futures::stream::{Stream, BoxStream};
 
 use {Name, Address, Error};
-use into_stream;
+use stream_once::StreamOnce;
 
 
 pub trait Resolver {
@@ -17,6 +17,6 @@ pub trait Resolver {
     /// we don't do poling by default is because polling interval should either
     /// depend on TTL (of a DNS record for example) or on user-defined setting.
     fn subscribe(&self, name: Name) -> BoxStream<Address, Error> {
-        into_stream::new(self.resolve(name)).boxed()
+        StreamOnce::new(self.resolve(name)).boxed()
     }
 }
