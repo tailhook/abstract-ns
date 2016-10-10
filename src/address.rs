@@ -25,6 +25,14 @@ struct Internal {
 }
 
 /// A builder interface for `Address`
+///
+/// # Example
+///
+/// ```
+/// let builder = AddressBuilder::new();
+/// builder.add_addresses([(1, "127.0.0.1:80".parse().unwrap())]);
+/// let addr = builder.into_address();
+/// ```
 pub struct AddressBuilder {
     addresses: Vec<Vec<(Weight, SocketAddr)>>,
 }
@@ -36,6 +44,7 @@ impl From<(IpAddr, u16)> for Address {
         }))
     }
 }
+
 impl FromIterator<SocketAddr> for Address {
     fn from_iter<T>(iter: T) -> Self
         where T: IntoIterator<Item=SocketAddr>
@@ -52,6 +61,18 @@ impl AddressBuilder {
         return AddressBuilder {
             addresses: vec![Vec::new()],
         }
+    }
+
+    /// Add set of addresses of the same priority
+    ///
+    /// You must add all addresses of the same priority with a single call
+    /// to this function. Next call to `add_addresses` will add addresses with
+    /// smaller priority
+    pub fn add_addresses<I>(mut self, items: I) -> AddressBuilder
+        where I: IntoIterator<Item=(Weight, SocketAddr)>
+    {
+        self.addresses.push(Vec::from_iter(items));
+        self
     }
     /// Finish building the Address object
     ///
