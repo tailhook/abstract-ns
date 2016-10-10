@@ -1,6 +1,7 @@
 use std::sync::Arc;
 use std::iter::FromIterator;
 use std::net::{IpAddr, SocketAddr};
+use std::slice::Iter as VecIter;
 
 use rand::thread_rng;
 use rand::distributions::{IndependentSample, Range};
@@ -35,6 +36,22 @@ struct Internal {
 /// ```
 pub struct AddressBuilder {
     addresses: Vec<Vec<(Weight, SocketAddr)>>,
+}
+
+/// A structure that represents a set of addresses of the same priority
+pub struct WeightedSet<'a> {
+    addresses: &'a [(Weight, SocketAddr)],
+}
+
+pub struct PriorityIter<'a>(VecIter<'a, Vec<(Weight, SocketAddr)>>);
+
+impl<'a> Iterator for PriorityIter<'a> {
+    type Item = WeightedSet<'a>;
+    fn next(&mut self) -> Option<WeightedSet<'a>> {
+        self.0.next().map(|vec| WeightedSet {
+            addresses: &vec,
+        })
+    }
 }
 
 impl From<(IpAddr, u16)> for Address {
@@ -96,16 +113,48 @@ impl Address {
     ///
     /// Returns `None` if address is empty
     pub fn pick_one(&self) -> Option<SocketAddr> {
-        if self.0.addresses.len() == 0 || self.0.addresses[0].len() == 0 {
+        self.at(0).pick_one()
+    }
+
+    /// Returns the set of the hosts for the same priority
+    ///
+    /// Note: original priorities are lost. This method has contiguous array
+    /// of sets of hosts. The highest priority hosts returned by `.at(0)`.
+    ///
+    /// If no hosts the priority exists returns an empty set
+    ///
+    /// Use `iter()` to iterate over `WeightedSet`'s by priority
+    pub fn at(&self, priority: usize) -> WeightedSet {
+        self.0.addresses.get(priority)
+            .map(|vec| WeightedSet { addresses: vec })
+            .unwrap_or(WeightedSet{ addresses: &[] })
+    }
+
+    /// Returns iterator over `WeightedSet`'s starting from high priority set
+    pub fn iter(&self) -> PriorityIter {
+        PriorityIter(self.0.addresses.iter())
+    }
+}
+
+
+impl<'a> WeightedSet<'a> {
+    /// Select one random address to connect to
+    ///
+    /// This function selects a host according to the random distribution
+    /// according to the weights.
+    ///
+    /// Returns `None` if the set is empty
+    pub fn pick_one(&self) -> Option<SocketAddr> {
+        if self.addresses.len() == 0 {
             return None
         }
-        let total_weight = self.0.addresses[0].iter().map(|&(w, _)| w).sum();
+        let total_weight = self.addresses.iter().map(|&(w, _)| w).sum();
         if total_weight == 0 {
-            return Some(self.0.addresses[0][0].1);
+            return Some(self.addresses[0].1);
         }
         let range = Range::new(0, total_weight);
         let mut n = range.ind_sample(&mut thread_rng());
-        for &(w, addr) in &self.0.addresses[0] {
+        for &(w, addr) in self.addresses {
             if n < w {
                 return Some(addr);
             }

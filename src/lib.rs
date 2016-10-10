@@ -32,7 +32,7 @@ mod error;
 mod mem;
 mod stream_once;
 
-pub use address::{Address, AddressBuilder};
+pub use address::{Address, AddressBuilder, WeightedSet};
 pub use resolver::Resolver;
 pub use error::Error;
 pub use mem::MemResolver;
