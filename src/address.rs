@@ -30,8 +30,10 @@ struct Internal {
 /// # Example
 ///
 /// ```
-/// let builder = AddressBuilder::new();
-/// builder.add_addresses([(1, "127.0.0.1:80".parse().unwrap())]);
+/// use abstract_ns::AddressBuilder;
+///
+/// let mut builder = AddressBuilder::new();
+/// builder.add_addresses(&[(1, "127.0.0.1:80".parse().unwrap())]);
 /// let addr = builder.into_address();
 /// ```
 pub struct AddressBuilder {
@@ -85,10 +87,10 @@ impl AddressBuilder {
     /// You must add all addresses of the same priority with a single call
     /// to this function. Next call to `add_addresses` will add addresses with
     /// smaller priority
-    pub fn add_addresses<I>(mut self, items: I) -> AddressBuilder
-        where I: IntoIterator<Item=(Weight, SocketAddr)>
+    pub fn add_addresses<'x, I>(&mut self, items: I) -> &mut AddressBuilder
+        where I: IntoIterator<Item=&'x (Weight, SocketAddr)>
     {
-        self.addresses.push(Vec::from_iter(items));
+        self.addresses.push(items.into_iter().cloned().collect());
         self
     }
     /// Finish building the Address object
@@ -96,7 +98,9 @@ impl AddressBuilder {
     /// Returns none if there is no single address in the builder
     pub fn into_address(self) -> Address {
         Address(Arc::new(Internal {
-            addresses: self.addresses,
+            addresses: self.addresses.into_iter()
+                .filter(|vec| vec.len() > 0)
+                .collect(),
         }))
     }
 }
