@@ -24,7 +24,7 @@ pub type Name<'a> = &'a str;
 /// A type alias for a weight for each name in an address
 ///
 /// (don't rely on actual type, it's likely to change in near future)
-pub type Weight = u32;
+pub type Weight = u64;
 
 mod address;
 mod resolver;
