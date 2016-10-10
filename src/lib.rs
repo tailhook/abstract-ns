@@ -13,12 +13,17 @@
 //! * `MemResolver` is an in-memory hash table for addresses you may use for
 //!   tests
 //!
+#![deny(missing_docs)]
 
 extern crate futures;
 extern crate rand;
 #[macro_use] extern crate quick_error;
 
+/// A type alias that represents a name resolved by a name service
 pub type Name<'a> = &'a str;
+/// A type alias for a weight for each name in an address
+///
+/// (don't rely on actual type, it's likely to change in near future)
 pub type Weight = u32;
 
 mod address;
