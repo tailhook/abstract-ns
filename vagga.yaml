@@ -15,6 +15,12 @@ commands:
     container: ubuntu
     run: [cargo, test]
 
+  consul-server: !Command
+    description: Start consul in server mode
+    container: consul
+    run: |
+        /usr/bin/consul agent -dev -config-dir=/etc/consul.d
+
 containers:
 
   ubuntu:
@@ -30,3 +36,15 @@ containers:
 
     environ:
       HOME: /work/target
+
+  consul:
+    setup:
+    - !Ubuntu xenial
+    - !Unzip
+      url: https://releases.hashicorp.com/consul/0.7.0/consul_0.7.0_linux_amd64.zip
+      path: /usr/bin
+    - !EnsureDir /etc/consul.d
+    - !Text
+      /etc/consul.d/web.json: |
+        {"service": {"name": "web", "tags": ["fake"], "port": 80}}
+
