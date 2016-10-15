@@ -10,7 +10,7 @@ use std::error::Error as StdError;
 use futures::{BoxFuture, Future, failed};
 use tokio_core::reactor::Handle;
 use domain::resolv;
-use domain::iana::{RRType, Class};
+use domain::iana::{Rtype, Class};
 use domain::rdata::A;
 use domain::bits::DNameBuf;
 use abstract_ns::{Name, Address, Error};
@@ -64,7 +64,7 @@ impl abstract_ns::Resolver for DnsResolver {
                         let name = name.to_string();
 
                         self.internal.start().and_then(move |resolv| {
-                            resolv.query(dname, RRType::A, Class::In)
+                            resolv.query(dname, Rtype::A, Class::In)
                         }).map_err(|e| {
                             match e {
                                 resolv::Error::Question(_) |
@@ -88,10 +88,10 @@ impl abstract_ns::Resolver for DnsResolver {
                                 }
                             };
                             let mut result = Vec::new();
-                            for ip_res in answer.iter::<A>() {
+                            for ip_res in answer.limit_to::<A>() {
                                 match ip_res {
                                     Ok(ip) => result.push(SocketAddr::new(
-                                        IpAddr::V4(ip.rdata().addr()),
+                                        IpAddr::V4(ip.data().addr()),
                                         port)),
                                     Err(e) => {
                                         return Err(Error::TemporaryError(

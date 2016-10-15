@@ -12,10 +12,10 @@ authors = ["Paul Colomiets <paul@colomiets.name>"]
 workspace = '../'
 
 [dependencies]
-futures = "0.1.1"
+futures = "0.1.2"
 tokio-core = "0.1.0"
-abstract-ns = { path="../" } #"0.2.0"
-domain = { git="git://github.com/partim/domain.git", rev="6ca1cdf" }
+abstract-ns = "0.2.0"
+domain = "0.1.0"
 
 [dev-dependencies]
 argparse = "0.2.1"
