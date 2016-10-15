@@ -1,11 +1,11 @@
 [package]
 name = "abstract-ns"
 description = """
-    Abstract name service traits and libstd/DNS based implementation
+    Abstract name service traits for use with futures (and tokio)
 """
 license = "MIT/Apache-2.0"
 readme = "README.rst"
-keywords = ["dns", "rotor", "name", "service", "discovery"]
+keywords = ["dns", "tokio", "name", "service", "discovery"]
 homepage = "http://github.com/tailhook/abstract-ns"
 documentation = "http://tailhook.github.io/abstract-ns"
 version = "0.2.0"
