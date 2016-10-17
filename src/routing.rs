@@ -3,7 +3,9 @@ use std::sync::Arc;
 use std::collections::HashMap;
 
 use futures::{BoxFuture, Future, failed};
+use futures::stream::{BoxStream, Stream};
 
+use stream_once::StreamOnce;
 use {Name, Address, Error, Resolver, MemResolver, parse_name};
 
 
@@ -96,5 +98,26 @@ impl Resolver for Router {
             }
         }
         failed(Error::NameNotFound).boxed()
+    }
+    fn subscribe(&self, name: Name) -> BoxStream<Address, Error> {
+        if let Some((host, _)) = parse_name(name) {
+            if self.0.names.contains_name(host) {
+                return self.0.names.subscribe(name);
+            }
+            if let Some(resolver) = self.0.suffixes.get(host) {
+                return resolver.subscribe(name);
+            } else {
+                for (idx, _) in host.match_indices('.') {
+                    let suffix = &host[idx+1..];
+                    if let Some(resolver) = self.0.suffixes.get(suffix) {
+                        return resolver.subscribe(name);
+                    }
+                }
+                if let Some(ref resolver) = self.0.fallback {
+                    return resolver.subscribe(name);
+                }
+            }
+        }
+        StreamOnce::new(failed(Error::NameNotFound)).boxed()
     }
 }
