@@ -13,7 +13,9 @@ Features:
 * Defines what is a name and what is a result of service discovery
 * Uses futures-rs for asynchronous stuff
 * Has interface to receive updates (name changes)
-
+* Allows some kind of DNS routing, is a way to specify different sources
+  for different names, for example: serve `*.consul` from local consul,
+  other names from conventional DNS servers.
 
 Note: abstract-ns v0.2 is very different product than v0.1
 

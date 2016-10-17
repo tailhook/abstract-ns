@@ -12,6 +12,8 @@ pub struct RouterBuilder(Inner);
 
 /// A helper which allows to resolve different names by different means
 ///
+/// Create it using RouterBuilder
+///
 /// Note: router resolves any name only once. I.e. if name matches a suffix
 /// it doesn't get resolved using a fallback resolver even if original resolver
 /// returned error.

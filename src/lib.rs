@@ -12,6 +12,9 @@
 //!   to get a stream of updates.
 //! * `MemResolver` is an in-memory hash table for addresses you may use for
 //!   tests
+//! * `Router` is a way to specify different sources for different names, for
+//!   example serve `*.consul` from local consul, other things from
+//!   conventional DNS servers
 //!
 #![deny(missing_docs)]
 
