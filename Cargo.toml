@@ -8,7 +8,7 @@ readme = "README.rst"
 keywords = ["dns", "tokio", "name", "service", "discovery"]
 homepage = "http://github.com/tailhook/abstract-ns"
 documentation = "http://tailhook.github.io/abstract-ns"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["paul@colomiets.name"]
 
 [dependencies]
@@ -29,7 +29,3 @@ name = "abstract_ns"
 
 [workspace]
 members = ["ns-std-threaded", "ns-dns-tokio"]
-
-[replace]
-# this is too run routing example
-"abstract-ns:0.2.0" = { path = "." }
