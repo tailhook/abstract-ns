@@ -29,3 +29,7 @@ name = "abstract_ns"
 
 [workspace]
 members = ["ns-std-threaded", "ns-dns-tokio"]
+
+[replace]
+# This makes examples/routing.rs work fine on git version
+"abstract-ns:0.2.1" = { path = "." }
