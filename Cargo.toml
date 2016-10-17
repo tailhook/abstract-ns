@@ -12,15 +12,24 @@ version = "0.2.0"
 authors = ["paul@colomiets.name"]
 
 [dependencies]
-futures = "0.1.1"
+futures = "0.1.2"
 quick-error = "1.1.0"
 rand = "0.3.14"
 
 [dev-dependencies]
+futures-cpupool = "0.1.2"
 argparse = "0.2.1"
+ns-std-threaded = "0.1.0"
+ns-dns-tokio = "0.1.0"
+domain = "0.1.0"
+tokio-core = "0.1.0"
 
 [lib]
 name = "abstract_ns"
 
 [workspace]
 members = ["ns-std-threaded", "ns-dns-tokio"]
+
+[replace]
+# this is too run routing example
+"abstract-ns:0.2.0" = { path = "." }

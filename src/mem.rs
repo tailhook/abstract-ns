@@ -3,7 +3,7 @@ use std::net::IpAddr;
 
 use futures::{BoxFuture, IntoFuture, Future};
 
-use {Name, Address, Resolver, Error};
+use {Name, Address, Resolver, Error, parse_name};
 
 /// A stub resolver that resolves names from in-memory hash table
 ///
@@ -30,20 +30,11 @@ impl MemResolver {
     {
         self.names.insert(name.into(), address);
     }
-}
-
-
-fn parse_name(name: &str) -> Option<(&str, Option<u16>)> {
-    if let Some(idx) = name.find(':') {
-        match name[idx+1..].parse() {
-            Ok(port) => Some((&name[..idx], Some(port))),
-            Err(_) => None,
-        }
-    } else {
-        Some((name, None))
+    /// Check if name is in resolver
+    pub fn contains_name(&self, name: &str) -> bool {
+        self.names.contains_key(name)
     }
 }
-
 
 impl Resolver for MemResolver {
     fn resolve(&self, name: Name) -> BoxFuture<Address, Error> {
