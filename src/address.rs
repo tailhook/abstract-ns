@@ -173,6 +173,15 @@ impl Address {
     }
 }
 
+impl PartialEq for Address {
+    fn eq(&self, other: &Address) -> bool {
+        self.0.addresses.len() == other.0.addresses.len() &&
+        self.iter().zip(other.iter()).all(|(s, o)| s == o)
+    }
+}
+
+impl Eq for Address {}
+
 
 impl<'a> WeightedSet<'a> {
     /// Select one random address to connect to
@@ -209,6 +218,30 @@ impl<'a> WeightedSet<'a> {
     }
 }
 
+impl<'a> PartialEq for WeightedSet<'a> {
+    fn eq(&self, other: &WeightedSet) -> bool {
+        // Very naive implementation, we might optimize it
+        // But we must make sure that order doesn't matter
+        // TODO(tailhook) optimize it, validate in case some adresses
+        // are duplicated
+        if self.addresses.len() != other.addresses.len() {
+            return false;
+        }
+        for &pair in self.addresses {
+            if !other.addresses.iter().find(|&&pair1| pair == pair1).is_some()
+            {
+                return false;
+            }
+        }
+        for &pair in other.addresses {
+            if !self.addresses.iter().find(|&&pair1| pair == pair1).is_some()
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}
 
 #[cfg(test)]
 mod test {
@@ -247,5 +280,50 @@ mod test {
     #[test]
     fn from_slice() {
         Address::from(&[SocketAddr::from_str("127.0.0.1:1234").unwrap()][..]);
+    }
+
+    #[test]
+    fn test_eq() {
+        let a1 = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        let a2 = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        assert_eq!(a1, a2);
+    }
+
+    #[test]
+    fn test_eq_reverse() {
+        let a1 = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        let a2 = [ "10.0.0.1:3456", "127.0.0.1:1234" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        assert_eq!(a1, a2);
+    }
+
+    #[test]
+    fn test_ne() {
+        let a1 = [ "127.0.0.1:1234", "10.0.0.1:5555" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        let a2 = [ "10.0.0.1:3456", "127.0.0.1:1234" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        assert_ne!(a1, a2);
     }
 }
