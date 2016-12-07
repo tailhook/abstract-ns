@@ -216,6 +216,29 @@ impl<'a> WeightedSet<'a> {
     pub fn addresses(&self) -> AddressIter {
         AddressIter(self.addresses.iter())
     }
+
+    /// Compares two weighted sets to find out which addresses have been
+    /// removed from set or added
+    ///
+    /// This doesn't compare weights of the addresses
+    pub fn compare_addresses(&self, other: &WeightedSet)
+        -> (Vec<SocketAddr>, Vec<SocketAddr>)
+    {
+        // TODO(tailhook) a very naive implementation, optimize
+        let mut old = Vec::new();
+        let mut new = Vec::new();
+        for &(_, a) in self.addresses {
+            if !other.addresses.iter().find(|&&(_, a1)| a == a1).is_some() {
+                old.push(a);
+            }
+        }
+        for &(_, a) in other.addresses {
+            if !self.addresses.iter().find(|&&(_, a1)| a == a1).is_some() {
+                new.push(a);
+            }
+        }
+        return (old, new);
+    }
 }
 
 impl<'a> PartialEq for WeightedSet<'a> {
@@ -325,5 +348,25 @@ mod test {
             .collect::<Address>();
 
         assert_ne!(a1, a2);
+    }
+
+    #[test]
+    fn test_diff() {
+        let a1 = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        let a2 = [ "127.0.0.2:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        let l1 = a1.iter().next().unwrap();
+        let l2 = a2.iter().next().unwrap();
+
+        assert_eq!(l1.compare_addresses(&l2),
+            (vec![SocketAddr::from_str("127.0.0.1:1234").unwrap()],
+             vec![SocketAddr::from_str("127.0.0.2:1234").unwrap()]));
     }
 }
