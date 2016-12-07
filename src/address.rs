@@ -79,6 +79,24 @@ impl From<(IpAddr, u16)> for Address {
     }
 }
 
+impl From<SocketAddr> for Address {
+    fn from(addr: SocketAddr) -> Address {
+        Address(Arc::new(Internal {
+            addresses: vec![vec![(0, addr)]],
+        }))
+    }
+}
+
+impl<'a> From<&'a [SocketAddr]> for Address {
+    fn from(addr: &[SocketAddr]) -> Address {
+        Address(Arc::new(Internal {
+            addresses: vec![
+                addr.iter().map(|&a| (0, a)).collect()
+            ],
+        }))
+    }
+}
+
 impl FromIterator<SocketAddr> for Address {
     fn from_iter<T>(iter: T) -> Self
         where T: IntoIterator<Item=SocketAddr>
@@ -196,7 +214,7 @@ impl<'a> WeightedSet<'a> {
 mod test {
 
     use super::Address;
-    use std::net::SocketAddr;
+    use std::net::{SocketAddr, IpAddr};
     use std::str::FromStr;
 
     #[test]
@@ -216,4 +234,18 @@ mod test {
         ]);
     }
 
+    #[test]
+    fn from_socket_addr() {
+        Address::from(SocketAddr::from_str("127.0.0.1:1234").unwrap());
+    }
+
+    #[test]
+    fn from_ip() {
+        Address::from((IpAddr::from_str("127.0.0.1").unwrap(), 1234));
+    }
+
+    #[test]
+    fn from_slice() {
+        Address::from(&[SocketAddr::from_str("127.0.0.1:1234").unwrap()][..]);
+    }
 }
