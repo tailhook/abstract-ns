@@ -45,7 +45,15 @@ pub struct WeightedSet<'a> {
     addresses: &'a [(Weight, SocketAddr)],
 }
 
+/// Iterator over `Address` that returns a set of addresses of the same
+/// priority on each iteration
 pub struct PriorityIter<'a>(VecIter<'a, Vec<(Weight, SocketAddr)>>);
+
+/// Iterates over individual SocketAddr's (IPs) in the WeightedSet (i.e. a
+/// set of addresses having the same priority).
+///
+/// Note, this iterator effectively discards weights.
+pub struct AddressIter<'a>(VecIter<'a, (Weight, SocketAddr)>);
 
 impl<'a> Iterator for PriorityIter<'a> {
     type Item = WeightedSet<'a>;
@@ -53,6 +61,13 @@ impl<'a> Iterator for PriorityIter<'a> {
         self.0.next().map(|vec| WeightedSet {
             addresses: &vec,
         })
+    }
+}
+
+impl<'a> Iterator for AddressIter<'a> {
+    type Item = SocketAddr;
+    fn next(&mut self) -> Option<SocketAddr> {
+        self.0.next().map(|&(_weight, addr)| addr)
     }
 }
 
@@ -166,4 +181,39 @@ impl<'a> WeightedSet<'a> {
         }
         unreachable!();
     }
+    /// Returns iterator over underlying addresses
+    ///
+    /// This effectively discards weights, but may be useful for cases where
+    /// you treat addresses as a set. For example to find out whether two
+    /// `Address` values intersect over `SocketAddr`.
+    pub fn addresses(&self) -> AddressIter {
+        AddressIter(self.addresses.iter())
+    }
+}
+
+
+#[cfg(test)]
+mod test {
+
+    use super::Address;
+    use std::net::SocketAddr;
+    use std::str::FromStr;
+
+    #[test]
+    fn test_iter() {
+        let ab = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+        let r = ab.iter()
+            .map(|x| x.addresses().collect::<Vec<_>>())
+            .collect::<Vec<_>>();
+        assert_eq!(r, vec![
+            [ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Vec<_>>()
+        ]);
+    }
+
 }
