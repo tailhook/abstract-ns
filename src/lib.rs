@@ -35,12 +35,14 @@ mod error;
 mod mem;
 mod stream_once;
 mod routing;
+mod union;
 
 pub use address::{Address, AddressBuilder, WeightedSet};
 pub use resolver::Resolver;
 pub use error::Error;
 pub use mem::MemResolver;
 pub use routing::{RouterBuilder, Router};
+pub use union::{union_stream, union_addresses, Union};
 
 
 fn parse_name(name: &str) -> Option<(&str, Option<u16>)> {
