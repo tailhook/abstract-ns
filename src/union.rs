@@ -2,6 +2,7 @@ use std::collections::HashSet;
 use std::borrow::Borrow;
 
 use futures::{Poll, Async, Stream};
+use futures::stream::BoxStream;
 
 use {Address, Error};
 
@@ -9,7 +10,7 @@ use {Address, Error};
 /// adderesses of underlying streams
 ///
 /// Note we barely append all underlying addresses (IPs) discarding weights
-pub fn union_stream(streams: Vec<Box<Stream<Item=Address, Error=Error>>>)
+pub fn union_stream(streams: Vec<BoxStream<Address, Error>>)
     -> Union
 {
     Union {
@@ -20,7 +21,7 @@ pub fn union_stream(streams: Vec<Box<Stream<Item=Address, Error=Error>>>)
 
 /// Represents a stream that is the result of `union_stream()`
 pub struct Union {
-    streams: Vec<Box<Stream<Item=Address, Error=Error>>>,
+    streams: Vec<BoxStream<Address, Error>>,
     buf: Vec<Option<Address>>,
 }
 
