@@ -22,7 +22,7 @@ quick_error! {
         /// This means either name server returned this kind of error or
         /// we couldn't connect to a name server itself. It's safe to assume
         /// that you can retry name resolution in a moment
-        TemporaryError(err: Box<StdError + Send>) {
+        TemporaryError(err: Box<StdError + Send + Sync>) {
             description("temporary name resolution error")
             display("temporary name resolution error: {}", err)
             cause(&**err)
@@ -33,4 +33,10 @@ quick_error! {
             display("name not found")
         }
     }
+}
+
+#[test]
+fn send_sync() {
+    fn send_sync<T: Send+Sync>(_: T) {}
+    send_sync(Error::NameNotFound);
 }
