@@ -40,7 +40,7 @@ mod union;
 pub use address::{Address, AddressBuilder, WeightedSet};
 pub use resolver::Resolver;
 pub use error::Error;
-pub use mem::MemResolver;
+pub use mem::{MemResolver, StaticStream};
 pub use routing::{RouterBuilder, Router};
 pub use union::{union_stream, union_addresses, Union};
 
