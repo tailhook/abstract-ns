@@ -20,7 +20,7 @@ rand = "0.3.14"
 futures-cpupool = "0.1.2"
 argparse = "0.2.1"
 ns-std-threaded = { path = "ns-std-threaded", version = "0.2.0" }
-ns-dns-tokio = { path = "ns-dns-tokio", version = "0.2.0" }
+ns-dns-tokio = { path = "ns-dns-tokio", version = "0.3.0" }
 domain = "0.2.0"
 tokio-core = "0.1.6"
 
@@ -29,7 +29,3 @@ name = "abstract_ns"
 
 [workspace]
 members = ["ns-std-threaded", "ns-dns-tokio"]
-
-[replace]
-# This makes examples/routing.rs work fine on git version
-"abstract-ns:0.3.0" = { path = "." }
