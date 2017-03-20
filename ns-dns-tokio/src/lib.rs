@@ -12,7 +12,7 @@ use tokio_core::reactor::Handle;
 use domain::resolv;
 use domain::iana::{Rtype, Class};
 use domain::rdata::A;
-use domain::bits::DNameBuf;
+use domain::bits::{Question, DNameBuf};
 use abstract_ns::{Name, Address, Error};
 
 pub struct DnsResolver {
@@ -24,7 +24,7 @@ impl DnsResolver {
     /// Create a DNS resolver with system config
     pub fn system_config(lp: &Handle) -> Result<DnsResolver, Box<StdError>> {
         Ok(DnsResolver {
-            internal: try!(resolv::Resolver::new(lp)),
+            internal: resolv::Resolver::new(lp),
         })
     }
     /// Create a resolver from `domain::resolv::Resolver` instance
@@ -63,14 +63,13 @@ impl abstract_ns::Resolver for DnsResolver {
                         // TODO(tailhook) optimize this clone
                         let name = name.to_string();
 
-                        self.internal.start().and_then(move |resolv| {
-                            resolv.query(dname, Rtype::A, Class::In)
-                        }).map_err(|e| {
+						self.internal.clone().query(Question::new(dname, Rtype::A, Class::In))
+						.map_err(|e| {
                             match e {
-                                resolv::Error::Question(_) |
-                                resolv::Error::NoName => {
+                                resolv::error::Error::Question(_) |
+                                resolv::error::Error::NoName => {
                                     Error::InvalidName(name,
-                                        "resolv::Error::Question")
+                                        "resolv::error::Error::Question")
                                 }
                                 e @ _ => {
                                     // TODO(tailhook) what returned if
