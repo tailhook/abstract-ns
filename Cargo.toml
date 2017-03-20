@@ -19,10 +19,10 @@ rand = "0.3.14"
 [dev-dependencies]
 futures-cpupool = "0.1.2"
 argparse = "0.2.1"
-ns-std-threaded = "0.1.0"
-ns-dns-tokio = "0.2.0"
-domain = "0.1.0"
-tokio-core = "0.1.0"
+ns-std-threaded = { path = "ns-std-threaded", version = "0.2.0" }
+ns-dns-tokio = { path = "ns-dns-tokio", version = "0.2.0" }
+domain = "0.2.0"
+tokio-core = "0.1.6"
 
 [lib]
 name = "abstract_ns"
