@@ -63,8 +63,8 @@ impl abstract_ns::Resolver for DnsResolver {
                         // TODO(tailhook) optimize this clone
                         let name = name.to_string();
 
-						self.internal.clone().query(Question::new(dname, Rtype::A, Class::In))
-						.map_err(|e| {
+                        self.internal.clone().query(Question::new(dname, Rtype::A, Class::In))
+                        .map_err(|e| {
                             match e {
                                 resolv::error::Error::Question(_) |
                                 resolv::error::Error::NoName => {
