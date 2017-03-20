@@ -39,7 +39,7 @@ fn main() {
     conf.finalize();
     router.add_suffix("consul",
         ns_dns_tokio::DnsResolver::new_from_resolver(
-            resolv::Resolver::from_conf(&lp.handle(), conf).unwrap()));
+            resolv::Resolver::from_conf(&lp.handle(), conf)));
     router.add_default(
         ns_std_threaded::ThreadedResolver::new(CpuPool::new(1)));
 
