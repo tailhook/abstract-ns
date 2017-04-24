@@ -7,7 +7,7 @@ description = """
 license = "MIT/Apache-2.0"
 keywords = ["dns", "tokio", "name", "service", "discovery"]
 homepage = "http://github.com/tailhook/abstract-ns"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Paul Colomiets <paul@colomiets.name>"]
 workspace = '../'
 
