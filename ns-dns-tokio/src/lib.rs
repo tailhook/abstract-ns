@@ -15,6 +15,7 @@ use domain::rdata::A;
 use domain::bits::{Question, DNameBuf};
 use abstract_ns::{Name, Address, Error};
 
+#[derive(Clone)]
 pub struct DnsResolver {
     internal: resolv::Resolver,
 }
