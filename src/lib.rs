@@ -37,7 +37,7 @@ mod stream_once;
 mod routing;
 mod union;
 
-pub use address::{Address, AddressBuilder, WeightedSet};
+pub use address::{Address, AddressBuilder, AddressIter, PriorityIter, WeightedSet};
 pub use resolver::Resolver;
 pub use error::Error;
 pub use mem::{MemResolver, StaticStream};
