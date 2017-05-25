@@ -6,6 +6,7 @@ description = """
 license = "MIT/Apache-2.0"
 readme = "README.rst"
 keywords = ["dns", "tokio", "name", "service", "discovery"]
+categories = ["asynchronous", "network-programming"]
 homepage = "http://github.com/tailhook/abstract-ns"
 documentation = "http://tailhook.github.io/abstract-ns"
 version = "0.3.2"
