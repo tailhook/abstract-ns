@@ -9,7 +9,7 @@ keywords = ["dns", "tokio", "name", "service", "discovery"]
 categories = ["asynchronous", "network-programming"]
 homepage = "http://github.com/tailhook/abstract-ns"
 documentation = "http://tailhook.github.io/abstract-ns"
-version = "0.3.2"
+version = "0.3.3"
 authors = ["paul@colomiets.name"]
 
 [dependencies]
