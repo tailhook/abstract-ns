@@ -1,4 +1,5 @@
 use std::error::{Error as StdError};
+use std::io::{Error as IoError, ErrorKind as IoErrorKind};
 
 quick_error! {
     /// A generic name resolution error
@@ -35,8 +36,32 @@ quick_error! {
     }
 }
 
+impl Error {
+    /// Wraps the error into `std::io::Error`.
+    pub fn into_io(self) -> IoError {
+        match self {
+            Error::InvalidName(_, _) =>
+                IoError::new(IoErrorKind::InvalidInput, self),
+            Error::TemporaryError(_) =>
+                IoError::new(IoErrorKind::Other, self),
+            Error::NameNotFound =>
+                IoError::new(IoErrorKind::NotFound, self)
+        }
+    }
+}
+
 #[test]
 fn send_sync() {
     fn send_sync<T: Send+Sync>(_: T) {}
     send_sync(Error::NameNotFound);
+}
+
+#[test]
+fn wrap_into_io() {
+    assert_eq!(Error::InvalidName("foo".to_string(), "bar").into_io().kind(),
+        IoErrorKind::InvalidInput);
+    assert_eq!(Error::TemporaryError(Box::new(IoError::new(IoErrorKind::Other, "oh no!"))).into_io().kind(),
+        IoErrorKind::Other);
+    assert_eq!(Error::NameNotFound.into_io().kind(),
+        IoErrorKind::NotFound);
 }
