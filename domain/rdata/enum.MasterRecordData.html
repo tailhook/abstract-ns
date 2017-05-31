@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `MasterRecordData` enum in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, MasterRecordData">
+
+    <title>domain::rdata::MasterRecordData - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>domain</a>::<wbr><a href='index.html'>rdata</a></p><script>window.sidebarCurrent = {name: 'MasterRecordData', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>domain</a>::<wbr><a href='index.html'>rdata</a>::<wbr><a class="enum" href=''>MasterRecordData</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/domain/rdata/macros.rs.html#10-17' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum MasterRecordData {
+    A(<a class="struct" href="../../domain/rdata/rfc1035/struct.A.html" title="struct domain::rdata::rfc1035::A">A</a>),
+    Cname(<a class="struct" href="../../domain/rdata/rfc1035/struct.Cname.html" title="struct domain::rdata::rfc1035::Cname">Cname</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Hinfo(<a class="struct" href="../../domain/rdata/rfc1035/struct.Hinfo.html" title="struct domain::rdata::rfc1035::Hinfo">Hinfo</a>&lt;<a class="struct" href="../../domain/bits/charstr/struct.CharStrBuf.html" title="struct domain::bits::charstr::CharStrBuf">CharStrBuf</a>&gt;),
+    Mb(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mb.html" title="struct domain::rdata::rfc1035::Mb">Mb</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Md(<a class="struct" href="../../domain/rdata/rfc1035/struct.Md.html" title="struct domain::rdata::rfc1035::Md">Md</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Mf(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mf.html" title="struct domain::rdata::rfc1035::Mf">Mf</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Mg(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mg.html" title="struct domain::rdata::rfc1035::Mg">Mg</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Minfo(<a class="struct" href="../../domain/rdata/rfc1035/struct.Minfo.html" title="struct domain::rdata::rfc1035::Minfo">Minfo</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Mr(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mr.html" title="struct domain::rdata::rfc1035::Mr">Mr</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Mx(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mx.html" title="struct domain::rdata::rfc1035::Mx">Mx</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Ns(<a class="struct" href="../../domain/rdata/rfc1035/struct.Ns.html" title="struct domain::rdata::rfc1035::Ns">Ns</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Ptr(<a class="struct" href="../../domain/rdata/rfc1035/struct.Ptr.html" title="struct domain::rdata::rfc1035::Ptr">Ptr</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Soa(<a class="struct" href="../../domain/rdata/rfc1035/struct.Soa.html" title="struct domain::rdata::rfc1035::Soa">Soa</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Txt(<a class="struct" href="../../domain/rdata/rfc1035/struct.Txt.html" title="struct domain::rdata::rfc1035::Txt">Txt</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;&gt;),
+    Wks(<a class="struct" href="../../domain/rdata/rfc1035/struct.Wks.html" title="struct domain::rdata::rfc1035::Wks">Wks</a>&lt;<a class="struct" href="../../domain/rdata/rfc1035/struct.WksBitmapBuf.html" title="struct domain::rdata::rfc1035::WksBitmapBuf">WksBitmapBuf</a>&gt;),
+    Aaaa(<a class="struct" href="../../domain/rdata/rfc3596/struct.Aaaa.html" title="struct domain::rdata::rfc3596::Aaaa">Aaaa</a>),
+    Generic(<a class="enum" href="../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a>,&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;),
+}</pre><h2 class='variants'>Variants</h2>
+<span id='variant.A' class='variant'><span id='A.v' class='invisible'><code>A(<a class="struct" href="../../domain/rdata/rfc1035/struct.A.html" title="struct domain::rdata::rfc1035::A">A</a>)</code></span></span><span id='variant.Cname' class='variant'><span id='Cname.v' class='invisible'><code>Cname(<a class="struct" href="../../domain/rdata/rfc1035/struct.Cname.html" title="struct domain::rdata::rfc1035::Cname">Cname</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Hinfo' class='variant'><span id='Hinfo.v' class='invisible'><code>Hinfo(<a class="struct" href="../../domain/rdata/rfc1035/struct.Hinfo.html" title="struct domain::rdata::rfc1035::Hinfo">Hinfo</a>&lt;<a class="struct" href="../../domain/bits/charstr/struct.CharStrBuf.html" title="struct domain::bits::charstr::CharStrBuf">CharStrBuf</a>&gt;)</code></span></span><span id='variant.Mb' class='variant'><span id='Mb.v' class='invisible'><code>Mb(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mb.html" title="struct domain::rdata::rfc1035::Mb">Mb</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Md' class='variant'><span id='Md.v' class='invisible'><code>Md(<a class="struct" href="../../domain/rdata/rfc1035/struct.Md.html" title="struct domain::rdata::rfc1035::Md">Md</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Mf' class='variant'><span id='Mf.v' class='invisible'><code>Mf(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mf.html" title="struct domain::rdata::rfc1035::Mf">Mf</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Mg' class='variant'><span id='Mg.v' class='invisible'><code>Mg(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mg.html" title="struct domain::rdata::rfc1035::Mg">Mg</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Minfo' class='variant'><span id='Minfo.v' class='invisible'><code>Minfo(<a class="struct" href="../../domain/rdata/rfc1035/struct.Minfo.html" title="struct domain::rdata::rfc1035::Minfo">Minfo</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Mr' class='variant'><span id='Mr.v' class='invisible'><code>Mr(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mr.html" title="struct domain::rdata::rfc1035::Mr">Mr</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Mx' class='variant'><span id='Mx.v' class='invisible'><code>Mx(<a class="struct" href="../../domain/rdata/rfc1035/struct.Mx.html" title="struct domain::rdata::rfc1035::Mx">Mx</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Ns' class='variant'><span id='Ns.v' class='invisible'><code>Ns(<a class="struct" href="../../domain/rdata/rfc1035/struct.Ns.html" title="struct domain::rdata::rfc1035::Ns">Ns</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Ptr' class='variant'><span id='Ptr.v' class='invisible'><code>Ptr(<a class="struct" href="../../domain/rdata/rfc1035/struct.Ptr.html" title="struct domain::rdata::rfc1035::Ptr">Ptr</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Soa' class='variant'><span id='Soa.v' class='invisible'><code>Soa(<a class="struct" href="../../domain/rdata/rfc1035/struct.Soa.html" title="struct domain::rdata::rfc1035::Soa">Soa</a>&lt;<a class="struct" href="../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><span id='variant.Txt' class='variant'><span id='Txt.v' class='invisible'><code>Txt(<a class="struct" href="../../domain/rdata/rfc1035/struct.Txt.html" title="struct domain::rdata::rfc1035::Txt">Txt</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;&gt;)</code></span></span><span id='variant.Wks' class='variant'><span id='Wks.v' class='invisible'><code>Wks(<a class="struct" href="../../domain/rdata/rfc1035/struct.Wks.html" title="struct domain::rdata::rfc1035::Wks">Wks</a>&lt;<a class="struct" href="../../domain/rdata/rfc1035/struct.WksBitmapBuf.html" title="struct domain::rdata::rfc1035::WksBitmapBuf">WksBitmapBuf</a>&gt;)</code></span></span><span id='variant.Aaaa' class='variant'><span id='Aaaa.v' class='invisible'><code>Aaaa(<a class="struct" href="../../domain/rdata/rfc3596/struct.Aaaa.html" title="struct domain::rdata::rfc3596::Aaaa">Aaaa</a>)</code></span></span><span id='variant.Generic' class='variant'><span id='Generic.v' class='invisible'><code>Generic(<a class="enum" href="../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a>,&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;)</code></span></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../domain/rdata/enum.MasterRecordData.html" title="enum domain::rdata::MasterRecordData">MasterRecordData</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/rdata/macros.rs.html#19-46' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.scan' class="method"><span id='scan.v' class='invisible'><code>fn <a href='#method.scan' class='fnname'>scan</a>&lt;S&gt;(rtype: <a class="enum" href="../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scanner: &amp;mut S,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; origin: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;Self&gt; <span class="where fmt-newline">where S: <a class="trait" href="../../domain/master/scanner/trait.Scanner.html" title="trait domain::master::scanner::Scanner">Scanner</a></span></code></span></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../domain/rdata/enum.MasterRecordData.html" title="enum domain::rdata::MasterRecordData">MasterRecordData</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/rdata/macros.rs.html#9' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../domain/rdata/enum.MasterRecordData.html" title="enum domain::rdata::MasterRecordData">MasterRecordData</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../domain/rdata/enum.MasterRecordData.html" title="enum domain::rdata::MasterRecordData">MasterRecordData</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/rdata/macros.rs.html#9' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a> for <a class="enum" href="../../domain/rdata/enum.MasterRecordData.html" title="enum domain::rdata::MasterRecordData">MasterRecordData</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/rdata/macros.rs.html#48-77' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.rtype' class="method"><span id='rtype.v' class='invisible'><code>fn <a href='../../domain/bits/rdata/trait.RecordData.html#tymethod.rtype' class='fnname'>rtype</a>(&amp;self) -&gt; <a class="enum" href="../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span></h4>
+<div class='docblock'><p>Returns the record type for this record data instance. <a href="../../domain/bits/rdata/trait.RecordData.html#tymethod.rtype">Read more</a></p>
+</div><h4 id='method.compose' class="method"><span id='compose.v' class='invisible'><code>fn <a href='../../domain/bits/rdata/trait.RecordData.html#tymethod.compose' class='fnname'>compose</a>&lt;C&gt;(&amp;self, target: C) -&gt; <a class="type" href="../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where C: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsMut.html" title="trait core::convert::AsMut">AsMut</a>&lt;<a class="struct" href="../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>&gt;</span></code></span></h4>
+<div class='docblock'><p>Appends the record data to the end of a composer.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a> for <a class="enum" href="../../domain/rdata/enum.MasterRecordData.html" title="enum domain::rdata::MasterRecordData">MasterRecordData</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/rdata/macros.rs.html#79-95' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class="method"><span id='fmt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

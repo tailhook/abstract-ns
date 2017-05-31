@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `HeaderCounts` struct in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, HeaderCounts">
+
+    <title>domain::bits::header::HeaderCounts - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>header</a></p><script>window.sidebarCurrent = {name: 'HeaderCounts', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>header</a>::<wbr><a class="struct" href=''>HeaderCounts</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/header.rs.html#283-288' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct HeaderCounts { /* fields omitted */ }</pre><div class='docblock'><p>The section count part of the header section of a DNS message.</p>
+
+<p>This part consists of four 16 bit counters for the number of entries in
+the four sections of a DNS message.</p>
+
+<p>The counters are arranged in the same order as the sections themselves:
+QDCOUNT for the question section, ANCOUNT for the answer section,
+NSCOUNT for the authority section, and ARCOUNT for the additional section.
+These are defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+
+<p><a href="https://tools.ietf.org/html/rfc2136">RFC 2136</a> defines the UPDATE method and reuses the four section for
+different purposes. Here the counters are ZOCOUNT for the zone section,
+PRCOUNT for the prerequisite section, UPCOUNT for the update section,
+and ADCOUNT for the additional section. The type has convenience methods
+for these fields as well so you don’t have to remember which is which.</p>
+
+<p>For each field there are three methods for getting, setting, and
+incrementing.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#292-328' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='creation-and-conversion' class='section-header'><a href='#creation-and-conversion'>Creation and Conversion</a></h1></div><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span></h4>
+<div class='docblock'><p>Creates a new value with all counters set to zero.</p>
+</div><h4 id='method.from_message' class="method"><span id='from_message.v' class='invisible'><code>fn <a href='#method.from_message' class='fnname'>from_message</a>(s: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; &amp;<a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span></h4>
+<div class='docblock'><p>Creates a reference from the bytes slice of a message (!).</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>This function panics if the bytes slice is too short.</p>
+</div><h4 id='method.from_message_mut' class="method"><span id='from_message_mut.v' class='invisible'><code>fn <a href='#method.from_message_mut' class='fnname'>from_message_mut</a>(s: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;mut [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; &amp;mut <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span></h4>
+<div class='docblock'><p>Creates a mutable reference from the bytes slice of a message.</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>This function panics if the bytes slice is too short.</p>
+</div><h4 id='method.as_bytes' class="method"><span id='as_bytes.v' class='invisible'><code>fn <a href='#method.as_bytes' class='fnname'>as_bytes</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span></h4>
+<div class='docblock'><p>Returns a reference to the underlying bytes slice.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#333-505' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='field-access' class='section-header'><a href='#field-access'>Field Access</a></h1></div><div class='impl-items'><h4 id='method.qdcount' class="method"><span id='qdcount.v' class='invisible'><code>fn <a href='#method.qdcount' class='fnname'>qdcount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the QDCOUNT field.</p>
+
+<p>This field contains the number of questions in the first
+section of the message, normally the question section.</p>
+</div><h4 id='method.set_qdcount' class="method"><span id='set_qdcount.v' class='invisible'><code>fn <a href='#method.set_qdcount' class='fnname'>set_qdcount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the QDCOUNT field.</p>
+</div><h4 id='method.inc_qdcount' class="method"><span id='inc_qdcount.v' class='invisible'><code>fn <a href='#method.inc_qdcount' class='fnname'>inc_qdcount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increase the value of the QDCOUNT field.</p>
+</div><h4 id='method.ancount' class="method"><span id='ancount.v' class='invisible'><code>fn <a href='#method.ancount' class='fnname'>ancount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the ANCOUNT field.</p>
+
+<p>This field contains the number of resource records in the second
+section of the message, normally the answer section.</p>
+</div><h4 id='method.set_ancount' class="method"><span id='set_ancount.v' class='invisible'><code>fn <a href='#method.set_ancount' class='fnname'>set_ancount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the ANCOUNT field.</p>
+</div><h4 id='method.inc_ancount' class="method"><span id='inc_ancount.v' class='invisible'><code>fn <a href='#method.inc_ancount' class='fnname'>inc_ancount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increases the value of the ANCOUNT field.</p>
+</div><h4 id='method.nscount' class="method"><span id='nscount.v' class='invisible'><code>fn <a href='#method.nscount' class='fnname'>nscount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the NSCOUNT field.</p>
+
+<p>This field contains the number of resource records in the third
+section of the message, normally the authority section.</p>
+</div><h4 id='method.set_nscount' class="method"><span id='set_nscount.v' class='invisible'><code>fn <a href='#method.set_nscount' class='fnname'>set_nscount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the NSCOUNT field.</p>
+</div><h4 id='method.inc_nscount' class="method"><span id='inc_nscount.v' class='invisible'><code>fn <a href='#method.inc_nscount' class='fnname'>inc_nscount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increases the value of the NSCOUNT field.</p>
+</div><h4 id='method.arcount' class="method"><span id='arcount.v' class='invisible'><code>fn <a href='#method.arcount' class='fnname'>arcount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the ARCOUNT field.</p>
+
+<p>This field contains the number of resource records in the fourth
+section of the message, normally the additional section.</p>
+</div><h4 id='method.set_arcount' class="method"><span id='set_arcount.v' class='invisible'><code>fn <a href='#method.set_arcount' class='fnname'>set_arcount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the ARCOUNT field.</p>
+</div><h4 id='method.inc_arcount' class="method"><span id='inc_arcount.v' class='invisible'><code>fn <a href='#method.inc_arcount' class='fnname'>inc_arcount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increases the value of the ARCOUNT field.</p>
+</div><h4 id='method.zocount' class="method"><span id='zocount.v' class='invisible'><code>fn <a href='#method.zocount' class='fnname'>zocount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the ZOCOUNT field.</p>
+
+<p>This is the same as the <code>qdcount()</code>. It is used in UPDATE queries
+where the first section is the zone section.</p>
+</div><h4 id='method.set_zocount' class="method"><span id='set_zocount.v' class='invisible'><code>fn <a href='#method.set_zocount' class='fnname'>set_zocount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the ZOCOUNT field.</p>
+</div><h4 id='method.inc_zocount' class="method"><span id='inc_zocount.v' class='invisible'><code>fn <a href='#method.inc_zocount' class='fnname'>inc_zocount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increments the value of the ZOCOUNT field.</p>
+</div><h4 id='method.prcount' class="method"><span id='prcount.v' class='invisible'><code>fn <a href='#method.prcount' class='fnname'>prcount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the PRCOUNT field.</p>
+
+<p>This is the same as the <code>ancount()</code>. It is used in UPDATE queries
+where the first section is the prerequisite section.</p>
+</div><h4 id='method.set_prcount' class="method"><span id='set_prcount.v' class='invisible'><code>fn <a href='#method.set_prcount' class='fnname'>set_prcount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sete the value of the PRCOUNT field.</p>
+</div><h4 id='method.inc_prcount' class="method"><span id='inc_prcount.v' class='invisible'><code>fn <a href='#method.inc_prcount' class='fnname'>inc_prcount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increments the value of the PRCOUNT field,</p>
+</div><h4 id='method.upcount' class="method"><span id='upcount.v' class='invisible'><code>fn <a href='#method.upcount' class='fnname'>upcount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the UPCOUNT field.</p>
+
+<p>This is the same as the <code>nscount()</code>. It is used in UPDATE queries
+where the first section is the update section.</p>
+</div><h4 id='method.set_upcount' class="method"><span id='set_upcount.v' class='invisible'><code>fn <a href='#method.set_upcount' class='fnname'>set_upcount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the UPCOUNT field.</p>
+</div><h4 id='method.inc_upcount' class="method"><span id='inc_upcount.v' class='invisible'><code>fn <a href='#method.inc_upcount' class='fnname'>inc_upcount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increments the value of the UPCOUNT field.</p>
+</div><h4 id='method.adcount' class="method"><span id='adcount.v' class='invisible'><code>fn <a href='#method.adcount' class='fnname'>adcount</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the ADCOUNT field.</p>
+
+<p>This is the same as the <code>arcount()</code>. It is used in UPDATE queries
+where the first section is the additional section.</p>
+</div><h4 id='method.set_adcount' class="method"><span id='set_adcount.v' class='invisible'><code>fn <a href='#method.set_adcount' class='fnname'>set_adcount</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the ADCOUNT field.</p>
+</div><h4 id='method.inc_adcount' class="method"><span id='inc_adcount.v' class='invisible'><code>fn <a href='#method.inc_adcount' class='fnname'>inc_adcount</a>(&amp;mut self, inc: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Increments the value of the ADCOUNT field.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#282' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#282' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#282' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#282' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

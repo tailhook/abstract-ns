@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `rdata` mod in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, rdata">
+
+    <title>domain::rdata - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>domain</a></p><script>window.sidebarCurrent = {name: 'rdata', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>domain</a>::<wbr><a class="mod" href=''>rdata</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/domain/rdata/mod.rs.html#1-77' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Resource data implementations.</p>
+
+<p>This module will eventually contain implementations for the record data
+for all defined resource record types.</p>
+
+<p>The types are named identically to the <a href="../iana/enum.RRType.html"><code>RRType</code></a> variant they implement.
+They are grouped into submodules for the RFCs they are defined in. All
+types are also re-exported at the top level here. Ie., for the AAAA
+record type, you can simple <code>use domain::rdata::Aaaa</code> instead of
+<code>use domain::rdata::rfc3596::Aaaa</code> which nobody could possibly remember.
+There are, however, some helper data types defined here and there which
+are not re-exported to keep things somewhat tidy.</p>
+
+<p>See the <a href="../iana/enum.RRType.html"><code>RRType</code></a> enum for the complete set of record types and,
+consequently, those types that are still missing.</p>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.A.html" title="struct domain::rdata::rfc1035::A">A</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Cname.html" title="struct domain::rdata::rfc1035::Cname">Cname</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Hinfo.html" title="struct domain::rdata::rfc1035::Hinfo">Hinfo</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Mb.html" title="struct domain::rdata::rfc1035::Mb">Mb</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Md.html" title="struct domain::rdata::rfc1035::Md">Md</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Mf.html" title="struct domain::rdata::rfc1035::Mf">Mf</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Mg.html" title="struct domain::rdata::rfc1035::Mg">Mg</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Minfo.html" title="struct domain::rdata::rfc1035::Minfo">Minfo</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Mr.html" title="struct domain::rdata::rfc1035::Mr">Mr</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Mx.html" title="struct domain::rdata::rfc1035::Mx">Mx</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Ns.html" title="struct domain::rdata::rfc1035::Ns">Ns</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Ptr.html" title="struct domain::rdata::rfc1035::Ptr">Ptr</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Soa.html" title="struct domain::rdata::rfc1035::Soa">Soa</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Txt.html" title="struct domain::rdata::rfc1035::Txt">Txt</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Wks.html" title="struct domain::rdata::rfc1035::Wks">Wks</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc3596/index.html">rfc3596</a>::<a class="struct" href="../../domain/rdata/rfc3596/struct.Aaaa.html" title="struct domain::rdata::rfc3596::Aaaa">Aaaa</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rfc1035/index.html">rfc1035</a>::<a class="struct" href="../../domain/rdata/rfc1035/struct.Null.html" title="struct domain::rdata::rfc1035::Null">Null</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="owned/index.html"
+                                  title='mod domain::rdata::owned'>owned</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="parsed/index.html"
+                                  title='mod domain::rdata::parsed'>parsed</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="rfc1035/index.html"
+                                  title='mod domain::rdata::rfc1035'>rfc1035</a></td>
+                           <td class='docblock-short'>
+                                <p>Record data from <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="rfc3596/index.html"
+                                  title='mod domain::rdata::rfc3596'>rfc3596</a></td>
+                           <td class='docblock-short'>
+                                <p>Record data from <a href="https://tools.ietf.org/html/rfc3596">RFC 3596</a>.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.MasterRecordData.html"
+                                  title='enum domain::rdata::MasterRecordData'>MasterRecordData</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.fmt_rdata.html"
+                                  title='fn domain::rdata::fmt_rdata'>fmt_rdata</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

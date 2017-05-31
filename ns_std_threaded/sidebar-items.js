@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ThreadedResolver","A resolver that uses ToSocketAddrs from stdlib in thread pool"]]});

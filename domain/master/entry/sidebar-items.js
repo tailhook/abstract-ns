@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Entry","A master file entry."]]});

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `intro` mod in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, intro">
+
+    <title>domain::resolv::intro - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>resolv</a></p><script>window.sidebarCurrent = {name: 'intro', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>resolv</a>::<wbr><a class="mod" href=''>intro</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/resolv/intro.rs.html#1-65' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Resolver Architecture Documentation</p>
+
+<p><i>This module does not contain any code. It is intended for more
+detailed documentation of the resolver. Currently, that is limited to
+a short introduction to its architecture.</i></p>
+
+<h1 id='whats-in-a-resolver' class='section-header'><a href='#whats-in-a-resolver'>What’s in a Resolver?</a></h1>
+<p>Roughly speaking, the task of a resolver is to answer a question using
+information stored in the DNS. We shall call this question a <em>lookup.</em>
+There is different lookups for different questions. For example, finding
+all IP addresses for a given hostname is such a lookup. Finding the IP
+addresses of the mail server for a given domain is another, somewhat more
+complex lookup.</p>
+
+<p>DNS is a relatively simple key-value store: All information is keyed by
+a tripel of a domain name, a record type, and a class. The values are a
+set of binary strings who will be interpreted according to rules defined
+for each record type. One such entry is called a <em>resource record set,</em>
+commonly shortened to <em>RRset.</em></p>
+
+<p>Most lookups will require information from more than one such RRset.
+For example, there are two types of IP addresses: IPv4 and IPv6
+addresses. Each type has its own record type, so there are two RRsets
+to consider when determining all addresses assigned to a host.</p>
+
+<p>In this case, the two RRsets can be looked up in parallel. In case of the
+mail server lookup, we first need to determine the host name of the mail
+server responsible for the domain. There is a record type and hence a
+RRset for this purpose. Once we have that, we can look up the IP addresses
+for that host in parallel.</p>
+
+<p>In other words, a lookup performs a series of steps each consisting of
+asking the DNS for one or more RRsets in parallel.</p>
+
+<p>Such a request for a specific RRset is called a <em>query.</em> Since DNS is a
+distributed system, the first step of a query would be finding out where
+exactly the RRset is stored. However, we are implementing a stub resolver
+which is configured with a set of DNS servers that do this hunt for it.
+The stub resolver simply asks those configured servers for the RRset and
+if they all fail to find it, it fails too.</p>
+
+<p>Since DNS prefers to use the unreliable UDP as transport protocol, the
+typical strategy is to ask the first server on the list and wait for a
+bit. If no answer arrives, ask the second server and wait again. If all
+servers have been asked and none has answered in due time, repeat the
+process for a number of times and finally fail. Alternatives are to start
+with a different server every time or to ask all servers at once.
+Under some circumstances, the resolver can also fall back to using TCP
+instead. Plus, there is an effort underway to encrypt the DNS connections.</p>
+
+<p>Which all is to say that a query may have to ask different servers for an
+RRset, potentially using different transport protocols. For our own
+purposes, we shall henceforth call the process of asking one specific
+server over one specific transport protocol a <em>request.</em> </p>
+
+<p>The <em>resolver,</em> finally, collects all information necessary to be able
+to perform queries. It knows which servers to use with which protocols
+and has additional configuration information that is used to perform
+queries.</p>
+
+<h1 id='a-resolver-using-futures-and-tokio' class='section-header'><a href='#a-resolver-using-futures-and-tokio'>A Resolver using Futures and Tokio</a></h1></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Rtype` enum in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Rtype">
+
+    <title>domain::iana::rtype::Rtype - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>iana</a>::<wbr><a href='index.html'>rtype</a></p><script>window.sidebarCurrent = {name: 'Rtype', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>iana</a>::<wbr><a href='index.html'>rtype</a>::<wbr><a class="enum" href=''>Rtype</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/iana/macros.rs.html#14-19' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Rtype {
+    A,
+    Ns,
+    Md,
+    Mf,
+    Cname,
+    Soa,
+    Mb,
+    Mg,
+    Mr,
+    Null,
+    Wks,
+    Ptr,
+    Hinfo,
+    Minfo,
+    Mx,
+    Txt,
+    Rp,
+    Afsdb,
+    X25,
+    Isdn,
+    Rt,
+    Nsap,
+    Nsapptr,
+    Sig,
+    Key,
+    Px,
+    Gpos,
+    Aaaa,
+    Loc,
+    Nxt,
+    Eid,
+    Nimloc,
+    Srv,
+    Atma,
+    Naptr,
+    Kx,
+    Cert,
+    A6,
+    Dname,
+    Sink,
+    Opt,
+    Apl,
+    Ds,
+    Sshfp,
+    Ipseckey,
+    Rrsig,
+    Nsec,
+    Dnskey,
+    Dhcid,
+    Nsec3,
+    Nsec3param,
+    Tlsa,
+    Smimea,
+    Hip,
+    Ninfo,
+    Rkey,
+    Talink,
+    Cds,
+    Cdnskey,
+    Openpgpkey,
+    Csync,
+    Spf,
+    Uinfo,
+    Uid,
+    Gid,
+    Unspec,
+    Nid,
+    L32,
+    L64,
+    Lp,
+    Eui48,
+    Eui64,
+    Tkey,
+    Tsig,
+    Ixfr,
+    Axfr,
+    Mailb,
+    Maila,
+    Any,
+    Uri,
+    Caa,
+    Avc,
+    Ta,
+    Dlv,
+    Int(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>),
+}</pre><div class='docblock'><p>Resource Record Types.</p>
+
+<p>Each resource records has a 16 bit type value indicating what kind of
+information is represented by the record. Normal query includes the type
+of record information is requested for. A few aditional types, called
+query types, are defined as well and can only be used in questions. This
+type represents both these types.</p>
+
+<p>Record types are defined in RFC 1035. The registry of currently assigned
+values can be found at
+<a href="http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4">http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4</a></p>
+
+<p>In order to avoid confusion over capitalization, the mnemonics are
+treated as single acronyms and therefore all variant names are spelled
+with an initial capital letter in accordance with Rust naming guidelines.</p>
+</div><h2 class='variants'>Variants</h2>
+<span id='variant.A' class='variant'><span id='A.v' class='invisible'><code>A</code></span></span><div class='docblock'><p>A host address.</p>
+</div><span id='variant.Ns' class='variant'><span id='Ns.v' class='invisible'><code>Ns</code></span></span><div class='docblock'><p>An authoritative name server.</p>
+</div><span id='variant.Md' class='variant'><span id='Md.v' class='invisible'><code>Md</code></span></span><div class='docblock'><p>A mail destination.</p>
+
+<p>(Obsolete – use MX)</p>
+</div><span id='variant.Mf' class='variant'><span id='Mf.v' class='invisible'><code>Mf</code></span></span><div class='docblock'><p>A mail forwarder.</p>
+
+<p>(Obsolete – use MX)</p>
+</div><span id='variant.Cname' class='variant'><span id='Cname.v' class='invisible'><code>Cname</code></span></span><div class='docblock'><p>The canonical name for an alias</p>
+</div><span id='variant.Soa' class='variant'><span id='Soa.v' class='invisible'><code>Soa</code></span></span><div class='docblock'><p>Marks the start of a zone of authority.</p>
+</div><span id='variant.Mb' class='variant'><span id='Mb.v' class='invisible'><code>Mb</code></span></span><div class='docblock'><p>A mailbox domain name.</p>
+
+<p>(Experimental.)</p>
+</div><span id='variant.Mg' class='variant'><span id='Mg.v' class='invisible'><code>Mg</code></span></span><div class='docblock'><p>A mail group member</p>
+
+<p>(Experimental.)</p>
+</div><span id='variant.Mr' class='variant'><span id='Mr.v' class='invisible'><code>Mr</code></span></span><div class='docblock'><p>A mail rename domain name.</p>
+
+<p>(Experimental.)</p>
+</div><span id='variant.Null' class='variant'><span id='Null.v' class='invisible'><code>Null</code></span></span><div class='docblock'><p>A null resource record.</p>
+
+<p>(Experimental.)</p>
+</div><span id='variant.Wks' class='variant'><span id='Wks.v' class='invisible'><code>Wks</code></span></span><div class='docblock'><p>A well known service description.</p>
+</div><span id='variant.Ptr' class='variant'><span id='Ptr.v' class='invisible'><code>Ptr</code></span></span><div class='docblock'><p>A domain name pointer.</p>
+</div><span id='variant.Hinfo' class='variant'><span id='Hinfo.v' class='invisible'><code>Hinfo</code></span></span><div class='docblock'><p>Host information.</p>
+</div><span id='variant.Minfo' class='variant'><span id='Minfo.v' class='invisible'><code>Minfo</code></span></span><div class='docblock'><p>Mailbox or mail list information.</p>
+</div><span id='variant.Mx' class='variant'><span id='Mx.v' class='invisible'><code>Mx</code></span></span><div class='docblock'><p>Mail exchange.</p>
+</div><span id='variant.Txt' class='variant'><span id='Txt.v' class='invisible'><code>Txt</code></span></span><div class='docblock'><p>Text strings.</p>
+</div><span id='variant.Rp' class='variant'><span id='Rp.v' class='invisible'><code>Rp</code></span></span><div class='docblock'><p>For Responsible Person.</p>
+
+<p>See RFC 1183</p>
+</div><span id='variant.Afsdb' class='variant'><span id='Afsdb.v' class='invisible'><code>Afsdb</code></span></span><div class='docblock'><p>For AFS Data Base location.</p>
+
+<p>See RFC 1183 and RFC 5864.</p>
+</div><span id='variant.X25' class='variant'><span id='X25.v' class='invisible'><code>X25</code></span></span><div class='docblock'><p>For X.25 PSDN address.</p>
+
+<p>See RFC 1183.</p>
+</div><span id='variant.Isdn' class='variant'><span id='Isdn.v' class='invisible'><code>Isdn</code></span></span><div class='docblock'><p>For ISDN address.</p>
+
+<p>See RFC 1183.</p>
+</div><span id='variant.Rt' class='variant'><span id='Rt.v' class='invisible'><code>Rt</code></span></span><div class='docblock'><p>For Route Through.</p>
+
+<p>See RFC 1183</p>
+</div><span id='variant.Nsap' class='variant'><span id='Nsap.v' class='invisible'><code>Nsap</code></span></span><div class='docblock'><p>For SNAP address, NSAP style A record.</p>
+
+<p>See RFC 1706.</p>
+</div><span id='variant.Nsapptr' class='variant'><span id='Nsapptr.v' class='invisible'><code>Nsapptr</code></span></span><div class='docblock'><p>For domain name pointer, NSAP style.</p>
+
+<p>See RFC 1348, RFC 1637, RFC 1706.</p>
+</div><span id='variant.Sig' class='variant'><span id='Sig.v' class='invisible'><code>Sig</code></span></span><div class='docblock'><p>For security signature.</p>
+</div><span id='variant.Key' class='variant'><span id='Key.v' class='invisible'><code>Key</code></span></span><div class='docblock'><p>For security key.</p>
+</div><span id='variant.Px' class='variant'><span id='Px.v' class='invisible'><code>Px</code></span></span><div class='docblock'><p>X.400 mail mapping information.</p>
+
+<p>See RFC 2163.</p>
+</div><span id='variant.Gpos' class='variant'><span id='Gpos.v' class='invisible'><code>Gpos</code></span></span><div class='docblock'><p>Geographical position.</p>
+
+<p>See RFC 1712</p>
+</div><span id='variant.Aaaa' class='variant'><span id='Aaaa.v' class='invisible'><code>Aaaa</code></span></span><div class='docblock'><p>IPv6 address.</p>
+
+<p>See RFC 3596.</p>
+</div><span id='variant.Loc' class='variant'><span id='Loc.v' class='invisible'><code>Loc</code></span></span><div class='docblock'><p>Location information.</p>
+
+<p>See RFC 1876.</p>
+</div><span id='variant.Nxt' class='variant'><span id='Nxt.v' class='invisible'><code>Nxt</code></span></span><div class='docblock'><p>Next domain.</p>
+
+<p>(Obsolete.)</p>
+
+<p>See RFC 3755 and RFC 2535.</p>
+</div><span id='variant.Eid' class='variant'><span id='Eid.v' class='invisible'><code>Eid</code></span></span><div class='docblock'><p>Endpoint identifier.</p>
+</div><span id='variant.Nimloc' class='variant'><span id='Nimloc.v' class='invisible'><code>Nimloc</code></span></span><div class='docblock'><p>Nimrod locator.</p>
+</div><span id='variant.Srv' class='variant'><span id='Srv.v' class='invisible'><code>Srv</code></span></span><div class='docblock'><p>Server selection.</p>
+
+<p>See RFC 2782.</p>
+</div><span id='variant.Atma' class='variant'><span id='Atma.v' class='invisible'><code>Atma</code></span></span><div class='docblock'><p>ATM address.</p>
+</div><span id='variant.Naptr' class='variant'><span id='Naptr.v' class='invisible'><code>Naptr</code></span></span><div class='docblock'><p>Naming authority pointer.</p>
+
+<p>See RFC 2915, RFC 2168, and RFC 3403.</p>
+</div><span id='variant.Kx' class='variant'><span id='Kx.v' class='invisible'><code>Kx</code></span></span><div class='docblock'><p>Key exchanger.</p>
+
+<p>See RFC 2230.</p>
+</div><span id='variant.Cert' class='variant'><span id='Cert.v' class='invisible'><code>Cert</code></span></span><div class='docblock'><p>CERT</p>
+
+<p>See RFC 4398.</p>
+</div><span id='variant.A6' class='variant'><span id='A6.v' class='invisible'><code>A6</code></span></span><div class='docblock'><p>A6.</p>
+
+<p>(Obsolete – use AAAA.)</p>
+
+<p>See RFC 3226, RFC 2874, and RFC 6563.</p>
+</div><span id='variant.Dname' class='variant'><span id='Dname.v' class='invisible'><code>Dname</code></span></span><div class='docblock'><p>DNAME.</p>
+
+<p>See RFC 6672.</p>
+</div><span id='variant.Sink' class='variant'><span id='Sink.v' class='invisible'><code>Sink</code></span></span><div class='docblock'><p>SINK.</p>
+</div><span id='variant.Opt' class='variant'><span id='Opt.v' class='invisible'><code>Opt</code></span></span><div class='docblock'><p>OPT.</p>
+
+<p>See RFC 6891 and RFC 3225.</p>
+</div><span id='variant.Apl' class='variant'><span id='Apl.v' class='invisible'><code>Apl</code></span></span><div class='docblock'><p>APL.</p>
+
+<p>See RFC 3123.</p>
+</div><span id='variant.Ds' class='variant'><span id='Ds.v' class='invisible'><code>Ds</code></span></span><div class='docblock'><p>Delegation signer.</p>
+
+<p>See RFC 4034 and RFC 3658.</p>
+</div><span id='variant.Sshfp' class='variant'><span id='Sshfp.v' class='invisible'><code>Sshfp</code></span></span><div class='docblock'><p>SSH key fingerprint.</p>
+
+<p>See RFC 4255.</p>
+</div><span id='variant.Ipseckey' class='variant'><span id='Ipseckey.v' class='invisible'><code>Ipseckey</code></span></span><div class='docblock'><p>IPSECKEY</p>
+
+<p>See RFC 4255.</p>
+</div><span id='variant.Rrsig' class='variant'><span id='Rrsig.v' class='invisible'><code>Rrsig</code></span></span><div class='docblock'><p>RRSIG.</p>
+
+<p>See RFC 4034 and RFC 3755.</p>
+</div><span id='variant.Nsec' class='variant'><span id='Nsec.v' class='invisible'><code>Nsec</code></span></span><div class='docblock'><p>NSEC.</p>
+
+<p>See RFC 4034 and RFC 3755.</p>
+</div><span id='variant.Dnskey' class='variant'><span id='Dnskey.v' class='invisible'><code>Dnskey</code></span></span><div class='docblock'><p>DNSKEY.</p>
+
+<p>See RFC 4034 and RFC 3755.</p>
+</div><span id='variant.Dhcid' class='variant'><span id='Dhcid.v' class='invisible'><code>Dhcid</code></span></span><div class='docblock'><p>DHCID.</p>
+
+<p>See RFC 4701.</p>
+</div><span id='variant.Nsec3' class='variant'><span id='Nsec3.v' class='invisible'><code>Nsec3</code></span></span><div class='docblock'><p>NSEC3</p>
+
+<p>See RFC 5155.</p>
+</div><span id='variant.Nsec3param' class='variant'><span id='Nsec3param.v' class='invisible'><code>Nsec3param</code></span></span><div class='docblock'><p>NSEC3PARAM.</p>
+
+<p>See RFC 5155.</p>
+</div><span id='variant.Tlsa' class='variant'><span id='Tlsa.v' class='invisible'><code>Tlsa</code></span></span><div class='docblock'><p>TLSA.</p>
+
+<p>See RFC 6698.</p>
+</div><span id='variant.Smimea' class='variant'><span id='Smimea.v' class='invisible'><code>Smimea</code></span></span><div class='docblock'><p>S/MIME cert association.</p>
+
+<p>See draft-ietf-dane-smime.</p>
+</div><span id='variant.Hip' class='variant'><span id='Hip.v' class='invisible'><code>Hip</code></span></span><div class='docblock'><p>Host Identity Protocol.</p>
+
+<p>See RFC 5205.</p>
+</div><span id='variant.Ninfo' class='variant'><span id='Ninfo.v' class='invisible'><code>Ninfo</code></span></span><div class='docblock'><p>NINFO.</p>
+</div><span id='variant.Rkey' class='variant'><span id='Rkey.v' class='invisible'><code>Rkey</code></span></span><div class='docblock'><p>RKEY.</p>
+</div><span id='variant.Talink' class='variant'><span id='Talink.v' class='invisible'><code>Talink</code></span></span><div class='docblock'><p>Trust Anchor Link</p>
+</div><span id='variant.Cds' class='variant'><span id='Cds.v' class='invisible'><code>Cds</code></span></span><div class='docblock'><p>Child DS.</p>
+
+<p>See RFC 7344.</p>
+</div><span id='variant.Cdnskey' class='variant'><span id='Cdnskey.v' class='invisible'><code>Cdnskey</code></span></span><div class='docblock'><p>DNSKEY(s) the child wants reflected in DS.</p>
+
+<p>See RFC 7344.</p>
+</div><span id='variant.Openpgpkey' class='variant'><span id='Openpgpkey.v' class='invisible'><code>Openpgpkey</code></span></span><div class='docblock'><p>OpenPGP key.</p>
+
+<p>See draft-ietf-dane-openpgpkey.</p>
+</div><span id='variant.Csync' class='variant'><span id='Csync.v' class='invisible'><code>Csync</code></span></span><div class='docblock'><p>Child-to-parent synchronization.</p>
+
+<p>See RFC 7477.</p>
+</div><span id='variant.Spf' class='variant'><span id='Spf.v' class='invisible'><code>Spf</code></span></span><div class='docblock'><p>SPF.</p>
+
+<p>RFC 7208.</p>
+</div><span id='variant.Uinfo' class='variant'><span id='Uinfo.v' class='invisible'><code>Uinfo</code></span></span><div class='docblock'><p>UINFO.</p>
+
+<p>IANA-Reserved.</p>
+</div><span id='variant.Uid' class='variant'><span id='Uid.v' class='invisible'><code>Uid</code></span></span><div class='docblock'><p>UID.</p>
+
+<p>IANA-Reserved.</p>
+</div><span id='variant.Gid' class='variant'><span id='Gid.v' class='invisible'><code>Gid</code></span></span><div class='docblock'><p>GID.</p>
+
+<p>IANA-Reserved.</p>
+</div><span id='variant.Unspec' class='variant'><span id='Unspec.v' class='invisible'><code>Unspec</code></span></span><div class='docblock'><p>UNSPEC.</p>
+
+<p>IANA-Reserved.</p>
+</div><span id='variant.Nid' class='variant'><span id='Nid.v' class='invisible'><code>Nid</code></span></span><div class='docblock'><p>NID.</p>
+
+<p>See RFC 6742.</p>
+</div><span id='variant.L32' class='variant'><span id='L32.v' class='invisible'><code>L32</code></span></span><div class='docblock'><p>L32.</p>
+
+<p>See RFC 6742.</p>
+</div><span id='variant.L64' class='variant'><span id='L64.v' class='invisible'><code>L64</code></span></span><div class='docblock'><p>L64.</p>
+
+<p>See RFC 6742.</p>
+</div><span id='variant.Lp' class='variant'><span id='Lp.v' class='invisible'><code>Lp</code></span></span><div class='docblock'><p>LP.</p>
+
+<p>See RFC 6742.</p>
+</div><span id='variant.Eui48' class='variant'><span id='Eui48.v' class='invisible'><code>Eui48</code></span></span><div class='docblock'><p>An EUI-48 address.</p>
+
+<p>See RFC 7043.</p>
+</div><span id='variant.Eui64' class='variant'><span id='Eui64.v' class='invisible'><code>Eui64</code></span></span><div class='docblock'><p>An EUI-64 address.</p>
+
+<p>See RFC 7043.</p>
+</div><span id='variant.Tkey' class='variant'><span id='Tkey.v' class='invisible'><code>Tkey</code></span></span><div class='docblock'><p>Transaction key.</p>
+
+<p>See RFC 2930.</p>
+</div><span id='variant.Tsig' class='variant'><span id='Tsig.v' class='invisible'><code>Tsig</code></span></span><div class='docblock'><p>Transaction signature.</p>
+
+<p>See RFC 2845.</p>
+</div><span id='variant.Ixfr' class='variant'><span id='Ixfr.v' class='invisible'><code>Ixfr</code></span></span><div class='docblock'><p>Incremental transfer.</p>
+
+<p>See RFC 1995.</p>
+</div><span id='variant.Axfr' class='variant'><span id='Axfr.v' class='invisible'><code>Axfr</code></span></span><div class='docblock'><p>Transfer of entire zone.</p>
+
+<p>See RFC 1035 and RFC 5936.</p>
+</div><span id='variant.Mailb' class='variant'><span id='Mailb.v' class='invisible'><code>Mailb</code></span></span><div class='docblock'><p>Mailbox-related RRs (MB, MG, or MR).</p>
+</div><span id='variant.Maila' class='variant'><span id='Maila.v' class='invisible'><code>Maila</code></span></span><div class='docblock'><p>Mail agent RRS.</p>
+
+<p>(Obsolete – see MX.)</p>
+</div><span id='variant.Any' class='variant'><span id='Any.v' class='invisible'><code>Any</code></span></span><div class='docblock'><p>A request for all records the server/cache has available.</p>
+
+<p>See RFC 1035 and RFC 6895.</p>
+</div><span id='variant.Uri' class='variant'><span id='Uri.v' class='invisible'><code>Uri</code></span></span><div class='docblock'><p>URI.</p>
+
+<p>See RFC 7553.</p>
+</div><span id='variant.Caa' class='variant'><span id='Caa.v' class='invisible'><code>Caa</code></span></span><div class='docblock'><p>Certification Authority Restriction.</p>
+
+<p>See RFC 6844.</p>
+</div><span id='variant.Avc' class='variant'><span id='Avc.v' class='invisible'><code>Avc</code></span></span><div class='docblock'><p>Application visibility and control.</p>
+</div><span id='variant.Ta' class='variant'><span id='Ta.v' class='invisible'><code>Ta</code></span></span><div class='docblock'><p>DNSSEC trust authorities.</p>
+</div><span id='variant.Dlv' class='variant'><span id='Dlv.v' class='invisible'><code>Dlv</code></span></span><div class='docblock'><p>DNSSEC lookaside validation.</p>
+
+<p>See RFC 4431</p>
+</div><span id='variant.Int' class='variant'><span id='Int.v' class='invisible'><code>Int(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></span><div class='docblock'><p>A raw value given through its integer.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#21-65' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from_int' class="method"><span id='from_int.v' class='invisible'><code>fn <a href='#method.from_int' class='fnname'>from_int</a>(value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Returns a value from its raw integer value.</p>
+</div><h4 id='method.to_int' class="method"><span id='to_int.v' class='invisible'><code>fn <a href='#method.to_int' class='fnname'>to_int</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the raw integer value for a value.</p>
+</div><h4 id='method.from_mnemonic' class="method"><span id='from_mnemonic.v' class='invisible'><code>fn <a href='#method.from_mnemonic' class='fnname'>from_mnemonic</a>(m: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;</code></span></h4>
+<div class='docblock'><p>Returns a value from a well-defined mnemonic.</p>
+</div><h4 id='method.to_mnemonic' class="method"><span id='to_mnemonic.v' class='invisible'><code>fn <a href='#method.to_mnemonic' class='fnname'>to_mnemonic</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'static [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>&gt;</code></span></h4>
+<div class='docblock'><p>Returns the mnemonic for this value if there is one.</p>
+
+<p>This will also return a mnemonic if a well-defined variant
+is hidden in a <code>Int</code> variant.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#258-277' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from_bytes' class="method"><span id='from_bytes.v' class='invisible'><code>fn <a href='#method.from_bytes' class='fnname'>from_bytes</a>(bytes: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;</code></span></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rtype.rs.html#410-426' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.parse' class="method"><span id='parse.v' class='invisible'><code>fn <a href='#method.parse' class='fnname'>parse</a>(parser: &amp;mut <a class="struct" href="../../../domain/bits/parse/struct.Parser.html" title="struct domain::bits::parse::Parser">Parser</a>) -&gt; <a class="type" href="../../../domain/bits/parse/type.ParseResult.html" title="type domain::bits::parse::ParseResult">ParseResult</a>&lt;Self&gt;</code></span></h4>
+<h4 id='method.compose' class="method"><span id='compose.v' class='invisible'><code>fn <a href='#method.compose' class='fnname'>compose</a>&lt;C:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsMut.html" title="trait core::convert::AsMut">AsMut</a>&lt;<a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>&gt;&gt;(&amp;self, composer: C) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<h4 id='method.scan' class="method"><span id='scan.v' class='invisible'><code>fn <a href='#method.scan' class='fnname'>scan</a>&lt;S:&nbsp;<a class="trait" href="../../../domain/master/scanner/trait.Scanner.html" title="trait domain::master::scanner::Scanner">Scanner</a>&gt;(scanner: &amp;mut S) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;Self&gt;</code></span></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#13' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#13' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#13' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt; for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#70-74' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from' class="method"><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#91-95' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;Self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt; for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#97-101' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq-1' class="method"><span id='eq.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne-1' class="method"><span id='ne.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#109' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html" title="trait core::cmp::PartialOrd">PartialOrd</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#114-119' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.partial_cmp' class="method"><span id='partial_cmp.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;Self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a>&gt;</code></span></h4>
+<div class='docblock'><p>This method returns an ordering between <code>self</code> and <code>other</code> values if one exists. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp">Read more</a></p>
+</div><h4 id='method.lt' class="method"><span id='lt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt">Read more</a></p>
+</div><h4 id='method.le' class="method"><span id='le.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le">Read more</a></p>
+</div><h4 id='method.gt' class="method"><span id='gt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt">Read more</a></p>
+</div><h4 id='method.ge' class="method"><span id='ge.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html" title="trait core::cmp::PartialOrd">PartialOrd</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt; for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#121-126' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.partial_cmp-1' class="method"><span id='partial_cmp.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a>&gt;</code></span></h4>
+<div class='docblock'><p>This method returns an ordering between <code>self</code> and <code>other</code> values if one exists. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp">Read more</a></p>
+</div><h4 id='method.lt-1' class="method"><span id='lt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt">Read more</a></p>
+</div><h4 id='method.le-1' class="method"><span id='le.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le">Read more</a></p>
+</div><h4 id='method.gt-1' class="method"><span id='gt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt">Read more</a></p>
+</div><h4 id='method.ge-1' class="method"><span id='ge.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#135-139' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.cmp' class="method"><span id='cmp.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html#tymethod.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;Self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a></code></span></h4>
+<div class='docblock'><p>This method returns an <code>Ordering</code> between <code>self</code> and <code>other</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html#tymethod.cmp">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#144-148' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.hash' class="method"><span id='hash.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#tymethod.hash' class='fnname'>hash</a>&lt;H:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a>&gt;(&amp;self, state: &amp;mut H)</code></span></h4>
+<div class='docblock'><p>Feeds this value into the state given, updating the hasher as necessary.</p>
+</div><h4 id='method.hash_slice' class="method"><span id='hash_slice.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[Self]</a>, state: &amp;mut H) <span class="where fmt-newline">where H: <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a></span></code><div class='since' title='Stable since Rust version 1.3.0'>1.3.0</div></span></h4>
+<div class='docblock'><p>Feeds a slice of this type into the state provided.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html" title="trait core::str::FromStr">FromStr</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#279-310' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Err' class="type"><span id='Err.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#associatedtype.Err' class="type">Err</a> = <a class="struct" href="../../../domain/iana/rtype/struct.FromStrError.html" title="struct domain::iana::rtype::FromStrError">FromStrError</a></code></span></h4>
+<div class='docblock'><p>The associated error which can be returned from parsing.</p>
+</div><h4 id='method.from_str' class="method"><span id='from_str.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#tymethod.from_str' class='fnname'>from_str</a>(s: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="trait" href="https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html" title="trait core::str::FromStr">Err</a>&gt;</code></span></h4>
+<div class='docblock'><p>Parses a string <code>s</code> to return a value of this type. <a href="https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#tymethod.from_str">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a> for <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/macros.rs.html#312-329' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class="method"><span id='fmt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

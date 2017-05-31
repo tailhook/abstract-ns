@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["FromStrError","An error happened when converting a Rust string to a DNS character string."]],"struct":[["CharStr","A slice of a DNS character string."],["CharStrBuf","An owned, mutable DNS character string."],["PushError","An error happened while adding data to a [`CharStrBuf`]."]]});

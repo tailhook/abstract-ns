@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Record","A DNS resource record."]],"type":[["GenericRecord","A record with generic record data."]]});

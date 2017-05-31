@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ParsedDName` struct in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ParsedDName">
+
+    <title>domain::bits::name::ParsedDName - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>name</a></p><script>window.sidebarCurrent = {name: 'ParsedDName', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>name</a>::<wbr><a class="struct" href=''>ParsedDName</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#44-47' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ParsedDName&lt;'a&gt; { /* fields omitted */ }</pre><div class='docblock'><p>A domain name parsed from a DNS message.</p>
+
+<p>In an attempt to keep messages small, DNS uses a procedure called name
+compression. It tries to minimize the space used for repeated domain names
+by simply refering to the first occurence of the name. This works not only
+for complete names but also for suffixes. In this case, the first unique
+labels of the name are included and then a pointer is included for the
+rest of the name.</p>
+
+<p>A consequence of this is that when parsing a domain name, its labels can
+be scattered all over the message and we would need to allocate some
+space to re-assemble the original name. However, in many cases we don’t
+need the complete message. Many operations can be completed by just
+iterating over the labels which we can do in place.</p>
+
+<p>This is what the <code>ParsedDName</code> type does: It takes a reference to a
+message and an indicator where inside the message the name starts and
+then walks over the message as necessity dictates. When created while
+parsing a message, the parser quickly walks over the labels to make sure
+that the name indeed is valid. While this takes up a bit of time, it
+avoids late surprises and provides for a nicer interface with less
+<code>Result</code>s.</p>
+
+<p>Obviously, <code>ParsedDName</code> implements the <a href="trait.DName.html"><code>DName</code></a> trait and provides all
+operations required by this trait. It also implements <code>PartialEq</code> and
+<code>Eq</code>, as well as <code>PartialOrd</code> and <code>Ord</code> against all other domain name
+types, plus <code>Hash</code> with the same as the other types.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#52-117' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='creation-and-conversion' class='section-header'><a href='#creation-and-conversion'>Creation and Conversion</a></h1></div><div class='impl-items'><h4 id='method.parse' class="method"><span id='parse.v' class='invisible'><code>fn <a href='#method.parse' class='fnname'>parse</a>(parser: &amp;mut <a class="struct" href="../../../domain/bits/parse/struct.Parser.html" title="struct domain::bits::parse::Parser">Parser</a>&lt;'a&gt;) -&gt; <a class="type" href="../../../domain/bits/parse/type.ParseResult.html" title="type domain::bits::parse::ParseResult">ParseResult</a>&lt;Self&gt;</code></span></h4>
+<div class='docblock'><p>Creates a new parsed domain name.</p>
+
+<p>This parses out the leading uncompressed labels from the parser and
+then quickly jumps over any possible remaining compressing to check
+that the name is valid.</p>
+</div><h4 id='method.unpack' class="method"><span id='unpack.v' class='invisible'><code>fn <a href='#method.unpack' class='fnname'>unpack</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/collections/borrow/enum.Cow.html" title="enum collections::borrow::Cow">Cow</a>&lt;'a, <a class="struct" href="../../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;</code></span></h4>
+<div class='docblock'><p>Unpacks the name.</p>
+
+<p>This will return the cow’s borrowed variant for any parsed name that
+isn’t in fact compressed. Otherwise it will assemble all the labels
+into an owned domain name.</p>
+</div><h4 id='method.as_slice' class="method"><span id='as_slice.v' class='invisible'><code>fn <a href='#method.as_slice' class='fnname'>as_slice</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;'a <a class="struct" href="../../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;</code></span></h4>
+<div class='docblock'><p>Returns a slice if the name is uncompressed.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#122-234' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='working-with-labels' class='section-header'><a href='#working-with-labels'>Working with Labels</a></h1></div><div class='impl-items'><h4 id='method.labels' class="method"><span id='labels.v' class='invisible'><code>fn <a href='#method.labels' class='fnname'>labels</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/name/struct.NameLabels.html" title="struct domain::bits::name::NameLabels">NameLabels</a>&lt;'a&gt;</code></span></h4>
+<div class='docblock'><p>Returns an iterator over the labels of the name.</p>
+</div><h4 id='method.labelettes' class="method"><span id='labelettes.v' class='invisible'><code>fn <a href='#method.labelettes' class='fnname'>labelettes</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/name/struct.NameLabelettes.html" title="struct domain::bits::name::NameLabelettes">NameLabelettes</a>&lt;'a&gt;</code></span></h4>
+<div class='docblock'><p>Returns an iterator over the labelettes of the name.</p>
+</div><h4 id='method.split_first' class="method"><span id='split_first.v' class='invisible'><code>fn <a href='#method.split_first' class='fnname'>split_first</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>&amp;'a <a class="struct" href="../../../domain/bits/name/struct.Label.html" title="struct domain::bits::name::Label">Label</a>, <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt;</code></span></h4>
+<div class='docblock'><p>Splits off the first label from the name.</p>
+
+<p>For correctly encoded names, this function will always return
+<code>Some(_)</code>. The first element will be the parsed out label. The
+second element will be a parsed name of the remainder of the name
+if the label wasn’t the root label or <code>None</code> otherwise.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#43' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#239-247' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.to_cow' class="method"><span id='to_cow.v' class='invisible'><code>fn <a href='../../../domain/bits/name/trait.DName.html#tymethod.to_cow' class='fnname'>to_cow</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/collections/borrow/enum.Cow.html" title="enum collections::borrow::Cow">Cow</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;</code></span></h4>
+<div class='docblock'><p>Converts the name into an uncompressed name. <a href="../../../domain/bits/name/trait.DName.html#tymethod.to_cow">Read more</a></p>
+</div><h4 id='method.labels-1' class="method"><span id='labels.v-1' class='invisible'><code>fn <a href='../../../domain/bits/name/trait.DName.html#tymethod.labels' class='fnname'>labels</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/name/struct.NameLabels.html" title="struct domain::bits::name::NameLabels">NameLabels</a></code></span></h4>
+<div class='docblock'><p>Returns an iterator over the labels of the domain name.</p>
+</div><h4 id='method.labelettes-1' class="method"><span id='labelettes.v-1' class='invisible'><code>fn <a href='../../../domain/bits/name/trait.DName.html#method.labelettes' class='fnname'>labelettes</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/name/struct.NameLabelettes.html" title="struct domain::bits::name::NameLabelettes">NameLabelettes</a></code></span></h4>
+<div class='docblock'><p>Returns an iterator over the labelettes of the domain name. <a href="../../../domain/bits/name/trait.DName.html#method.labelettes">Read more</a></p>
+</div><h4 id='method.compose' class="method"><span id='compose.v' class='invisible'><code>fn <a href='../../../domain/bits/name/trait.DName.html#method.compose' class='fnname'>compose</a>&lt;C:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsMut.html" title="trait core::convert::AsMut">AsMut</a>&lt;<a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>&gt;&gt;(&amp;self, composer: C) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Appends the name to the end of a composition.</p>
+</div><h4 id='method.compose_compressed' class="method"><span id='compose_compressed.v' class='invisible'><code>fn <a href='../../../domain/bits/name/trait.DName.html#method.compose_compressed' class='fnname'>compose_compressed</a>&lt;C:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsMut.html" title="trait core::convert::AsMut">AsMut</a>&lt;<a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>&gt;&gt;(&amp;self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; composer: C)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Appends the name to the end of a composition using name compression.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a, N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>&lt;N&gt; for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#252-258' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;N) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt; for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#260-270' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq-1' class="method"><span id='eq.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne-1' class="method"><span id='ne.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#272' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a, N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html" title="trait core::cmp::PartialOrd">PartialOrd</a>&lt;N&gt; for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#277-283' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.partial_cmp' class="method"><span id='partial_cmp.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;N) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a>&gt;</code></span></h4>
+<div class='docblock'><p>This method returns an ordering between <code>self</code> and <code>other</code> values if one exists. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp">Read more</a></p>
+</div><h4 id='method.lt' class="method"><span id='lt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt">Read more</a></p>
+</div><h4 id='method.le' class="method"><span id='le.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le">Read more</a></p>
+</div><h4 id='method.gt' class="method"><span id='gt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt">Read more</a></p>
+</div><h4 id='method.ge' class="method"><span id='ge.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#285-291' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.cmp' class="method"><span id='cmp.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html#tymethod.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;Self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a></code></span></h4>
+<div class='docblock'><p>This method returns an <code>Ordering</code> between <code>self</code> and <code>other</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html#tymethod.cmp">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#296-302' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.hash' class="method"><span id='hash.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#tymethod.hash' class='fnname'>hash</a>&lt;H:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a>&gt;(&amp;self, state: &amp;mut H)</code></span></h4>
+<div class='docblock'><p>Feeds this value into the state given, updating the hasher as necessary.</p>
+</div><h4 id='method.hash_slice' class="method"><span id='hash_slice.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[Self]</a>, state: &amp;mut H) <span class="where fmt-newline">where H: <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a></span></code><div class='since' title='Stable since Rust version 1.3.0'>1.3.0</div></span></h4>
+<div class='docblock'><p>Feeds a slice of this type into the state provided.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#307-318' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html" title="trait core::fmt::Octal">Octal</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#320-331' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class="method"><span id='fmt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html" title="trait core::fmt::LowerHex">LowerHex</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#333-344' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-2' class="method"><span id='fmt.v-2' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html" title="trait core::fmt::UpperHex">UpperHex</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#346-357' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-3' class="method"><span id='fmt.v-3' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html" title="trait core::fmt::Binary">Binary</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#359-370' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-4' class="method"><span id='fmt.v-4' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/parsed.rs.html#372-378' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-5' class="method"><span id='fmt.v-5' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

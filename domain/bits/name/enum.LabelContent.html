@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `LabelContent` enum in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, LabelContent">
+
+    <title>domain::bits::name::LabelContent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>name</a></p><script>window.sidebarCurrent = {name: 'LabelContent', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>name</a>::<wbr><a class="enum" href=''>LabelContent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/name/label.rs.html#675-715' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum LabelContent&lt;'a&gt; {
+    Normal(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>),
+    Binary(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>,&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>),
+}</pre><div class='docblock'><p>The contents of a label.</p>
+
+<p>There are two types of labels with content currently in use: termed
+normal labels and binary labels herein. The type of a label is
+determined by the first octet of the label’s wire representation.</p>
+
+<p>Originally, <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a> decreed that the label type shall encoded in this
+octet’s two most-significant bits. <code>0b00</code> was to mean a normal label
+and <code>0b11</code> was to indicate the pointer of a compressed domain name.
+Since that left only two more types, <a href="https://tools.ietf.org/html/rfc2671">RFC 2671</a> declared <code>0b01</code> to
+signal an <em>extended label type</em> with the rest of the first octet
+stating which label type exactly. <a href="https://tools.ietf.org/html/rfc2673">RFC 2673</a> used this mechanism to
+define binary labels as type <code>0x41</code>.</p>
+
+<p>However, because domain names are such a fundamental part of the DNS,
+it turned out that adding a new label type resulted in all sorts of
+compatibility issues. It was thus decided with <a href="https://tools.ietf.org/html/rfc6891">RFC 6891</a> to abandon
+this experiment and deprecate binary labels.</p>
+
+<p>The <code>LabelContent</code> type still has two variants for normal and binary
+labels. Because it is an enum, creation of values cannot be regulated
+which means that any value of this type not directly acquired through
+a call to <code>Label::content()</code> may contain invalid data. Despite that,
+the implementations of the various <code>std::fmt</code> traits provided by this
+type happily assume correctly encoded data and will panic.</p>
+</div><h2 class='variants'>Variants</h2>
+<span id='variant.Normal' class='variant'><span id='Normal.v' class='invisible'><code>Normal(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>)</code></span></span><div class='docblock'><p>A normal label.</p>
+
+<p>Normal labels consist of up to 63 octets of data. While <a href="https://tools.ietf.org/html/rfc1034">RFC 1034</a>
+proposes to limit the octets to ASCII letters, digits, and hyphens,
+no hard restriction exists and all values are allowed.</p>
+
+<p>When encoded, normal labels start with a one-octet value containing
+the number of octets in the label’s content followed by that
+content. Because the label type in the most-significant bits of that
+first octet is <code>0b00</code>, the value of the octet really is length and
+no masking is required.</p>
+</div><span id='variant.Binary' class='variant'><span id='Binary.v' class='invisible'><code>Binary(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>,&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>)</code></span></span><div class='docblock'><p>A binary label, also called a bit-string label.</p>
+
+<p>Binary labels contains a sequence of one-bit labels. The bits in the
+label are treated each as a label of its own. The intention was to
+provide a way to express arbitrary binary data in DNS allowing
+zone cuts at any point in the data. This was supposed to make
+the zone delgation for reverse pointers in IPv6 easier and more
+flexible.</p>
+
+<p>The content of a binary label consists of one octet giving the number
+of bits in the label. The value of zero indicates 256 bits in order
+to make empty labels impossible. This octet is followed by the
+smallest number of octets necessary to contain that many bits with
+excess bits set to zero.</p>
+
+<p>Confusingly, the bits are arranged in reverse order. The
+most-significant bit (bit 7 of the first octet) contains the
+right-most label in customary label order. However, two consecutive
+binary labels are arranged as normal.</p>
+
+<p>This variant contains the number of bits in its first element and
+a bytes slice of the bits in its second element. The bit count is
+kept as is, ie., <code>0</code> still means 256 bits.</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a> for <a class="enum" href="../../../domain/bits/name/enum.LabelContent.html" title="enum domain::bits::name::LabelContent">LabelContent</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/label.rs.html#747-770' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html" title="trait core::fmt::Octal">Octal</a> for <a class="enum" href="../../../domain/bits/name/enum.LabelContent.html" title="enum domain::bits::name::LabelContent">LabelContent</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/label.rs.html#772-785' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class="method"><span id='fmt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html" title="trait core::fmt::LowerHex">LowerHex</a> for <a class="enum" href="../../../domain/bits/name/enum.LabelContent.html" title="enum domain::bits::name::LabelContent">LabelContent</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/label.rs.html#787-800' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-2' class="method"><span id='fmt.v-2' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html" title="trait core::fmt::UpperHex">UpperHex</a> for <a class="enum" href="../../../domain/bits/name/enum.LabelContent.html" title="enum domain::bits::name::LabelContent">LabelContent</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/label.rs.html#802-815' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-3' class="method"><span id='fmt.v-3' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html" title="trait core::fmt::Binary">Binary</a> for <a class="enum" href="../../../domain/bits/name/enum.LabelContent.html" title="enum domain::bits::name::LabelContent">LabelContent</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/label.rs.html#817-834' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-4' class="method"><span id='fmt.v-4' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Binary.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../../domain/bits/name/enum.LabelContent.html" title="enum domain::bits::name::LabelContent">LabelContent</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/name/label.rs.html#836-853' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-5' class="method"><span id='fmt.v-5' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

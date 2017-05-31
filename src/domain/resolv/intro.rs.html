@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/domain-0.2.0/src/resolv/intro.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
+
+    <title>intro.rs.html -- source</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc source">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Resolver Architecture Documentation</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! &lt;i&gt;This module does not contain any code. It is intended for more</span>
+<span class="doccomment">//! detailed documentation of the resolver. Currently, that is limited to</span>
+<span class="doccomment">//! a short introduction to its architecture.&lt;/i&gt;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # What’s in a Resolver?</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Roughly speaking, the task of a resolver is to answer a question using</span>
+<span class="doccomment">//! information stored in the DNS. We shall call this question a *lookup.*</span>
+<span class="doccomment">//! There is different lookups for different questions. For example, finding</span>
+<span class="doccomment">//! all IP addresses for a given hostname is such a lookup. Finding the IP</span>
+<span class="doccomment">//! addresses of the mail server for a given domain is another, somewhat more</span>
+<span class="doccomment">//! complex lookup.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! DNS is a relatively simple key-value store: All information is keyed by</span>
+<span class="doccomment">//! a tripel of a domain name, a record type, and a class. The values are a</span>
+<span class="doccomment">//! set of binary strings who will be interpreted according to rules defined</span>
+<span class="doccomment">//! for each record type. One such entry is called a *resource record set,*</span>
+<span class="doccomment">//! commonly shortened to *RRset.*</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Most lookups will require information from more than one such RRset.</span>
+<span class="doccomment">//! For example, there are two types of IP addresses: IPv4 and IPv6</span>
+<span class="doccomment">//! addresses. Each type has its own record type, so there are two RRsets</span>
+<span class="doccomment">//! to consider when determining all addresses assigned to a host.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In this case, the two RRsets can be looked up in parallel. In case of the</span>
+<span class="doccomment">//! mail server lookup, we first need to determine the host name of the mail</span>
+<span class="doccomment">//! server responsible for the domain. There is a record type and hence a</span>
+<span class="doccomment">//! RRset for this purpose. Once we have that, we can look up the IP addresses</span>
+<span class="doccomment">//! for that host in parallel.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In other words, a lookup performs a series of steps each consisting of</span>
+<span class="doccomment">//! asking the DNS for one or more RRsets in parallel.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Such a request for a specific RRset is called a *query.* Since DNS is a</span>
+<span class="doccomment">//! distributed system, the first step of a query would be finding out where</span>
+<span class="doccomment">//! exactly the RRset is stored. However, we are implementing a stub resolver</span>
+<span class="doccomment">//! which is configured with a set of DNS servers that do this hunt for it.</span>
+<span class="doccomment">//! The stub resolver simply asks those configured servers for the RRset and</span>
+<span class="doccomment">//! if they all fail to find it, it fails too.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Since DNS prefers to use the unreliable UDP as transport protocol, the</span>
+<span class="doccomment">//! typical strategy is to ask the first server on the list and wait for a</span>
+<span class="doccomment">//! bit. If no answer arrives, ask the second server and wait again. If all</span>
+<span class="doccomment">//! servers have been asked and none has answered in due time, repeat the</span>
+<span class="doccomment">//! process for a number of times and finally fail. Alternatives are to start</span>
+<span class="doccomment">//! with a different server every time or to ask all servers at once.</span>
+<span class="doccomment">//! Under some circumstances, the resolver can also fall back to using TCP</span>
+<span class="doccomment">//! instead. Plus, there is an effort underway to encrypt the DNS connections.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Which all is to say that a query may have to ask different servers for an</span>
+<span class="doccomment">//! RRset, potentially using different transport protocols. For our own</span>
+<span class="doccomment">//! purposes, we shall henceforth call the process of asking one specific</span>
+<span class="doccomment">//! server over one specific transport protocol a *request.* </span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! The *resolver,* finally, collects all information necessary to be able</span>
+<span class="doccomment">//! to perform queries. It knows which servers to use with which protocols</span>
+<span class="doccomment">//! and has additional configuration information that is used to perform</span>
+<span class="doccomment">//! queries.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # A Resolver using Futures and Tokio</span>
+<span class="doccomment">//!</span>
+
+</pre>
+</section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ScanError","An error happened while scanning master data."],["SyntaxError","A syntax error happened while scanning master data."]],"struct":[["Pos","The human-friendly position in a reader."]],"type":[["ScanResult","A result with a scan error."],["SyntaxResult","A result with a syntax error."]]});

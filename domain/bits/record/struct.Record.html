@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Record` struct in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Record">
+
+    <title>domain::bits::record::Record - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>record</a></p><script>window.sidebarCurrent = {name: 'Record', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>record</a>::<wbr><a class="struct" href=''>Record</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/record.rs.html#73-78' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Record&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, D:&nbsp;<a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>&gt; { /* fields omitted */ }</pre><div class='docblock'><p>A DNS resource record.</p>
+
+<p>All information available through the DNS is stored in resource records.
+They have a three part key of a domain name, resource record type, and
+class. Data is arranged in a tree which is navigated using the domain
+name. Each node in the tree carries a label, starting with the root
+label as the top-most node. The tree is traversed by stepping through the
+name from right to left, finding a child node carring the label of each
+step.</p>
+
+<p>The record type describes the kind of data the record holds, such as IP
+addresses. The class, finally, describes which sort of network the
+information is for since DNS was originally intended to be used for
+networks other than the Internet as well. In practice, the only relevant
+class is IN, the Internet. Note that each class has its own tree of nodes.</p>
+
+<p>The payload of a resource record is its data. Its purpose, meaning, and
+format is determined by the record type. For each unique three-part key
+there can be multiple resource records. All these records for the same
+key are called <em>resource record sets,</em> most often shortened to ‘RRset.’</p>
+
+<p>There is one more piece of data: the TTL or time to live. This value
+says how long a record remains valid before it should be refreshed from
+its original source, given in seconds. The TTL is used to add caching
+facilities to the DNS.</p>
+
+<p>Values of the <code>Record</code> type represent one single resource record. Since
+there are currently more than eighty record types—see <a href="../../iana/enum.Rtype.html"><code>Rtype</code></a> for a
+complete list—, the type is generic over a trait for record data. This
+trait holds both the record type value and the record data as they are
+inseparably entwined.</p>
+
+<p>Since records contain domain names, the <code>Record</code> type is additionally
+generic over a domain name type. </p>
+
+<p>There is three ways to create a record value. First, you can make one
+yourself using the [<code>new()</code>] function. In will neatly take care of all
+the generics through type inference. Secondly, you can parse a record
+from an existing message. <a href="../message/struct.Message.html"><code>Message</code></a> and its friends provide a way to
+do that; see there for all the details. Finally, you can scan a record
+from master data (aka zonefiles). See the <a href="../../master/index.html"><code>domain::master</code></a> module for
+that.</p>
+
+<p>Records can be place into DNS messages through the value chain starting 
+with <a href="../message_builder/struct.MessageBuilder.html"><code>MessageBuilder</code></a>. In order to make adding records easier, <code>Record</code>
+implements the <code>From</code> trait for two kinds of tuples: A four-tuple of
+name, class, time-to-live value, and record data and a triple leaving
+out the class and assuming it to <code>Class::In</code>.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, D:&nbsp;<a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>&gt; <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#83-136' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='creation-and-element-access' class='section-header'><a href='#creation-and-element-access'>Creation and Element Access</a></h1></div><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(name: N, class: <a class="enum" href="../../../domain/iana/class/enum.Class.html" title="enum domain::iana::class::Class">Class</a>, ttl: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, data: D) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Creates a new record from its parts.</p>
+</div><h4 id='method.name' class="method"><span id='name.v' class='invisible'><code>fn <a href='#method.name' class='fnname'>name</a>(&amp;self) -&gt; &amp;N</code></span></h4>
+<div class='docblock'><p>Returns a reference to the domain name.</p>
+
+<p>The domain name, sometimes called the <em>owner</em> of the record,
+specifies the node in the DNS tree this record belongs to.</p>
+</div><h4 id='method.rtype' class="method"><span id='rtype.v' class='invisible'><code>fn <a href='#method.rtype' class='fnname'>rtype</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a></code></span></h4>
+<div class='docblock'><p>Returns the record type.</p>
+</div><h4 id='method.class' class="method"><span id='class.v' class='invisible'><code>fn <a href='#method.class' class='fnname'>class</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/iana/class/enum.Class.html" title="enum domain::iana::class::Class">Class</a></code></span></h4>
+<div class='docblock'><p>Returns the record class.</p>
+</div><h4 id='method.set_class' class="method"><span id='set_class.v' class='invisible'><code>fn <a href='#method.set_class' class='fnname'>set_class</a>(&amp;mut self, class: <a class="enum" href="../../../domain/iana/class/enum.Class.html" title="enum domain::iana::class::Class">Class</a>)</code></span></h4>
+<div class='docblock'><p>Sets the record’s class.</p>
+</div><h4 id='method.ttl' class="method"><span id='ttl.v' class='invisible'><code>fn <a href='#method.ttl' class='fnname'>ttl</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></h4>
+<div class='docblock'><p>Returns the record’s time-to-live.</p>
+</div><h4 id='method.set_ttl' class="method"><span id='set_ttl.v' class='invisible'><code>fn <a href='#method.set_ttl' class='fnname'>set_ttl</a>(&amp;mut self, ttl: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></span></h4>
+<div class='docblock'><p>Sets the record’s time-to-live.</p>
+</div><h4 id='method.data' class="method"><span id='data.v' class='invisible'><code>fn <a href='#method.data' class='fnname'>data</a>(&amp;self) -&gt; &amp;D</code></span></h4>
+<div class='docblock'><p>Return a reference to the record data.</p>
+</div><h4 id='method.data_mut' class="method"><span id='data_mut.v' class='invisible'><code>fn <a href='#method.data_mut' class='fnname'>data_mut</a>(&amp;mut self) -&gt; &amp;mut D</code></span></h4>
+<div class='docblock'><p>Returns a mutable reference to the record data.</p>
+</div><h4 id='method.into_data' class="method"><span id='into_data.v' class='invisible'><code>fn <a href='#method.into_data' class='fnname'>into_data</a>(self) -&gt; D</code></span></h4>
+<div class='docblock'><p>Trades the record for its record data.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a, D:&nbsp;<a class="trait" href="../../../domain/bits/rdata/trait.ParsedRecordData.html" title="trait domain::bits::rdata::ParsedRecordData">ParsedRecordData</a>&lt;'a&gt;&gt; <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;<a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#141-160' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='parsing' class='section-header'><a href='#parsing'>Parsing</a></h1></div><div class='impl-items'><h4 id='method.parse' class="method"><span id='parse.v' class='invisible'><code>fn <a href='#method.parse' class='fnname'>parse</a>(parser: &amp;mut <a class="struct" href="../../../domain/bits/parse/struct.Parser.html" title="struct domain::bits::parse::Parser">Parser</a>&lt;'a&gt;) -&gt; <a class="type" href="../../../domain/bits/parse/type.ParseResult.html" title="type domain::bits::parse::ParseResult">ParseResult</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;&gt;</code></span></h4>
+<div class='docblock'><p>Parses a record from a parser.</p>
+
+<p>This function is only available for records that use a parsed domain
+name and a record data type that, too, can be parsed.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;<a class="struct" href="../../../domain/bits/struct.ParsedDName.html" title="struct domain::bits::ParsedDName">ParsedDName</a>&lt;'a&gt;, <a class="struct" href="../../../domain/bits/rdata/struct.GenericRecordData.html" title="struct domain::bits::rdata::GenericRecordData">GenericRecordData</a>&lt;'a&gt;&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#162-167' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.parse_generic' class="method"><span id='parse_generic.v' class='invisible'><code>fn <a href='#method.parse_generic' class='fnname'>parse_generic</a>(parser: &amp;mut <a class="struct" href="../../../domain/bits/parse/struct.Parser.html" title="struct domain::bits::parse::Parser">Parser</a>&lt;'a&gt;) -&gt; <a class="type" href="../../../domain/bits/parse/type.ParseResult.html" title="type domain::bits::parse::ParseResult">ParseResult</a>&lt;Self&gt;</code></span></h4>
+<div class='docblock'><p>Parses a record with generic data from a parser.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, D:&nbsp;<a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>&gt; <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#172-190' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='composing' class='section-header'><a href='#composing'>Composing</a></h1></div><div class='impl-items'><h4 id='method.compose' class="method"><span id='compose.v' class='invisible'><code>fn <a href='#method.compose' class='fnname'>compose</a>&lt;C:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsMut.html" title="trait core::convert::AsMut">AsMut</a>&lt;<a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>&gt;&gt;(&amp;self, composer: C) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Appends the record’s wire-format representation to a composer.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;N:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, D:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + <a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#72' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt;</code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;N:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, D:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#72' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, D:&nbsp;<a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>N, <a class="enum" href="../../../domain/iana/class/enum.Class.html" title="enum domain::iana::class::Class">Class</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, D<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#195-199' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from' class="method"><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(x: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>N, <a class="enum" href="../../../domain/iana/class/enum.Class.html" title="enum domain::iana::class::Class">Class</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, D<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, D:&nbsp;<a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>N, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, D<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#201-205' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from-1' class="method"><span id='from.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(x: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>N, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, D<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;N, D&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a> for <a class="struct" href="../../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>&lt;N, D&gt; <span class="where fmt-newline">where N: <a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D: <a class="trait" href="../../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/record.rs.html#210-218' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class="method"><span id='fmt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

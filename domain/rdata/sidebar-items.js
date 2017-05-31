@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["MasterRecordData",""]],"fn":[["fmt_rdata",""]],"mod":[["owned",""],["parsed",""],["rfc1035","Record data from [RFC 1035]."],["rfc3596","Record data from [RFC 3596]."]]});

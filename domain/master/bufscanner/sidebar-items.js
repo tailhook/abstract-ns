@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BufScanner","A scanner using a buffer atop a reader."]]});

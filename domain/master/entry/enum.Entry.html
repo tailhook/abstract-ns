@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Entry` enum in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Entry">
+
+    <title>domain::master::entry::Entry - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>master</a>::<wbr><a href='index.html'>entry</a></p><script>window.sidebarCurrent = {name: 'Entry', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>master</a>::<wbr><a href='index.html'>entry</a>::<wbr><a class="enum" href=''>Entry</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/master/entry.rs.html#28-68' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Entry {
+    Origin(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;),
+    Include {
+        path: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;,
+        origin: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;&gt;,
+    },
+    Ttl(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>),
+    Control {
+        name: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;,
+        start: <a class="struct" href="../../../domain/master/error/struct.Pos.html" title="struct domain::master::error::Pos">Pos</a>,
+    },
+    Record(<a class="struct" href="../../../domain/master/record/struct.MasterRecord.html" title="struct domain::master::record::MasterRecord">MasterRecord</a>),
+    Blank,
+}</pre><div class='docblock'><p>A master file entry.</p>
+
+<p>Master files consist of a sequence of entries. An entry contains data for
+a resource record or instructions on how to build resource records from
+the data.</p>
+
+<p>This enum has variants for each type of master file entries currently
+defined. It also knows how to scan itself from a scanner via the
+<code>scan()</code> function.</p>
+
+<p>The variants are defined in seciton 5 of <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a> except where
+otherwise stated below.</p>
+</div><h2 class='variants'>Variants</h2>
+<span id='variant.Origin' class='variant'><span id='Origin.v' class='invisible'><code>Origin(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;)</code></span></span><div class='docblock'><p>An <code>$ORIGIN</code> control entry.</p>
+
+<p>This entry contains the origin for relative domain names encountered
+in subsequent entries.</p>
+</div><span id='variant.Include' class='variant'><span id='Include.v' class='invisible'><code>Include</code></span></span><div class='docblock'><p>An <code>$INCLUDE</code> control entry.</p>
+
+<p>This entry instructs the parser to insert the content of the given
+file at this position. The <code>path</code> attribute specifies the path to
+the file. The interpretation of the contents of this attribute is
+system dependent. The optional <code>origin</code> attribute contains the
+initial value of the origin of relative domain names when including
+the file.</p>
+</div><span class='docblock autohide sub-variant' id='variant.Include.fields'><h3 class='fields'>Fields of <code>Include</code></h3>
+
+                           <table><tr><td id='variant.Include.field.path'><span id='Include.v.path.v' class='invisible'><code>path:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.Include.field.origin'><span id='Include.v.origin.v' class='invisible'><code>origin:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;&gt;</code></span></td><td></td></tr></table></span><span id='variant.Ttl' class='variant'><span id='Ttl.v' class='invisible'><code>Ttl(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></span></span><div class='docblock'><p>A <code>$TTL</code> control entry.</p>
+
+<p>This entry specifies the value of the TTL field for all subsequent
+records that do not have it explicitely stated.</p>
+
+<p>This entry is defined in section 4 of <a href="https://tools.ietf.org/html/rfc2308">RFC 2308</a>.</p>
+</div><span id='variant.Control' class='variant'><span id='Control.v' class='invisible'><code>Control</code></span></span><div class='docblock'><p>Some other control entry.</p>
+
+<p>Any other entry starting with a dollar sign is a control entry we
+do not understand. This variant contains the name of the entry in
+the <code>name</code> attribute and its starting position in <code>start</code>. This can
+be used to produce a meaningful warning or error message.</p>
+</div><span class='docblock autohide sub-variant' id='variant.Control.fields'><h3 class='fields'>Fields of <code>Control</code></h3>
+
+                           <table><tr><td id='variant.Control.field.name'><span id='Control.v.name.v' class='invisible'><code>name:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.Control.field.start'><span id='Control.v.start.v' class='invisible'><code>start:&nbsp;<a class="struct" href="../../../domain/master/error/struct.Pos.html" title="struct domain::master::error::Pos">Pos</a></code></span></td><td></td></tr></table></span><span id='variant.Record' class='variant'><span id='Record.v' class='invisible'><code>Record(<a class="struct" href="../../../domain/master/record/struct.MasterRecord.html" title="struct domain::master::record::MasterRecord">MasterRecord</a>)</code></span></span><div class='docblock'><p>A resource record.</p>
+</div><span id='variant.Blank' class='variant'><span id='Blank.v' class='invisible'><code>Blank</code></span></span><div class='docblock'><p>A blank entry.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../../domain/master/entry/enum.Entry.html" title="enum domain::master::entry::Entry">Entry</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/master/entry.rs.html#70-140' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.scan' class="method"><span id='scan.v' class='invisible'><code>fn <a href='#method.scan' class='fnname'>scan</a>&lt;S:&nbsp;<a class="trait" href="../../../domain/master/scanner/trait.Scanner.html" title="trait domain::master::scanner::Scanner">Scanner</a>&gt;(stream: &amp;mut S,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last_owner: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last_class: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="../../../domain/iana/class/enum.Class.html" title="enum domain::iana::class::Class">Class</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; origin: &amp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default_ttl: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self&gt;&gt;</code></span></h4>
+<div class='docblock'><p>Scans an entry from a scanner.</p>
+
+<p>The four additional arguments contain the state of scanning for
+entries.</p>
+
+<p>The <code>last_owner</code> contains the domain name of the last
+record entry unless this is the first entry. This is used for the
+<code>owner</code> field if a record entry starts with blanks.
+The <code>last_class</code> is the class of the last resource record and is
+used if a class value is missing from a record entry.
+The <code>origin</code>
+argument is used for any relative names given in a record entry.
+The <code>default_ttl</code> value is used if a TTL value is missing from a
+record entry.</p>
+
+<p>If successful, the function returns some entry or <code>None</code> if it
+encountered an end of file before an entry even started.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../../domain/master/entry/enum.Entry.html" title="enum domain::master::entry::Entry">Entry</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/master/entry.rs.html#27' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/master/entry/enum.Entry.html" title="enum domain::master::entry::Entry">Entry</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../../domain/master/entry/enum.Entry.html" title="enum domain::master::entry::Entry">Entry</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/master/entry.rs.html#27' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

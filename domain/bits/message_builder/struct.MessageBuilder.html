@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `MessageBuilder` struct in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, MessageBuilder">
+
+    <title>domain::bits::message_builder::MessageBuilder - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>message_builder</a></p><script>window.sidebarCurrent = {name: 'MessageBuilder', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>message_builder</a>::<wbr><a class="struct" href=''>MessageBuilder</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/message_builder.rs.html#101-103' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct MessageBuilder { /* fields omitted */ }</pre><div class='docblock'><p>A type for building the question section of a DNS message.</p>
+
+<p>This type starts building a DNS message and allows adding questions to
+its question section. See the <a href="index.html">module documentation</a> for details.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/message_builder/struct.MessageBuilder.html" title="struct domain::bits::message_builder::MessageBuilder">MessageBuilder</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/message_builder.rs.html#108-145' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='creation' class='section-header'><a href='#creation'>Creation</a></h1></div><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(mode: <a class="enum" href="../../../domain/bits/compose/enum.ComposeMode.html" title="enum domain::bits::compose::ComposeMode">ComposeMode</a>, compress: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;Self&gt;</code></span></h4>
+<div class='docblock'><p>Creates a new empty DNS message.</p>
+
+<p>The <code>mode</code> argument decides whether the message will have a size
+limit and whether it should include the length prefix for use with
+stream transports. If <code>compress</code> is <code>true</code>, name compression will
+be enabled for the message.</p>
+
+<p>This function may fail if the size limit in <code>mode</code> is too small to
+even add the header section.</p>
+</div><h4 id='method.from_vec' class="method"><span id='from_vec.v' class='invisible'><code>fn <a href='#method.from_vec' class='fnname'>from_vec</a>(vec: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mode: <a class="enum" href="../../../domain/bits/compose/enum.ComposeMode.html" title="enum domain::bits::compose::ComposeMode">ComposeMode</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compress: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;Self&gt;</code></span></h4>
+<div class='docblock'><p>Creates a new DNS message appended to the content of a bytes vector.</p>
+
+<p>The <code>mode</code> argument decides whether the message will have a size
+limit and whether it should include the length prefix for use with
+stream transports. If <code>compress</code> is <code>true</code>, name compression will
+be enabled for the message.</p>
+
+<p>This function may fail if the size limit in <code>mode</code> is too small to
+even add the header section.</p>
+</div><h4 id='method.from_composer' class="method"><span id='from_composer.v' class='invisible'><code>fn <a href='#method.from_composer' class='fnname'>from_composer</a>(composer: <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;Self&gt;</code></span></h4>
+<div class='docblock'><p>Creates a new DNS message atop an existing composer.</p>
+
+<p>This doesn’t reset the composer but starts off after whatever is in
+there already. As this may result in invalid message, user discretion
+is advised.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/message_builder/struct.MessageBuilder.html" title="struct domain::bits::message_builder::MessageBuilder">MessageBuilder</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/message_builder.rs.html#150-217' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='building' class='section-header'><a href='#building'>Building</a></h1></div><div class='impl-items'><h4 id='method.header' class="method"><span id='header.v' class='invisible'><code>fn <a href='#method.header' class='fnname'>header</a>(&amp;self) -&gt; &amp;<a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span></h4>
+<div class='docblock'><p>Returns a reference to the message’s header.</p>
+</div><h4 id='method.header_mut' class="method"><span id='header_mut.v' class='invisible'><code>fn <a href='#method.header_mut' class='fnname'>header_mut</a>(&amp;mut self) -&gt; &amp;mut <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span></h4>
+<div class='docblock'><p>Returns a mutable reference to the message’s header.</p>
+</div><h4 id='method.push' class="method"><span id='push.v' class='invisible'><code>fn <a href='#method.push' class='fnname'>push</a>&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, Q:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="../../../domain/bits/question/struct.Question.html" title="struct domain::bits::question::Question">Question</a>&lt;N&gt;&gt;&gt;(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; question: Q)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Appends a new question to the message.</p>
+
+<p>This function is generic over anything that can be converted into a
+<a href="../question/struct.Question.html"><code>Question</code></a>. In particular, triples of a domain name, a record type,
+and a class as well as pairs of just a domain name and a record type
+fulfill this requirement with the class assumed to be <code>Class::In</code> in
+the latter case.</p>
+</div><h4 id='method.rewind' class="method"><span id='rewind.v' class='invisible'><code>fn <a href='#method.rewind' class='fnname'>rewind</a>(&amp;mut self)</code></span></h4>
+<div class='docblock'><p>Rewinds to the beginning of the question section.</p>
+
+<p>This drops all previously assembled questions.</p>
+</div><h4 id='method.answer' class="method"><span id='answer.v' class='invisible'><code>fn <a href='#method.answer' class='fnname'>answer</a>(self) -&gt; <a class="struct" href="../../../domain/bits/message_builder/struct.AnswerBuilder.html" title="struct domain::bits::message_builder::AnswerBuilder">AnswerBuilder</a></code></span></h4>
+<div class='docblock'><p>Proceeds to building the answer section.</p>
+</div><h4 id='method.authority' class="method"><span id='authority.v' class='invisible'><code>fn <a href='#method.authority' class='fnname'>authority</a>(self) -&gt; <a class="struct" href="../../../domain/bits/message_builder/struct.AuthorityBuilder.html" title="struct domain::bits::message_builder::AuthorityBuilder">AuthorityBuilder</a></code></span></h4>
+<div class='docblock'><p>Proceeds to building the authority section, skipping the answer.</p>
+</div><h4 id='method.additional' class="method"><span id='additional.v' class='invisible'><code>fn <a href='#method.additional' class='fnname'>additional</a>(self) -&gt; <a class="struct" href="../../../domain/bits/message_builder/struct.AdditionalBuilder.html" title="struct domain::bits::message_builder::AdditionalBuilder">AdditionalBuilder</a></code></span></h4>
+<div class='docblock'><p>Proceeds to building the additonal section.</p>
+
+<p>Leaves the answer and additional sections empty.</p>
+</div><h4 id='method.preview' class="method"><span id='preview.v' class='invisible'><code>fn <a href='#method.preview' class='fnname'>preview</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span></h4>
+<div class='docblock'><p>Returns a reference to the message assembled so far.</p>
+
+<p>This method requires a <code>&amp;mut self</code> since it may need to update some
+length values to return a valid message.</p>
+
+<p>In case the builder was created from a vector with previous content,
+the returned reference is for the full content of this vector.</p>
+</div><h4 id='method.finish' class="method"><span id='finish.v' class='invisible'><code>fn <a href='#method.finish' class='fnname'>finish</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></span></h4>
+<div class='docblock'><p>Finishes the message and returns the underlying target.</p>
+
+<p>This will result in a message with all three record sections empty.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../domain/bits/message_builder/struct.MessageBuilder.html" title="struct domain::bits::message_builder::MessageBuilder">MessageBuilder</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/message_builder.rs.html#100' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/message_builder/struct.MessageBuilder.html" title="struct domain::bits::message_builder::MessageBuilder">MessageBuilder</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../domain/bits/message_builder/struct.MessageBuilder.html" title="struct domain::bits::message_builder::MessageBuilder">MessageBuilder</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/message_builder.rs.html#100' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `RouterBuilder` struct in crate `abstract_ns`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, RouterBuilder">
+
+    <title>abstract_ns::RouterBuilder - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>abstract_ns</a></p><script>window.sidebarCurrent = {name: 'RouterBuilder', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>abstract_ns</a>::<wbr><a class="struct" href=''>RouterBuilder</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/abstract_ns/routing.rs.html#13' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct RouterBuilder(_);</pre><div class='docblock'><p>A builder/fluent interface to create a <code>Router</code></p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../abstract_ns/struct.RouterBuilder.html" title="struct abstract_ns::RouterBuilder">RouterBuilder</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/abstract_ns/routing.rs.html#32-78' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../abstract_ns/struct.RouterBuilder.html" title="struct abstract_ns::RouterBuilder">RouterBuilder</a></code></span></h4>
+<div class='docblock'><p>Start creating DNS router object</p>
+</div><h4 id='method.add_ip' class="method"><span id='add_ip.v' class='invisible'><code>fn <a href='#method.add_ip' class='fnname'>add_ip</a>(&amp;mut self, name: <a class="type" href="../abstract_ns/type.Name.html" title="type abstract_ns::Name">Name</a>, ip: <a class="enum" href="https://doc.rust-lang.org/nightly/std/net/ip/enum.IpAddr.html" title="enum std::net::ip::IpAddr">IpAddr</a>) -&gt; &amp;mut Self</code></span></h4>
+<div class='docblock'><p>Add a name that is resolved to a single IP (just like in <code>MemResolver</code>)</p>
+</div><h4 id='method.add_suffix' class="method"><span id='add_suffix.v' class='invisible'><code>fn <a href='#method.add_suffix' class='fnname'>add_suffix</a>&lt;S, R&gt;(&amp;mut self, suffix: S, resolver: R) -&gt; &amp;mut Self <span class="where fmt-newline">where S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;, R: <a class="trait" href="../abstract_ns/trait.Resolver.html" title="trait abstract_ns::Resolver">Resolver</a> + 'static</span></code></span></h4>
+<div class='docblock'><p>Add a suffix which will be resolved using specified resolver object</p>
+
+<p>This is useful for example to resolve all <code>*.consul</code> addresses against
+consul.</p>
+
+<p>Suffixes are always matched after dot in the name. Suffixes passed to
+to this function must <em>not</em> contain initial dot.</p>
+
+<p>If overlapping suffixes are specified, longest matching suffix wins.</p>
+</div><h4 id='method.add_default' class="method"><span id='add_default.v' class='invisible'><code>fn <a href='#method.add_default' class='fnname'>add_default</a>&lt;R&gt;(&amp;mut self, resolver: R) -&gt; &amp;mut Self <span class="where fmt-newline">where R: <a class="trait" href="../abstract_ns/trait.Resolver.html" title="trait abstract_ns::Resolver">Resolver</a> + 'static</span></code></span></h4>
+<div class='docblock'><p>Add a default resolver</p>
+
+<p>Default resolver works as fallback when neither specific names nor
+suffixes matches.</p>
+
+<p>Note: when suffix matches but returns non existent domain name
+the default resolver is <em>not</em> called.</p>
+</div><h4 id='method.into_resolver' class="method"><span id='into_resolver.v' class='invisible'><code>fn <a href='#method.into_resolver' class='fnname'>into_resolver</a>(self) -&gt; <a class="struct" href="../abstract_ns/struct.Router.html" title="struct abstract_ns::Router">Router</a></code></span></h4>
+<div class='docblock'><p>Build real router object which can be used to resolve names</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "abstract_ns";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

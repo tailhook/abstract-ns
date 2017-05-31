@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/domain-0.2.0/src/bits/rdata.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
+
+    <title>rdata.rs.html -- source</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc source">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Basic resource data handling.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! DNS resource records consist of some common data defining the domain</span>
+<span class="doccomment">//! name they pertain to, their type and class, and finally record data</span>
+<span class="doccomment">//! the format of which depends on the specific record type. As there are</span>
+<span class="doccomment">//! currently more than eighty record types, having a giant enum for record</span>
+<span class="doccomment">//! data seemed like a bad idea. Instead, resource records are generic over</span>
+<span class="doccomment">//! two traits defined by this module. All concrete types implement</span>
+<span class="doccomment">//! [`RecordData`]. Types that can be parsed out of messages also implement</span>
+<span class="doccomment">//! [`ParsedRecordData`]. This distinction is only relevant for types that</span>
+<span class="doccomment">//! contain and are generic over domain names: for these, parsing is only</span>
+<span class="doccomment">//! available if the names use [`ParsedDName`].</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! All concrete types shipped with this crate are implemented in the</span>
+<span class="doccomment">//! [`domain::rdata`] module.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In order to walk over all resource records in a message or work with</span>
+<span class="doccomment">//! unknown record types, this module also defines the [`GenericRecordData`]</span>
+<span class="doccomment">//! type that can deal with all record types but provides only a limited</span>
+<span class="doccomment">//! functionality.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [`RecordData`]: trait.RecordData.html</span>
+<span class="doccomment">//! [`ParsedRecordData`]: trait.ParsedRecordData.html</span>
+<span class="doccomment">//! [`domain::rdata`]: ../../rdata/index.html</span>
+<span class="doccomment">//! [`GenericRecordData`]: struct.GenericRecordData.html</span>
+
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> ::<span class="ident">iana</span>::<span class="ident">Rtype</span>;
+<span class="kw">use</span> ::<span class="ident">rdata</span>::<span class="ident">fmt_rdata</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Composer</span>, <span class="ident">ComposeResult</span>, <span class="ident">Parser</span>, <span class="ident">ParseResult</span>};
+
+
+<span class="comment">//----------- RecordData -----------------------------------------------------</span>
+
+<span class="doccomment">/// A trait for types representing record data.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">RecordData</span>: <span class="ident">Sized</span> {
+    <span class="doccomment">/// Returns the record type for this record data instance.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is a method rather than an associated function to allow one</span>
+    <span class="doccomment">/// type to be used for several real record types.</span>
+    <span class="kw">fn</span> <span class="ident">rtype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Rtype</span>;
+
+    <span class="doccomment">/// Appends the record data to the end of a composer.</span>
+    <span class="kw">fn</span> <span class="ident">compose</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">Composer</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">target</span>: <span class="ident">C</span>) <span class="op">-&gt;</span> <span class="ident">ComposeResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+}
+
+
+<span class="comment">//------------ ParsedRecordData ----------------------------------------------</span>
+
+<span class="doccomment">/// A trait for types that allow parsing record data from a message.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ParsedRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>: <span class="ident">RecordData</span> {
+    <span class="doccomment">/// Parses the record data out of a parser.</span>
+    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">rtype</span>: <span class="ident">Rtype</span>, <span class="ident">parser</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Parser</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>)
+             <span class="op">-&gt;</span> <span class="ident">ParseResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;&gt;</span>;
+}
+
+
+<span class="comment">//------------ GenericRecordData --------------------------------------------</span>
+
+<span class="doccomment">/// A type for parsing any type of record data.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This type accepts any record type and stores a reference to the plain</span>
+<span class="doccomment">/// binary record data in the message. This way, it can later be converted</span>
+<span class="doccomment">/// into concrete record data if necessary via the [`reparse()`] method.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Because the data referenced by a value may contain compressed domain</span>
+<span class="doccomment">/// names, transitively building a new message from this data may lead to</span>
+<span class="doccomment">/// corrupt messages. To avoid this sort of thing, </span>
+<span class="doccomment">/// [RFC 3597], ‘Handling of Unknown DNS Resource Record (RR) Types,’</span>
+<span class="doccomment">/// restricted compressed domain names to record types defined in [RFC 1035].</span>
+<span class="doccomment">/// Accordingly, this types [`RecordData::compose()`] implementation treats</span>
+<span class="doccomment">/// these types specially and ensures that their names are handles correctly.</span>
+<span class="doccomment">/// This may still lead to corrupt messages, however, if the generic record</span>
+<span class="doccomment">/// data is obtained from a source not complying with RFC 3597. In general,</span>
+<span class="doccomment">/// be wary when re-composing parsed messages unseen.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`RecordData::compose()`]: trait.RecordData.html#tymethod.compose</span>
+<span class="doccomment">/// [RFC 1035]: https://tools.ietf.org/html/rfc1035</span>
+<span class="doccomment">/// [RFC 3597]: https://tools.ietf.org/html/rfc3597</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GenericRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The record type of this data.</span>
+    <span class="ident">rtype</span>: <span class="ident">Rtype</span>,
+
+    <span class="doccomment">/// A parser for the record’s data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The parser will be positioned at the beginning of the record data and</span>
+    <span class="doccomment">/// will be limited to the length of the record data.</span>
+    <span class="ident">parser</span>: <span class="ident">Parser</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">GenericRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Tries to re-parse the data for the given record data type.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method panics if the specified record data type does not</span>
+    <span class="doccomment">/// actually feel like parsing data of the value’s record type.</span>
+    <span class="kw">fn</span> <span class="ident">reparse</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="ident">ParsedRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ParseResult</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+        <span class="ident">D</span>::<span class="ident">parse</span>(<span class="self">self</span>.<span class="ident">rtype</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">parser</span>.<span class="ident">clone</span>()).<span class="ident">map</span>(<span class="prelude-ty">Option</span>::<span class="ident">unwrap</span>)
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">RecordData</span> <span class="kw">for</span> <span class="ident">GenericRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">rtype</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Rtype</span> {
+        <span class="self">self</span>.<span class="ident">rtype</span>
+    }
+
+    <span class="kw">fn</span> <span class="ident">compose</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">Composer</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">target</span>: <span class="ident">C</span>)
+                        <span class="op">-&gt;</span> <span class="ident">ComposeResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">use</span> ::<span class="ident">rdata</span>::<span class="ident">rfc1035</span>::<span class="ident">parsed</span>::<span class="kw-2">*</span>;
+
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">rtype</span> {
+            <span class="comment">// Special treatment for any type from RFC 1035 that contains</span>
+            <span class="comment">// domain names.</span>
+            <span class="ident">Rtype</span>::<span class="ident">Cname</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Cname</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Mb</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Mb</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Md</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Md</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Mf</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Mf</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Mg</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Mg</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Minfo</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Minfo</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Mr</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Mr</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Mx</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Mx</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Ns</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Ns</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Ptr</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Ptr</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+            <span class="ident">Rtype</span>::<span class="ident">Soa</span> <span class="op">=&gt;</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reparse</span>::<span class="op">&lt;</span><span class="ident">Soa</span><span class="op">&gt;</span>()).<span class="ident">compose</span>(<span class="ident">target</span>),
+
+            <span class="comment">// Anything else can go verbatim.</span>
+            _ <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">parser</span>.<span class="ident">remaining</span>();
+                <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">parser</span>.<span class="ident">clone</span>().<span class="ident">parse_bytes</span>(<span class="ident">len</span>));
+                <span class="ident">target</span>.<span class="ident">as_mut</span>().<span class="ident">compose_bytes</span>(<span class="ident">bytes</span>)
+            }
+        }
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ParsedRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">GenericRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">rtype</span>: <span class="ident">Rtype</span>, <span class="ident">parser</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Parser</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>)
+             <span class="op">-&gt;</span> <span class="ident">ParseResult</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="ident">my_parser</span> <span class="op">=</span> <span class="ident">parser</span>.<span class="ident">clone</span>();
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">parser</span>.<span class="ident">remaining</span>();
+        <span class="macro">try</span><span class="macro">!</span>(<span class="ident">parser</span>.<span class="ident">skip</span>(<span class="ident">len</span>));
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">GenericRecordData</span> {
+            <span class="ident">rtype</span>: <span class="ident">rtype</span>,
+            <span class="ident">parser</span>: <span class="ident">my_parser</span>
+        }))
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">GenericRecordData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">fmt_rdata</span>(<span class="self">self</span>.<span class="ident">rtype</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">parser</span>.<span class="ident">clone</span>(), <span class="ident">f</span>)
+    }
+}
+
+</pre>
+</section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

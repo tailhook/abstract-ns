@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","An error happened during a query."]],"type":[["Result","The result type of a query."]]});

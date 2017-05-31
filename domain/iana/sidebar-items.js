@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["class","DNS CLASSes."],["opcode","DNS OpCodes"],["opt","DNS EDNS0 Option Codes (OPT)"],["rcode","DNS response codes and extended response codes."],["rtype","Resource Record (RR) TYPEs"],["secalg","DNSSEC Algorithm Numbers"]]});

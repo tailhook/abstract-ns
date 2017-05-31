@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Scanner` trait in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Scanner">
+
+    <title>domain::master::scanner::Scanner - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>master</a>::<wbr><a href='index.html'>scanner</a></p><script>window.sidebarCurrent = {name: 'Scanner', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>master</a>::<wbr><a href='index.html'>scanner</a>::<wbr><a class="trait" href=''>Scanner</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/master/scanner.rs.html#26-305' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Scanner {
+    fn <a href='#tymethod.is_eof' class='fnname'>is_eof</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>;
+    fn <a href='#tymethod.pos' class='fnname'>pos</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/master/error/struct.Pos.html" title="struct domain::master::error::Pos">Pos</a>;
+    fn <a href='#tymethod.scan_word' class='fnname'>scan_word</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span>;
+    fn <a href='#tymethod.scan_word_into' class='fnname'>scan_word_into</a>&lt;T, U, F, G&gt;(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; target: T,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f: F,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; g: G)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;U&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(&amp;mut T, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(T) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;U&gt;</span>;
+    fn <a href='#tymethod.scan_quoted' class='fnname'>scan_quoted</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span>;
+    fn <a href='#tymethod.scan_quoted_bytes' class='fnname'>scan_quoted_bytes</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span>;
+    fn <a href='#tymethod.scan_phrase' class='fnname'>scan_phrase</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span>;
+    fn <a href='#tymethod.scan_phrase_bytes' class='fnname'>scan_phrase_bytes</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span>;
+    fn <a href='#tymethod.scan_newline' class='fnname'>scan_newline</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;;
+    fn <a href='#tymethod.scan_space' class='fnname'>scan_space</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;;
+    fn <a href='#tymethod.scan_opt_space' class='fnname'>scan_opt_space</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;;
+    fn <a href='#tymethod.skip_entry' class='fnname'>skip_entry</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;;
+
+    fn <a href='#method.scan_word_bytes' class='fnname'>scan_word_bytes</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span> { ... }
+    fn <a href='#method.scan_str_phrase' class='fnname'>scan_str_phrase</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(&amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span> { ... }
+    fn <a href='#method.scan_phrase_copy' class='fnname'>scan_phrase_copy</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;&gt; { ... }
+    fn <a href='#method.scan_u16' class='fnname'>scan_u16</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt; { ... }
+    fn <a href='#method.scan_u32' class='fnname'>scan_u32</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt; { ... }
+    fn <a href='#method.scan_hex_word' class='fnname'>scan_hex_word</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span> { ... }
+    fn <a href='#method.skip_literal' class='fnname'>skip_literal</a>(&amp;mut self, literal: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; { ... }
+    fn <a href='#method.scan_dname' class='fnname'>scan_dname</a>(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; origin: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt; { ... }
+    fn <a href='#method.scan_dname_into' class='fnname'>scan_dname_into</a>(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; origin: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; target: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; { ... }
+    fn <a href='#method.scan_charstr' class='fnname'>scan_charstr</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="struct" href="../../../domain/bits/charstr/struct.CharStrBuf.html" title="struct domain::bits::charstr::CharStrBuf">CharStrBuf</a>&gt; { ... }
+    fn <a href='#method.scan_charstr_into' class='fnname'>scan_charstr_into</a>(&amp;mut self, target: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; { ... }
+}</pre><div class='docblock'><p>A trait for a scanner of master format tokens.</p>
+
+<p>The master format is using a small number of different token types. This
+trait provides a way to access a sequence of such tokens. There is a
+method prefix by <code>scan_</code> for each type of token that tries to scan a
+token of the given type. If it succeeds, it returns the token and
+progresses to the end of the token. If it fails, it returns an error and
+reverts to the position before the scanning attempt unless an IO error
+occured in which case the scanner becomes ‘broken.’</p>
+
+<p>The methods that provide access to the token’s content do so through
+closures to let the user decide if and how copies ought to be made. Note
+that since the scanner may throw away the content at any time after the
+closure returns, you cannot keep the slice references passed in. This is
+not on purpose, not a mistake with the lifetime arguments.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.is_eof' class='method'><span id='is_eof.v' class='invisible'><code>fn <a href='#tymethod.is_eof' class='fnname'>is_eof</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'>
+<h1 id='fundamental-methods' class='section-header'><a href='#fundamental-methods'>Fundamental Methods</a></h1>
+<p>Returns whether the scanner has reached the end of data.</p>
+
+<p>This will return <code>false</code> if reading results in an IO error.</p>
+</div><h3 id='tymethod.pos' class='method'><span id='pos.v' class='invisible'><code>fn <a href='#tymethod.pos' class='fnname'>pos</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/master/error/struct.Pos.html" title="struct domain::master::error::Pos">Pos</a></code></span></h3><div class='docblock'><p>Returns the current position of the scanner.</p>
+</div><h3 id='tymethod.scan_word' class='method'><span id='scan_word.v' class='invisible'><code>fn <a href='#tymethod.scan_word' class='fnname'>scan_word</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span></code></span></h3><div class='docblock'><p>Scans a word token.</p>
+
+<p>A word is a sequence of non-special characters and escape sequences
+followed by a non-empty sequence of space unless it is followed
+directly by a <a href="#tymethod.scan_newline">newline</a>. If successful, the
+method will position at the end of the space sequence if it is
+required. That is, you can scan for two subsequent word tokens
+without worrying about the space between them.</p>
+
+<p>A reference to the content of the actual word (ie., without any
+trailing space) is passed to the provided closure. This is the raw
+content without any escape sequences translated. If the closure likes
+the content, it can return something which will then become the
+return value of the entire method. Otherwise, it returns a syntax
+error. In this case, the whole method will fails returning the syntax
+error and the position of the start of the token.</p>
+</div><h3 id='tymethod.scan_word_into' class='method'><span id='scan_word_into.v' class='invisible'><code>fn <a href='#tymethod.scan_word_into' class='fnname'>scan_word_into</a>&lt;T, U, F, G&gt;(&amp;mut self, target: T, f: F, g: G) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;U&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(&amp;mut T, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(T) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;U&gt;</span></code></span></h3><h3 id='tymethod.scan_quoted' class='method'><span id='scan_quoted.v' class='invisible'><code>fn <a href='#tymethod.scan_quoted' class='fnname'>scan_quoted</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span></code></span></h3><div class='docblock'><p>Scans a quoted word.</p>
+
+<p>A quoted word starts with a double quote <code>&quot;</code>, followed by all sorts
+of characters or escape sequences until the next (unescaped) double
+quote. It may contain line feeds. Like a regular word, a quoted word
+is followed by a non-empty space sequence unless it is directly
+followed by a <a href="#tymethod.scan_newline">newline</a>. This space is not
+part of the content but quietly skipped over.</p>
+
+<p>The reference to the raw content of the quoted word is given to the
+closure <code>f</code> which needs to decide of it fulfills its own
+requirements. If it does, it can translate it into a return value
+which is also returned by the method. Otherwise, it returns a syntax
+error which is reported by the method with the position of the
+first double quote.</p>
+</div><h3 id='tymethod.scan_quoted_bytes' class='method'><span id='scan_quoted_bytes.v' class='invisible'><code>fn <a href='#tymethod.scan_quoted_bytes' class='fnname'>scan_quoted_bytes</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span></code></span></h3><div class='docblock'><p>Scans a quoted word, processing the content characters separatedly.</p>
+
+<p>This method is similar to <a href="#tymethod.scan_quoted">scan_quoted()</a> but
+the closure is called for each character of the content. Escape
+sequences are translated into the character they stand for. For each
+character, the closure receives the character value and a boolean
+indicating whether the character was in fact translated from an
+escape sequence. Ie., the content <code>b&quot;f&quot;</code> will be translated into one
+single closure call with <code>f(b&#39;f&#39;, false)</code>, whereas the content
+<code>b&quot;\102&quot;</code> will also be just one call but with <code>f(b&#39;f&#39;, true)</code>.</p>
+
+<p>If the closure returns <code>Ok(())</code>, the method proceeds to the next
+content character or, if there are no more characters, itself returns
+<code>Ok(())</code>. If the closure returns an error, the method returns to the
+start of the token and returns the error with that position.</p>
+</div><h3 id='tymethod.scan_phrase' class='method'><span id='scan_phrase.v' class='invisible'><code>fn <a href='#tymethod.scan_phrase' class='fnname'>scan_phrase</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span></code></span></h3><div class='docblock'><p>Scans phrase: a normal or quoted word.</p>
+
+<p>This method behaves like <a href="#tymethod.scan_quoted">scan_quoted()</a> if
+the next character is a double quote or like
+<a href="#tymethod.scan_word">scan_word()</a> otherwise.</p>
+</div><h3 id='tymethod.scan_phrase_bytes' class='method'><span id='scan_phrase_bytes.v' class='invisible'><code>fn <a href='#tymethod.scan_phrase_bytes' class='fnname'>scan_phrase_bytes</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span></code></span></h3><div class='docblock'><p>Scans a phrase, processing the content characters separatedly.</p>
+
+<p>This method behaves like
+<a href="#tymethod.scan_quoted_bytes">scan_quoted_bytes()</a> if
+the next character is a double quote or like
+<a href="#tymethod.scan_word_bytes">scan_word_bytes()</a> otherwise.</p>
+</div><h3 id='tymethod.scan_newline' class='method'><span id='scan_newline.v' class='invisible'><code>fn <a href='#tymethod.scan_newline' class='fnname'>scan_newline</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h3><div class='docblock'><p>Scans a newline.</p>
+
+<p>A newline is either an optional comment followed by either a CR or
+LF character or the end of file. The latter is so that a file lacking
+a line feed after its last line is still parsed successfully.</p>
+</div><h3 id='tymethod.scan_space' class='method'><span id='scan_space.v' class='invisible'><code>fn <a href='#tymethod.scan_space' class='fnname'>scan_space</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h3><div class='docblock'><p>Scans a non-empty sequence of space.</p>
+
+<p>There are two flavors of space. The simple form is any sequence
+of a space character <code>b&#39; &#39;</code> or a horizontal tab &#39;b<code>\t&#39;</code>. However,
+a parenthesis can be used to turn <a href="#tymethod.scan_newline">newlines</a>
+into normal space. This method recognises parentheses and acts
+accordingly.</p>
+</div><h3 id='tymethod.scan_opt_space' class='method'><span id='scan_opt_space.v' class='invisible'><code>fn <a href='#tymethod.scan_opt_space' class='fnname'>scan_opt_space</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h3><div class='docblock'><p>Scans a possibly empty sequence of space.</p>
+</div><h3 id='tymethod.skip_entry' class='method'><span id='skip_entry.v' class='invisible'><code>fn <a href='#tymethod.skip_entry' class='fnname'>skip_entry</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h3><div class='docblock'><p>Skips over an entry.</p>
+
+<p>Keeps reading until it successfully scans a newline. The method
+tries to be smart about that and considers parentheses, quotes, and
+escapes but also tries its best to not fail.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.scan_word_bytes' class='method'><span id='scan_word_bytes.v' class='invisible'><code>fn <a href='#method.scan_word_bytes' class='fnname'>scan_word_bytes</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span></code></span></h3><div class='docblock'><p>Scans a word, processing each character of its content separatedly.</p>
+
+<p>This method is similar to <a href="#tymethod.scan_word">scan_word()</a> but the
+closure is called for each character of the content. Escape sequences
+are translated into the character they stand for. For each character,
+the closure receives the character value and a boolean
+indicating whether the character was in fact translated from an
+escape sequence. Ie., the content <code>b&quot;f&quot;</code> will be translated into one
+single closure call with <code>f(b&#39;f&#39;, false)</code>, whereas the content
+<code>b&quot;\102&quot;</code> will also be just one call but with <code>f(b&#39;f&#39;, true)</code>.</p>
+
+<p>If the closure returns <code>Ok(())</code>, the method proceeds to the next
+content character or, if there are no more characters, itself returns
+<code>Ok(())</code>. If the closure returns an error, the method returns to the
+start of the token and returns the error with that position.</p>
+</div><h3 id='method.scan_str_phrase' class='method'><span id='scan_str_phrase.v' class='invisible'><code>fn <a href='#method.scan_str_phrase' class='fnname'>scan_str_phrase</a>&lt;T, F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;T&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(&amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;T&gt;</span></code></span></h3><div class='docblock'><p>Scans a phrase and converts it into a string slice.</p>
+
+<p>This method is similar to <a href="#tymethod.scan_phrase">scan_phrase()</a>
+but passes a string slice to the closure instead of a bytes slice.
+There are no allocations and the method syntax errors out if the
+content contains non-ASCII characters.</p>
+</div><h3 id='method.scan_phrase_copy' class='method'><span id='scan_phrase_copy.v' class='invisible'><code>fn <a href='#method.scan_phrase_copy' class='fnname'>scan_phrase_copy</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;&gt;</code></span></h3><div class='docblock'><p>Scans a phrase and returns a copy of it.</p>
+
+<p>The copy will have all escape sequences translated.</p>
+</div><h3 id='method.scan_u16' class='method'><span id='scan_u16.v' class='invisible'><code>fn <a href='#method.scan_u16' class='fnname'>scan_u16</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt;</code></span></h3><div class='docblock'>
+<h1 id='helper-methods' class='section-header'><a href='#helper-methods'>Helper Methods</a></h1>
+<p>Scans a phrase containing a 16 bit integer in decimal representation.</p>
+</div><h3 id='method.scan_u32' class='method'><span id='scan_u32.v' class='invisible'><code>fn <a href='#method.scan_u32' class='fnname'>scan_u32</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></h3><div class='docblock'><p>Scans a phrase containing a 32 bit integer in decimal representation.</p>
+</div><h3 id='method.scan_hex_word' class='method'><span id='scan_hex_word.v' class='invisible'><code>fn <a href='#method.scan_hex_word' class='fnname'>scan_hex_word</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; <span class="where fmt-newline">where F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html" title="trait core::ops::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; <a class="type" href="../../../domain/master/error/type.SyntaxResult.html" title="type domain::master::error::SyntaxResult">SyntaxResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</span></code></span></h3><div class='docblock'><p>Scans a word containing a sequence of pairs of hex digits.</p>
+
+<p>Each pair is translated to its byte value and passed to the
+closure <code>f</code>.</p>
+</div><h3 id='method.skip_literal' class='method'><span id='skip_literal.v' class='invisible'><code>fn <a href='#method.skip_literal' class='fnname'>skip_literal</a>(&amp;mut self, literal: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h3><div class='docblock'><p>Skips over the word with the content <code>literal</code>.</p>
+
+<p>The content indeed needs to be literally the literal. Escapes are
+not translated before comparison and case has to be as is.</p>
+</div><h3 id='method.scan_dname' class='method'><span id='scan_dname.v' class='invisible'><code>fn <a href='#method.scan_dname' class='fnname'>scan_dname</a>(&amp;mut self, origin: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="struct" href="../../../domain/bits/struct.DNameBuf.html" title="struct domain::bits::DNameBuf">DNameBuf</a>&gt;</code></span></h3><div class='docblock'><p>Scans a domain name and returns an owned domain name.</p>
+
+<p>If the name is relative, it is made absolute by appending <code>origin</code>.
+If there is no origin given, a syntax error is returned.</p>
+</div><h3 id='method.scan_dname_into' class='method'><span id='scan_dname_into.v' class='invisible'><code>fn <a href='#method.scan_dname_into' class='fnname'>scan_dname_into</a>(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; origin: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../../domain/bits/struct.DNameSlice.html" title="struct domain::bits::DNameSlice">DNameSlice</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; target: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h3><div class='docblock'><p>Scans a domain name into a bytes vec.</p>
+
+<p>The name is scanned and its wire format representation is appened
+to the end of <code>target</code>. If the scanned name is relative, it is made
+absolute by appending <code>origin</code>. If there is no origin given, a
+syntax error is returned.</p>
+</div><h3 id='method.scan_charstr' class='method'><span id='scan_charstr.v' class='invisible'><code>fn <a href='#method.scan_charstr' class='fnname'>scan_charstr</a>(&amp;mut self) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="struct" href="../../../domain/bits/charstr/struct.CharStrBuf.html" title="struct domain::bits::charstr::CharStrBuf">CharStrBuf</a>&gt;</code></span></h3><div class='docblock'><p>Scans a character string and returns it as an owned value.</p>
+</div><h3 id='method.scan_charstr_into' class='method'><span id='scan_charstr_into.v' class='invisible'><code>fn <a href='#method.scan_charstr_into' class='fnname'>scan_charstr_into</a>(&amp;mut self, target: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;) -&gt; <a class="type" href="../../../domain/master/error/type.ScanResult.html" title="type domain::master::error::ScanResult">ScanResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h3><div class='docblock'><p>Scans a character string into a bytes vec.</p>
+
+<p>The string is scanned and its wire format representation is appened
+to the end of <code>target</code>.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl&lt;R:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html" title="trait std::io::Read">Read</a>&gt; Scanner for <a class="struct" href="../../../domain/master/bufscanner/struct.BufScanner.html" title="struct domain::master::bufscanner::BufScanner">BufScanner</a>&lt;R&gt;</code></li>
+</ul><script type="text/javascript" async
+                         src="../../../implementors/domain/master/scanner/trait.Scanner.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

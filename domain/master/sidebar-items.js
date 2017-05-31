@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["bufscanner","A scanner atop a buffer atop an `io::Read`."],["entry",""],["error",""],["reader",""],["record",""],["scanner",""]]});

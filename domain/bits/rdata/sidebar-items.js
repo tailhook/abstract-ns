@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["GenericRecordData","A type for parsing any type of record data."]],"trait":[["ParsedRecordData","A trait for types that allow parsing record data from a message."],["RecordData","A trait for types representing record data."]]});

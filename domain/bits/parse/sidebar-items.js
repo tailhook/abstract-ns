@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ParseError","An error happening during parsing of wire-format DNS data."]],"struct":[["Parser","A type wrapping DNS message data for parsing."]],"type":[["ParseResult","The result type for a `ParseError`."]]});

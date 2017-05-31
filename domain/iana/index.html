@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `iana` mod in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, iana">
+
+    <title>domain::iana - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>domain</a></p><script>window.sidebarCurrent = {name: 'iana', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>domain</a>::<wbr><a class="mod" href=''>iana</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/domain/iana/mod.rs.html#1-42' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>IANA Definitions for DNS.</p>
+
+<p>This module contains enums for parameters defined in IANA registries
+that are relevant for this crate.</p>
+
+<p>All types defined hereunder follow the same basic structure. They are
+all enums with all well-defined values as variants. In addition they
+have an <code>Int</code> variant that contains a raw integer value. Since we cannot
+restrict that integer to only the undefined values, we generally allow
+the full set of possible values. We treat this correctly, meaning that
+the well-defined variant and the <code>Int</code> variant with the same integer
+value compare to equal.</p>
+
+<p>There are two methods <code>from_int()</code> and <code>to_int()</code> to convert from and
+to raw integer values as well as implementations of the <code>From</code> trait
+for these. <code>FromStr</code> and <code>Display</code> are implemented to convert from
+the string codes to the values and back. All of these are essentially
+giant matches which may or may not be the smartest way to do this.</p>
+
+<p>Types also implement <code>parse()</code> and <code>scan()</code> functions for creation from
+wire format and master format, respectively, as well as a <code>compose()</code>
+method for composing into wire format data.</p>
+
+<p>While each parameter type has a module of its own, they are all
+re-exported here. This is mostly so we can have associated types like
+<code>FromStrError</code> without having to resort to devilishly long names.</p>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use self::<a class="mod"
+                                           href="./class/index.html">class</a>::<a class="enum" href="../../domain/iana/class/enum.Class.html" title="enum domain::iana::class::Class">Class</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./opcode/index.html">opcode</a>::<a class="enum" href="../../domain/iana/opcode/enum.Opcode.html" title="enum domain::iana::opcode::Opcode">Opcode</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./opt/index.html">opt</a>::<a class="enum" href="../../domain/iana/opt/enum.OptionCode.html" title="enum domain::iana::opt::OptionCode">OptionCode</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rcode/index.html">rcode</a>::<a class="enum" href="../../domain/iana/rcode/enum.Rcode.html" title="enum domain::iana::rcode::Rcode">Rcode</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rcode/index.html">rcode</a>::<a class="enum" href="../../domain/iana/rcode/enum.OptRcode.html" title="enum domain::iana::rcode::OptRcode">OptRcode</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rcode/index.html">rcode</a>::<a class="enum" href="../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rtype/index.html">rtype</a>::<a class="enum" href="../../domain/iana/rtype/enum.Rtype.html" title="enum domain::iana::rtype::Rtype">Rtype</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./secalg/index.html">secalg</a>::<a class="enum" href="../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="class/index.html"
+                                  title='mod domain::iana::class'>class</a></td>
+                           <td class='docblock-short'>
+                                <p>DNS CLASSes.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="opcode/index.html"
+                                  title='mod domain::iana::opcode'>opcode</a></td>
+                           <td class='docblock-short'>
+                                <p>DNS OpCodes</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="opt/index.html"
+                                  title='mod domain::iana::opt'>opt</a></td>
+                           <td class='docblock-short'>
+                                <p>DNS EDNS0 Option Codes (OPT)</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="rcode/index.html"
+                                  title='mod domain::iana::rcode'>rcode</a></td>
+                           <td class='docblock-short'>
+                                <p>DNS response codes and extended response codes.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="rtype/index.html"
+                                  title='mod domain::iana::rtype'>rtype</a></td>
+                           <td class='docblock-short'>
+                                <p>Resource Record (RR) TYPEs</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="secalg/index.html"
+                                  title='mod domain::iana::secalg'>secalg</a></td>
+                           <td class='docblock-short'>
+                                <p>DNSSEC Algorithm Numbers</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

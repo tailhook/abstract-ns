@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `name` mod in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, name">
+
+    <title>domain::bits::name - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a></p><script>window.sidebarCurrent = {name: 'name', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a class="mod" href=''>name</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/name/mod.rs.html#1-75' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Domain names.</p>
+
+<p>This module contains various types for working with domain names.</p>
+
+<p>Domain names are a sequence of <em>labels.</em> For the most part, labels are
+in turn a sequence of up to 63 octets. While they are limited to ASCII
+by convention, all values are allowed. In their wire-format representation
+labels are prefixed with an octet containing the the number of octets
+in the label. The labels in a domain name are nominally arranged
+backwards. That is, the ‘most significant’ label is the last one. In an
+<em>absolute</em> domain name, this last label is an empty label, often called
+the <em>root label.</em> Only absolute names can appear inside DNS messages.</p>
+
+<p>There are two twists to this: One are binary labels which essentially
+encode a sequence of one-bit labels, are somewhat esoteric, and have been
+declared historic. The other is name compression. In order to save
+space in DNS messages (which were originally limited to 512 bytes for
+most cases), a name can end in a pointer to another name stored
+elsewhere in the message. This makes lazy message parsing somewhat
+difficult since you need to carry around a reference to the original
+message until actual parsing happens.</p>
+
+<p>This is why there are three types for domain names in this module. Two
+types represent uncompressed domain names encoded in their wire format
+atop a bytes sequence. The <a href="struct.DNameSlice.html"><code>DNameSlice</code></a> type is a slice of a domain
+name akin to a <code>[u8]</code>. It is an unsized type and will have to be used
+behind a pointer, typically a reference. The <a href="struct.DNameBuf.html"><code>DNameBuf</code></a> type acts as
+its owned companion. Similar to the relationship between <code>[u8]</code> and a
+<code>Vec&lt;u8&gt;</code> it derefs to a <a href="struct.DNameSlice.html"><code>DNameSlice</code></a> and provides facilities to
+manipulate domain names. Both types can contain either absolute or
+relative domain names.</p>
+
+<p>A compressed domain name can only occur in a parsed DNS message.
+Accordingly, its type is called <a href="struct.ParsedDName.html"><code>ParsedDName</code></a>. It internally holds a
+reference to the message it was parsed from. There’s only two things you
+can do with a parsed domain name: convert it into a regular domain name
+and iterate over its labels. Luckily, though, the latter is good enough
+for comparing them to other domain names.</p>
+
+<p>Creating data structures that can use both <a href="struct.DNameSlice.html"><code>DNameSlice</code></a> and <a href="struct.DNameBuf.html"><code>DNameBuf</code></a>
+can be achieved by being generic over <code>AsRef&lt;DNameSlice&gt;</code> as <code>AsRef</code> is
+implemented both for <code>&amp;DNameSlice</code> and <code>DNameBuf</code>. In order to allow
+types that allow <a href="struct.ParsedDName.html"><code>ParsedDName</code></a> as well, there is an additional trait
+<a href="trait.DName.html"><code>DName</code></a>. Naturally, the functionality provided by it is limited to
+what <a href="struct.ParsedDName.html"><code>ParsedDName</code></a> can do: conversion into a regular domain name and
+iteration over labels.</p>
+
+<h1 id='todo' class='section-header'><a href='#todo'>TODO</a></h1>
+<ul>
+<li>Implement an optimization where there is an optional first byte with
+the unallocated label type 0b10 that indicates whether the name is
+absolute or relative (ie., 0x80 means absolute and 0x81 relative and
+everything else means this really is the first byte of the domain
+name).</li>
+</ul>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DNameBuf.html"
+                                  title='struct domain::bits::name::DNameBuf'>DNameBuf</a></td>
+                           <td class='docblock-short'>
+                                <p>An owned complete domain name.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DNameBuildInto.html"
+                                  title='struct domain::bits::name::DNameBuildInto'>DNameBuildInto</a></td>
+                           <td class='docblock-short'>
+                                <p>A type for iteratively pushing a domain name into a bytes vec.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DNameBuilder.html"
+                                  title='struct domain::bits::name::DNameBuilder'>DNameBuilder</a></td>
+                           <td class='docblock-short'>
+                                <p>Builds an owned domain step by step from bytes.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DNameSlice.html"
+                                  title='struct domain::bits::name::DNameSlice'>DNameSlice</a></td>
+                           <td class='docblock-short'>
+                                <p>A slice of a domain name.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Label.html"
+                                  title='struct domain::bits::name::Label'>Label</a></td>
+                           <td class='docblock-short'>
+                                <p>An uncompressed domain name label.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LabelBuf.html"
+                                  title='struct domain::bits::name::LabelBuf'>LabelBuf</a></td>
+                           <td class='docblock-short'>
+                                <p>An owned domain name label.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LabelIter.html"
+                                  title='struct domain::bits::name::LabelIter'>LabelIter</a></td>
+                           <td class='docblock-short'>
+                                <p>An iterator over the labelettes in a label.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.NameLabelettes.html"
+                                  title='struct domain::bits::name::NameLabelettes'>NameLabelettes</a></td>
+                           <td class='docblock-short'>
+                                <p>An iterator over the labelettes of a domain name.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.NameLabels.html"
+                                  title='struct domain::bits::name::NameLabels'>NameLabels</a></td>
+                           <td class='docblock-short'>
+                                <p>An iterator over the labels in a domain name.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.ParsedDName.html"
+                                  title='struct domain::bits::name::ParsedDName'>ParsedDName</a></td>
+                           <td class='docblock-short'>
+                                <p>A domain name parsed from a DNS message.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PushError.html"
+                                  title='struct domain::bits::name::PushError'>PushError</a></td>
+                           <td class='docblock-short'>
+                                <p>An error happened while trying to append content to an owned domain name.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.StripSuffixError.html"
+                                  title='struct domain::bits::name::StripSuffixError'>StripSuffixError</a></td>
+                           <td class='docblock-short'>
+                                <p>An attempt was made to strip a suffix that wasn’t actually a suffix.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.FromStrError.html"
+                                  title='enum domain::bits::name::FromStrError'>FromStrError</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.LabelContent.html"
+                                  title='enum domain::bits::name::LabelContent'>LabelContent</a></td>
+                           <td class='docblock-short'>
+                                <p>The contents of a label.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Labelette.html"
+                                  title='enum domain::bits::name::Labelette'>Labelette</a></td>
+                           <td class='docblock-short'>
+                                <p>A labelette is an atomic label.</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.DName.html"
+                                  title='trait domain::bits::name::DName'>DName</a></td>
+                           <td class='docblock-short'>
+                                <p>A trait implemented by all domain name types.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

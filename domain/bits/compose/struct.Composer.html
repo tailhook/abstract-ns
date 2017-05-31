@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Composer` struct in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Composer">
+
+    <title>domain::bits::compose::Composer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>compose</a></p><script>window.sidebarCurrent = {name: 'Composer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>compose</a>::<wbr><a class="struct" href=''>Composer</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/compose.rs.html#84-107' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Composer { /* fields omitted */ }</pre><div class='docblock'><p>A type for assembling a wire-format DNS message.</p>
+
+<p>A composer can be created either anew with <a href="#method.new"><code>new()</code></a> or through
+<a href="#method.from_vec"><code>from_vec()</code></a> atop an existing vector that may already contain some data.
+In either case, a <a href="../enum.ComposeMode.html"><code>ComposeMode</code></a> is necessary to tell the composer what
+kind of message it is supposed to create.</p>
+
+<p>In particular, there is something called the <em>stream mode</em>, requested
+through <code>ComposeMode::Stream</code>, where a sixteen bit, big-endian length
+shim is prepended to the actual message as required for sending DNS
+messages over stream transports such as TCP. It’s value, however, is
+not constantly updated but only when <a href="#method.preview"><code>preview()</code></a> or <a href="#method.finish"><code>finish()</code></a> are
+called.</p>
+
+<p>A number of methods are available for adding data to the composer.
+Alternatively, types may implement <a href="../trait.Composable.html"><code>Composable</code></a> to acquire a
+<code>compose()</code> method themselves.</p>
+
+<p>Since it makes composing a lot easier, methods are available to update
+data added earlier. These are normally used to add length markers after
+the fact without always having to know the eventual size of data added.</p>
+
+<p>DNS messages that are sent over the wire are limited in size. If a
+message becomes to large, it has to be cut back to a well-known boundary
+and a truncation flag set in the header. To facilitate this process,
+a checkpoint can be set during composing. If the composition grows over
+the limit, it will be cut back to that checkpoint. Any further composing
+will fail.</p>
+
+<p>Note that size limits apply to the assembled message. If a composer is
+created atop an exisiting vector, the size of any earlier data is not
+considered.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#112-200' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='creation-and-finalization' class='section-header'><a href='#creation-and-finalization'>Creation and Finalization</a></h1></div><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(mode: <a class="enum" href="../../../domain/bits/compose/enum.ComposeMode.html" title="enum domain::bits::compose::ComposeMode">ComposeMode</a>, compress: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Creates a new composer.</p>
+
+<p>A possible prefix and the maximum size of the composed message are
+determined through <code>mode</code>. If <code>compress</code> is <code>true</code>, name compression
+will be available for domain names. Otherwise, all names will always
+be uncompressed.</p>
+</div><h4 id='method.from_vec' class="method"><span id='from_vec.v' class='invisible'><code>fn <a href='#method.from_vec' class='fnname'>from_vec</a>(vec: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;, mode: <a class="enum" href="../../../domain/bits/compose/enum.ComposeMode.html" title="enum domain::bits::compose::ComposeMode">ComposeMode</a>, compress: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Creates a new compose buffer based on an exisiting vector.</p>
+
+<p>The existing content of <code>vec</code> will be preserved and the actual DNS
+message will start after it.</p>
+
+<p>A possible prefix and the maximum size of the composed message are
+determined through <code>mode</code>. If <code>compress</code> is <code>true</code>, name compression
+will be available for domain names. Otherwise, all names will always
+be uncompressed.</p>
+</div><h4 id='method.finish' class="method"><span id='finish.v' class='invisible'><code>fn <a href='#method.finish' class='fnname'>finish</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></span></h4>
+<div class='docblock'><p>Finalizes the composition and returns the final data.</p>
+</div><h4 id='method.snapshot' class="method"><span id='snapshot.v' class='invisible'><code>fn <a href='#method.snapshot' class='fnname'>snapshot</a>(self) -&gt; <a class="struct" href="../../../domain/bits/compose/struct.ComposeSnapshot.html" title="struct domain::bits::compose::ComposeSnapshot">ComposeSnapshot</a></code></span></h4>
+<div class='docblock'><p>Returns a snapshot of the composer at its current position.</p>
+
+<p>If the snapshot is rolled back, the resulting composer will be
+exactly the same as <code>self</code> right now.</p>
+</div><h4 id='method.preview' class="method"><span id='preview.v' class='invisible'><code>fn <a href='#method.preview' class='fnname'>preview</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span></h4>
+<div class='docblock'><p>Returns a reference to the underlying vector as it looks now.</p>
+
+<p>This method updates the length shim in stream mode, hence the
+need for a <code>&amp;mut self</code>.</p>
+</div><h4 id='method.so_far' class="method"><span id='so_far.v' class='invisible'><code>fn <a href='#method.so_far' class='fnname'>so_far</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span></h4>
+<div class='docblock'><p>Returns the message bytes as far as they are assembled yet.</p>
+
+<p>The returned bytes slice really only contains the message bytes
+and neither whatever was contained in the vector with which the
+composer was posssibly created nor the length prefix of stream
+mode.</p>
+</div><h4 id='method.so_far_mut' class="method"><span id='so_far_mut.v' class='invisible'><code>fn <a href='#method.so_far_mut' class='fnname'>so_far_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;mut [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span></h4>
+<div class='docblock'><p>Returns the message bytes as far as they are assembled yet.</p>
+
+<p>The returned bytes slice really only contains the message bytes
+and neither whatever was contained in the vector with which the
+composer was posssibly created nor the length prefix of stream
+mode.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#205-245' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='working-with-positions' class='section-header'><a href='#working-with-positions'>Working with Positions</a></h1></div><div class='impl-items'><h4 id='method.pos' class="method"><span id='pos.v' class='invisible'><code>fn <a href='#method.pos' class='fnname'>pos</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h4>
+<div class='docblock'><p>Returns the current position.</p>
+
+<p>The returned value is identical to the current overall length of the
+underlying bytes vec.</p>
+</div><h4 id='method.start' class="method"><span id='start.v' class='invisible'><code>fn <a href='#method.start' class='fnname'>start</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h4>
+<div class='docblock'><p>Returns the position where the message starts.</p>
+
+<p>This is identical to having called <code>self.pos()</code> right after <code>self</code>
+was created.</p>
+</div><h4 id='method.delta' class="method"><span id='delta.v' class='invisible'><code>fn <a href='#method.delta' class='fnname'>delta</a>(&amp;self, pos: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h4>
+<div class='docblock'><p>Returns the length of data added since the given position.</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>Panics if <code>pos</code> is larger than the current position.</p>
+</div><h4 id='method.mark_checkpoint' class="method"><span id='mark_checkpoint.v' class='invisible'><code>fn <a href='#method.mark_checkpoint' class='fnname'>mark_checkpoint</a>(&amp;mut self)</code></span></h4>
+<div class='docblock'><p>Marks the current position as a point for truncation.</p>
+
+<p>If the length of the resulting message exceeds its predefined
+maximum size for the first time after a call to this method, the
+data will be cut back to the length it had when the method was
+called. If this happens, any further writing will fail.</p>
+</div><h4 id='method.is_truncated' class="method"><span id='is_truncated.v' class='invisible'><code>fn <a href='#method.is_truncated' class='fnname'>is_truncated</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the target has been truncated.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#250-356' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='composing' class='section-header'><a href='#composing'>Composing</a></h1></div><div class='impl-items'><h4 id='method.compose_bytes' class="method"><span id='compose_bytes.v' class='invisible'><code>fn <a href='#method.compose_bytes' class='fnname'>compose_bytes</a>(&amp;mut self, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Pushes a bytes slice to the end of the message.</p>
+</div><h4 id='method.compose_empty' class="method"><span id='compose_empty.v' class='invisible'><code>fn <a href='#method.compose_empty' class='fnname'>compose_empty</a>(&amp;mut self, len: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Pushes placeholder bytes to the end of the message.</p>
+
+<p>In particular, if successful, the message will have been extended
+by <code>len</code> octets of value zero,</p>
+</div><h4 id='method.compose_u8' class="method"><span id='compose_u8.v' class='invisible'><code>fn <a href='#method.compose_u8' class='fnname'>compose_u8</a>(&amp;mut self, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Pushes a single octet to the end of the message.</p>
+</div><h4 id='method.compose_u16' class="method"><span id='compose_u16.v' class='invisible'><code>fn <a href='#method.compose_u16' class='fnname'>compose_u16</a>(&amp;mut self, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Pushes an unsigned 16-bit word to the end of the message.</p>
+
+<p>Since DNS data is big-endian, <code>data</code> will be converted to that
+endianess if necessary.</p>
+</div><h4 id='method.compose_u32' class="method"><span id='compose_u32.v' class='invisible'><code>fn <a href='#method.compose_u32' class='fnname'>compose_u32</a>(&amp;mut self, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Pushes a unsigned 32-bit word to the end of the message.</p>
+
+<p>Since DNS data is big-endian, <code>data</code> will be converted to that
+endianess if necessary.</p>
+</div><h4 id='method.compose_dname' class="method"><span id='compose_dname.v' class='invisible'><code>fn <a href='#method.compose_dname' class='fnname'>compose_dname</a>&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>&gt;(&amp;mut self, name: &amp;N) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Pushes a domain name to the end of the message.</p>
+</div><h4 id='method.compose_dname_compressed' class="method"><span id='compose_dname_compressed.v' class='invisible'><code>fn <a href='#method.compose_dname_compressed' class='fnname'>compose_dname_compressed</a>&lt;N:&nbsp;<a class="trait" href="../../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>&gt;(&amp;mut self, name: &amp;N) -&gt; <a class="type" href="../../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;</code></span></h4>
+<div class='docblock'><p>Pushes a domain name to the end of the message using name compression.</p>
+
+<p>Since compression is only allowed in a few well-known places per
+<a href="https://tools.ietf.org/html/rfc1123">RFC 1123</a> and <a href="https://tools.ietf.org/html/rfc3597">RFC 3597</a>, this isn’t the default behaviour.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#438-485' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='updating-earlier-data' class='section-header'><a href='#updating-earlier-data'>Updating Earlier Data</a></h1></div><div class='impl-items'><h4 id='method.update_bytes' class="method"><span id='update_bytes.v' class='invisible'><code>fn <a href='#method.update_bytes' class='fnname'>update_bytes</a>(&amp;mut self, pos: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>)</code></span></h4>
+<div class='docblock'><p>Updates the bytes starting at the given position.</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>Panics if the bytes slice is longer than the data assembled since
+the given position.</p>
+</div><h4 id='method.update_u8' class="method"><span id='update_u8.v' class='invisible'><code>fn <a href='#method.update_u8' class='fnname'>update_u8</a>(&amp;mut self, pos: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>)</code></span></h4>
+<div class='docblock'><p>Updates the octet at the given position.</p>
+
+<h1 id='panics-2' class='section-header'><a href='#panics-2'>Panics</a></h1>
+<p>Panics if there has not been at least one byte of data assembled
+since the given position.</p>
+</div><h4 id='method.update_u16' class="method"><span id='update_u16.v' class='invisible'><code>fn <a href='#method.update_u16' class='fnname'>update_u16</a>(&amp;mut self, pos: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Updates an unsigned 16-bit word starting at the given position.</p>
+
+<h1 id='panics-3' class='section-header'><a href='#panics-3'>Panics</a></h1>
+<p>Panics if there has not been at least two bytes of data assembled
+since the given position.</p>
+</div><h4 id='method.update_u32' class="method"><span id='update_u32.v' class='invisible'><code>fn <a href='#method.update_u32' class='fnname'>update_u32</a>(&amp;mut self, pos: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></span></h4>
+<div class='docblock'><p>Updates an unsigned 32-bit word starting at the given position.</p>
+
+<h1 id='panics-4' class='section-header'><a href='#panics-4'>Panics</a></h1>
+<p>Panics if there has not been at least four bytes of data assembled
+since the given position.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#83' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#83' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>&gt; for <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#489-493' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.as_ref' class="method"><span id='as_ref.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html#tymethod.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; &amp;Self</code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsMut.html" title="trait core::convert::AsMut">AsMut</a>&lt;<a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>&gt; for <a class="struct" href="../../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/compose.rs.html#495-499' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.as_mut' class="method"><span id='as_mut.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.AsMut.html#tymethod.as_mut' class='fnname'>as_mut</a>(&amp;mut self) -&gt; &amp;mut Self</code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

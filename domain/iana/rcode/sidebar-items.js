@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["OptRcode","Extended DNS Response Codes for OPT records."],["Rcode","DNS Response Codes."],["TsigRcode","Response codes for transaction authentication (TSIG)."]]});

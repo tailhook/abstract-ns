@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SearchIter","An iterator gained from applying a search list to a domain name."]]});

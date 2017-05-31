@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["bits","DNS data."],["iana","IANA Definitions for DNS."],["master","Reading and writing of master files."],["rdata","Resource data implementations."],["resolv","An asynchronous stub resolver."],["utils","Various utility modules."]]});

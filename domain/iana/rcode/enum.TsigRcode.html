@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `TsigRcode` enum in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TsigRcode">
+
+    <title>domain::iana::rcode::TsigRcode - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>iana</a>::<wbr><a href='index.html'>rcode</a></p><script>window.sidebarCurrent = {name: 'TsigRcode', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>iana</a>::<wbr><a href='index.html'>rcode</a>::<wbr><a class="enum" href=''>TsigRcode</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#628-827' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum TsigRcode {
+    NoError,
+    FormErr,
+    ServFail,
+    NXDomain,
+    NotImp,
+    Refused,
+    YXDomain,
+    YXRRSet,
+    NXRRSet,
+    NotAuth,
+    NotZone,
+    BadSig,
+    BadKey,
+    BadTime,
+    BadMode,
+    BadName,
+    BadAlg,
+    BadTrunc,
+    BadCookie,
+    Int(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>),
+}</pre><div class='docblock'><p>Response codes for transaction authentication (TSIG).</p>
+
+<p>TSIG and TKEY resource records contain a 16 bit wide error field whose
+values are an extension of the standard DNS [<code>Rcode</code>]. While it was
+intended to also share the same space with the extended response codes
+used by EDNS (see <a href="enum.OptRcode.html"><code>OptRcode</code></a>), both used the value 16. To allow
+distinguish between the two uses of this value, we have two separate
+types.</p>
+
+<p>The values for all three response code types are defined in
+the <a href="http://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6">IANA DNS RCODEs</a> registry.</p>
+</div><h2 class='variants'>Variants</h2>
+<span id='variant.NoError' class='variant'><span id='NoError.v' class='invisible'><code>NoError</code></span></span><div class='docblock'><p>No error condition.</p>
+
+<p>(Otherwise known as success.)</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+</div><span id='variant.FormErr' class='variant'><span id='FormErr.v' class='invisible'><code>FormErr</code></span></span><div class='docblock'><p>Format error.</p>
+
+<p>The name server was unable to interpret the query.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+</div><span id='variant.ServFail' class='variant'><span id='ServFail.v' class='invisible'><code>ServFail</code></span></span><div class='docblock'><p>Server failure.</p>
+
+<p>The name server was unable to process this query due to a problem
+with the name server.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+</div><span id='variant.NXDomain' class='variant'><span id='NXDomain.v' class='invisible'><code>NXDomain</code></span></span><div class='docblock'><p>Name error.</p>
+
+<p>The domain name given in the query does not exist at the name server.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+</div><span id='variant.NotImp' class='variant'><span id='NotImp.v' class='invisible'><code>NotImp</code></span></span><div class='docblock'><p>Not implemented.</p>
+
+<p>The name server does not support the requested kind of query.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+</div><span id='variant.Refused' class='variant'><span id='Refused.v' class='invisible'><code>Refused</code></span></span><div class='docblock'><p>Query refused.</p>
+
+<p>The name server refused to perform the operation requested by the
+query for policy reasons.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>.</p>
+</div><span id='variant.YXDomain' class='variant'><span id='YXDomain.v' class='invisible'><code>YXDomain</code></span></span><div class='docblock'><p>Name exists when it should not.</p>
+
+<p>Returned for an UPDATE query when a domain requested to not exist
+does in fact exist.</p>
+
+<p>Returned when resolving a DNAME redirection when the resulting name
+exceeds the length of 255 octets.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2136">RFC 2136</a> for the UPDATE query and <a href="https://tools.ietf.org/html/rfc6672">RFC 6672</a> for DNAME
+redirection.</p>
+</div><span id='variant.YXRRSet' class='variant'><span id='YXRRSet.v' class='invisible'><code>YXRRSet</code></span></span><div class='docblock'><p>RR set exists when it should not.</p>
+
+<p>Returned for an UPDATE query when an RRset requested to not exist
+does in fact exist.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2136">RFC 2136</a>.</p>
+</div><span id='variant.NXRRSet' class='variant'><span id='NXRRSet.v' class='invisible'><code>NXRRSet</code></span></span><div class='docblock'><p>RR set that should exist does not.</p>
+
+<p>Returned for an UPDATE query when an RRset requested to exist
+does not.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2136">RFC 2136</a>.</p>
+</div><span id='variant.NotAuth' class='variant'><span id='NotAuth.v' class='invisible'><code>NotAuth</code></span></span><div class='docblock'><p>Server not authoritative for zone or client not authorized.</p>
+
+<p>Returned for an UPDATE query when the server is not an authoritative
+name server for the requested domain.</p>
+
+<p>Returned for queries using TSIG when authorisation failed.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2136">RFC 2136</a> for UPDATE and <a href="https://tools.ietf.org/html/rfc2845">RFC 2845</a> for TSIG.</p>
+</div><span id='variant.NotZone' class='variant'><span id='NotZone.v' class='invisible'><code>NotZone</code></span></span><div class='docblock'><p>Name not contained in zone.</p>
+
+<p>A name used in the prerequisite or update section is not within the
+zone given in the zone section.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2136">RFC 2136</a>.</p>
+</div><span id='variant.BadSig' class='variant'><span id='BadSig.v' class='invisible'><code>BadSig</code></span></span><div class='docblock'><p>TSIG signature failure.</p>
+
+<p>The TSIG signature fails to verify.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2845">RFC 2845</a>.</p>
+</div><span id='variant.BadKey' class='variant'><span id='BadKey.v' class='invisible'><code>BadKey</code></span></span><div class='docblock'><p>Key not recognized.</p>
+
+<p>The server did not recognize the key used for generating the
+signature.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2845">RFC 2845</a>.</p>
+</div><span id='variant.BadTime' class='variant'><span id='BadTime.v' class='invisible'><code>BadTime</code></span></span><div class='docblock'><p>Signature out of time window.</p>
+
+<p>The server time was outside the time interval specified by the
+request.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2845">RFC 2845</a>.</p>
+</div><span id='variant.BadMode' class='variant'><span id='BadMode.v' class='invisible'><code>BadMode</code></span></span><div class='docblock'><p>Bad TKEY mode.</p>
+
+<p>The mode field in a TKEY resource record contained a mode not
+supported by the server.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2930">RFC 2930</a>.</p>
+</div><span id='variant.BadName' class='variant'><span id='BadName.v' class='invisible'><code>BadName</code></span></span><div class='docblock'><p>Duplicate key name.</p>
+
+<p>In TKEY records, when establishing a new key, the name used already
+exists at the server or when deleting a key, a key of this name does
+not exist.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc2930">RFC 2930</a>.</p>
+</div><span id='variant.BadAlg' class='variant'><span id='BadAlg.v' class='invisible'><code>BadAlg</code></span></span><div class='docblock'><p>Algorithm not supported.</p>
+
+<p>The value is defined in <a href="https://tools.ietf.org/html/rfc2930">RFC 2930</a> but never actually explained.
+Presumably, it will be returned when the algorithm field of a TKEY
+record contains a value not supported by the server.</p>
+</div><span id='variant.BadTrunc' class='variant'><span id='BadTrunc.v' class='invisible'><code>BadTrunc</code></span></span><div class='docblock'><p>Bad truncation.</p>
+
+<p>A TSIG record was received with a MAC too short for the local
+policy in force.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc4635">RFC 4635</a>.</p>
+</div><span id='variant.BadCookie' class='variant'><span id='BadCookie.v' class='invisible'><code>BadCookie</code></span></span><div class='docblock'><p>Bad or missing server cookie.</p>
+
+<p>The request contained a COOKIE option either without a server cookie
+or with a server cookie that did not validate.</p>
+
+<p>Defined in <a href="https://tools.ietf.org/html/rfc7873">RFC 7873</a>.</p>
+</div><span id='variant.Int' class='variant'><span id='Int.v' class='invisible'><code>Int(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></span><div class='docblock'><p>A raw, integer rcode value.</p>
+
+<p>When converting to a 12 bit code, the upper four bits are simply
+ignored.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#830-886' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from_int' class="method"><span id='from_int.v' class='invisible'><code>fn <a href='#method.from_int' class='fnname'>from_int</a>(value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span></h4>
+<div class='docblock'><p>Creates an rcode from an integer.</p>
+</div><h4 id='method.to_int' class="method"><span id='to_int.v' class='invisible'><code>fn <a href='#method.to_int' class='fnname'>to_int</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the integer value for this rcode.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#627' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#627' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#627' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>&gt; for <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#891-893' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from' class="method"><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="enum" href="../../../domain/iana/rcode/enum.Rcode.html" title="enum domain::iana::rcode::Rcode">Rcode</a>&gt; for <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#899-903' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from-1' class="method"><span id='from.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(value: <a class="enum" href="../../../domain/iana/rcode/enum.Rcode.html" title="enum domain::iana::rcode::Rcode">Rcode</a>) -&gt; <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="enum" href="../../../domain/iana/rcode/enum.OptRcode.html" title="enum domain::iana::rcode::OptRcode">OptRcode</a>&gt; for <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#905-909' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from-2' class="method"><span id='from.v-2' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(value: <a class="enum" href="../../../domain/iana/rcode/enum.OptRcode.html" title="enum domain::iana::rcode::OptRcode">OptRcode</a>) -&gt; <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a> for <a class="enum" href="../../../domain/iana/rcode/enum.TsigRcode.html" title="enum domain::iana::rcode::TsigRcode">TsigRcode</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/rcode.rs.html#914-946' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class="method"><span id='fmt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

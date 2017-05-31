@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `bits` mod in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, bits">
+
+    <title>domain::bits - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>domain</a></p><script>window.sidebarCurrent = {name: 'bits', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>domain</a>::<wbr><a class="mod" href=''>bits</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/domain/bits/mod.rs.html#1-104' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>DNS data.</p>
+
+<p>This module provides types and traits for working with DNS data as well
+as parsing and composing wire-format DNS messages.</p>
+
+<h1 id='working-with-dns-data' class='section-header'><a href='#working-with-dns-data'>Working with DNS Data</a></h1>
+<p>The module contains abstractions for two concepts used in DNS data:
+domain names and character strings. In both cases, the supplied types
+internally contain the binary data and work directly on it. Similar 
+to raw bytes slices, there types for borrowed and owned domain names
+and character strings where the owned type derefs to the borrowed one.
+For domain names, these types are <a href="name/struct.DNameSlice.html"><code>DNameSlice</code></a> and <a href="name/struct.DNameBuf.html"><code>DNameBuf</code></a>;
+for character strings <a href="charstr/struct.CharStr.html"><code>CharStr</code></a> and <a href="charstr/struct.CharStrBuf.html"><code>CharStrBuf</code></a>.</p>
+
+<p>For domain names there is a third variant, <a href="name/struct.ParsedDName.html"><code>ParsedDName</code></a>. This type is
+necessary to represent compressed names where the remainder of a name is
+to be found elsewhere in the message. It avoids allocations when access
+to the entire name isn’t necessary.</p>
+
+<p>Traits are used when constructing composite types to allow them to work
+on borrowed and owned data as well as on parsed domain names. For
+character strings and raw bytes data, <code>AsRef&lt;CharStr&gt;</code> and <code>AsRef&lt;[u8]&gt;</code>
+are being used. For domain names, there is a separate trait, <a href="name/trait.DName.html"><code>DName</code></a>
+with the same purpose. However, its functionality is limited to the
+what parsed domain names can provide.</p>
+
+<p>A number of composite types are already defined: <a href="question/struct.Question.html"><code>Question</code></a> for
+the questions of a query, <a href="record/struct.Record.html"><code>Record</code></a> for resource records. </p>
+
+<p>Instead of having one big enum, the data of resource records is kept
+generic through two traits: <a href="rdata/trait.RecordData.html"><code>RecordData</code></a> provides functions common to
+all variants of record data types while <a href="rdata/trait.ParsedRecordData.html"><code>ParsedRecordData</code></a> adds
+the ability to construct a value from a wire-format message for those
+variants that can use borrowed data and parsed domain names. The actual
+types implementing these traits can by found in the crate’s <a href="../rdata/index.html">rdata</a>
+module.</p>
+
+<h1 id='parsing-and-composing-messages' class='section-header'><a href='#parsing-and-composing-messages'>Parsing and Composing Messages</a></h1>
+<p>In order to easily distinguish the process of creating and disecting
+wire-format messages from working with master files, we use the term
+<em>parsing</em> and <em>composing</em> for reading from and writing to wire-format
+data.</p>
+
+<p>Both parsing and composing happen on bytes buffers. This seems to be a
+reasonably good choice given the relatively small size of DNS messages and
+the complexities introduced by name compression. The details are
+explained in the <a href="parse/index.html">parse</a> and <a href="compose/index.html">compose</a> sub-modules. Unless you are
+implementing your own resource record types, you are unlikely to ever
+having to deal with parsing and composing directly.</p>
+
+<p>Instead, the types <a href="message/struct.Message.html"><code>Message</code></a> and <a href="message_builder/struct.MessageBuilder.html"><code>MessageBuilder</code></a> are there to make
+parsing and constructing DNS messages easy. A <a href="message/struct.Message.html"><code>Message</code></a> takes the
+binary data of a DNS message and allows iterating over its four
+sections to look at the questions and resource records. Similarly,
+a <a href="message_builder/struct.MessageBuilder.html"><code>MessageBuilder</code></a> takes a bytes vector (or creates one for you) and
+has functionality to build the sections of the message step-by-step.</p>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use self::<a class="mod"
+                                           href="./charstr/index.html">charstr</a>::<a class="struct" href="../../domain/bits/charstr/struct.CharStr.html" title="struct domain::bits::charstr::CharStr">CharStr</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./charstr/index.html">charstr</a>::<a class="struct" href="../../domain/bits/charstr/struct.CharStrBuf.html" title="struct domain::bits::charstr::CharStrBuf">CharStrBuf</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./compose/index.html">compose</a>::<a class="trait" href="../../domain/bits/compose/trait.Composable.html" title="trait domain::bits::compose::Composable">Composable</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./compose/index.html">compose</a>::<a class="struct" href="../../domain/bits/compose/struct.Composer.html" title="struct domain::bits::compose::Composer">Composer</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./compose/index.html">compose</a>::<a class="enum" href="../../domain/bits/compose/enum.ComposeError.html" title="enum domain::bits::compose::ComposeError">ComposeError</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./compose/index.html">compose</a>::<a class="enum" href="../../domain/bits/compose/enum.ComposeMode.html" title="enum domain::bits::compose::ComposeMode">ComposeMode</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./compose/index.html">compose</a>::<a class="type" href="../../domain/bits/compose/type.ComposeResult.html" title="type domain::bits::compose::ComposeResult">ComposeResult</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./compose/index.html">compose</a>::<a class="struct" href="../../domain/bits/compose/struct.ComposeSnapshot.html" title="struct domain::bits::compose::ComposeSnapshot">ComposeSnapshot</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./header/index.html">header</a>::<a class="struct" href="../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./header/index.html">header</a>::<a class="struct" href="../../domain/bits/header/struct.HeaderCounts.html" title="struct domain::bits::header::HeaderCounts">HeaderCounts</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./header/index.html">header</a>::<a class="struct" href="../../domain/bits/header/struct.HeaderSection.html" title="struct domain::bits::header::HeaderSection">HeaderSection</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./message/index.html">message</a>::<a class="struct" href="../../domain/bits/message/struct.Message.html" title="struct domain::bits::message::Message">Message</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./message/index.html">message</a>::<a class="struct" href="../../domain/bits/message/struct.MessageBuf.html" title="struct domain::bits::message::MessageBuf">MessageBuf</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./message_builder/index.html">message_builder</a>::<a class="struct" href="../../domain/bits/message_builder/struct.MessageBuilder.html" title="struct domain::bits::message_builder::MessageBuilder">MessageBuilder</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./message_builder/index.html">message_builder</a>::<a class="struct" href="../../domain/bits/message_builder/struct.AnswerBuilder.html" title="struct domain::bits::message_builder::AnswerBuilder">AnswerBuilder</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./message_builder/index.html">message_builder</a>::<a class="struct" href="../../domain/bits/message_builder/struct.AuthorityBuilder.html" title="struct domain::bits::message_builder::AuthorityBuilder">AuthorityBuilder</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./message_builder/index.html">message_builder</a>::<a class="struct" href="../../domain/bits/message_builder/struct.AdditionalBuilder.html" title="struct domain::bits::message_builder::AdditionalBuilder">AdditionalBuilder</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./parse/index.html">parse</a>::<a class="struct" href="../../domain/bits/parse/struct.Parser.html" title="struct domain::bits::parse::Parser">Parser</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./parse/index.html">parse</a>::<a class="enum" href="../../domain/bits/parse/enum.ParseError.html" title="enum domain::bits::parse::ParseError">ParseError</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./parse/index.html">parse</a>::<a class="type" href="../../domain/bits/parse/type.ParseResult.html" title="type domain::bits::parse::ParseResult">ParseResult</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./question/index.html">question</a>::<a class="struct" href="../../domain/bits/question/struct.Question.html" title="struct domain::bits::question::Question">Question</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rdata/index.html">rdata</a>::<a class="struct" href="../../domain/bits/rdata/struct.GenericRecordData.html" title="struct domain::bits::rdata::GenericRecordData">GenericRecordData</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rdata/index.html">rdata</a>::<a class="trait" href="../../domain/bits/rdata/trait.ParsedRecordData.html" title="trait domain::bits::rdata::ParsedRecordData">ParsedRecordData</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./rdata/index.html">rdata</a>::<a class="trait" href="../../domain/bits/rdata/trait.RecordData.html" title="trait domain::bits::rdata::RecordData">RecordData</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./record/index.html">record</a>::<a class="type" href="../../domain/bits/record/type.GenericRecord.html" title="type domain::bits::record::GenericRecord">GenericRecord</a>;</code></td></tr><tr><td><code>pub use self::<a class="mod"
+                                           href="./record/index.html">record</a>::<a class="struct" href="../../domain/bits/record/struct.Record.html" title="struct domain::bits::record::Record">Record</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="charstr/index.html"
+                                  title='mod domain::bits::charstr'>charstr</a></td>
+                           <td class='docblock-short'>
+                                <p>Character strings.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="compose/index.html"
+                                  title='mod domain::bits::compose'>compose</a></td>
+                           <td class='docblock-short'>
+                                <p>Assembling wire-format DNS data.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="header/index.html"
+                                  title='mod domain::bits::header'>header</a></td>
+                           <td class='docblock-short'>
+                                <p>The header of a DNS message.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="message/index.html"
+                                  title='mod domain::bits::message'>message</a></td>
+                           <td class='docblock-short'>
+                                <p>Accessing exisiting DNS messages.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="message_builder/index.html"
+                                  title='mod domain::bits::message_builder'>message_builder</a></td>
+                           <td class='docblock-short'>
+                                <p>Building a new message.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="name/index.html"
+                                  title='mod domain::bits::name'>name</a></td>
+                           <td class='docblock-short'>
+                                <p>Domain names.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="parse/index.html"
+                                  title='mod domain::bits::parse'>parse</a></td>
+                           <td class='docblock-short'>
+                                <p>Parsing of DNS wire-format data.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="question/index.html"
+                                  title='mod domain::bits::question'>question</a></td>
+                           <td class='docblock-short'>
+                                <p>A single question of a DNS message.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="rdata/index.html"
+                                  title='mod domain::bits::rdata'>rdata</a></td>
+                           <td class='docblock-short'>
+                                <p>Basic resource data handling.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="record/index.html"
+                                  title='mod domain::bits::record'>record</a></td>
+                           <td class='docblock-short'>
+                                <p>Resource Records</p>
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DNameBuf.html"
+                                  title='struct domain::bits::DNameBuf'>DNameBuf</a></td>
+                           <td class='docblock-short'>
+                                <p>An owned complete domain name.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DNameSlice.html"
+                                  title='struct domain::bits::DNameSlice'>DNameSlice</a></td>
+                           <td class='docblock-short'>
+                                <p>A slice of a domain name.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.ParsedDName.html"
+                                  title='struct domain::bits::ParsedDName'>ParsedDName</a></td>
+                           <td class='docblock-short'>
+                                <p>A domain name parsed from a DNS message.</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.DName.html"
+                                  title='trait domain::bits::DName'>DName</a></td>
+                           <td class='docblock-short'>
+                                <p>A trait implemented by all domain name types.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

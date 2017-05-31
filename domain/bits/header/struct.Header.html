@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Header` struct in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Header">
+
+    <title>domain::bits::header::Header - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>header</a></p><script>window.sidebarCurrent = {name: 'Header', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>bits</a>::<wbr><a href='index.html'>header</a>::<wbr><a class="struct" href=''>Header</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/bits/header.rs.html#56-61' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Header { /* fields omitted */ }</pre><div class='docblock'><p>The first part of the header of a DNS message.</p>
+
+<p>This type represents the information contained in the first four bytes of
+the header: the message ID, opcode, rcode, and the various flags.</p>
+
+<p>The header is layed out like this:</p>
+
+<pre><code class="language-text">                                1  1  1  1  1  1
+  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|                      ID                       |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+|QR|   Opcode  |AA|TC|RD|RA|Z |AD|CD|   RCODE   |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+</code></pre>
+
+<p>Methods are available for each of accessing each of these fields.
+See <a href="#field-access">Field Access</a> below.</p>
+
+<p>Most of this is defined in <a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>, except for the AD and CD flags,
+which are defined in <a href="https://tools.ietf.org/html/rfc4035">RFC 4035</a>.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#65-100' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='creation-and-conversion' class='section-header'><a href='#creation-and-conversion'>Creation and Conversion</a></h1></div><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span></h4>
+<div class='docblock'><p>Creates a new header.</p>
+
+<p>The new header has all fields as either zero or false. Thus, the
+opcode will be <code>Opcode::Query</code> and the response code will be
+<code>Rcode::NoError</code>.</p>
+</div><h4 id='method.from_message' class="method"><span id='from_message.v' class='invisible'><code>fn <a href='#method.from_message' class='fnname'>from_message</a>(s: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; &amp;<a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span></h4>
+<div class='docblock'><p>Creates a header reference from a bytes slice of a message.</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>This function panics if the bytes slice is too short.</p>
+</div><h4 id='method.from_message_mut' class="method"><span id='from_message_mut.v' class='invisible'><code>fn <a href='#method.from_message_mut' class='fnname'>from_message_mut</a>(s: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;mut [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; &amp;mut <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span></h4>
+<div class='docblock'><p>Creates a mutable header reference from a bytes slice of a message.</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>This function panics if the bytes slice is too short.</p>
+</div><h4 id='method.as_bytes' class="method"><span id='as_bytes.v' class='invisible'><code>fn <a href='#method.as_bytes' class='fnname'>as_bytes</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span></h4>
+<div class='docblock'><p>Returns a reference to the underlying bytes slice.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#105-256' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='field-access' class='section-header'><a href='#field-access'>Field Access</a></h1></div><div class='impl-items'><h4 id='method.id' class="method"><span id='id.v' class='invisible'><code>fn <a href='#method.id' class='fnname'>id</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the ID field.</p>
+
+<p>The ID field is an identifier chosen by whoever created a query
+and is copied into a response. It serves to match incoming responses
+to their request.</p>
+</div><h4 id='method.set_id' class="method"><span id='set_id.v' class='invisible'><code>fn <a href='#method.set_id' class='fnname'>set_id</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the ID field.</p>
+</div><h4 id='method.set_random_id' class="method"><span id='set_random_id.v' class='invisible'><code>fn <a href='#method.set_random_id' class='fnname'>set_random_id</a>(&amp;mut self)</code></span></h4>
+<div class='docblock'><p>Sets the value of the ID field to a randomly chosen number.</p>
+</div><h4 id='method.qr' class="method"><span id='qr.v' class='invisible'><code>fn <a href='#method.qr' class='fnname'>qr</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the QR bit is set.</p>
+
+<p>The QR bit specifies whether this message is a query (<code>false</code>) or
+a response (<code>true</code>). In other words, this bit is actually stating
+whether the message is <em>not</em> a query.</p>
+</div><h4 id='method.set_qr' class="method"><span id='set_qr.v' class='invisible'><code>fn <a href='#method.set_qr' class='fnname'>set_qr</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the QR bit.</p>
+</div><h4 id='method.opcode' class="method"><span id='opcode.v' class='invisible'><code>fn <a href='#method.opcode' class='fnname'>opcode</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/iana/opcode/enum.Opcode.html" title="enum domain::iana::opcode::Opcode">Opcode</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the Opcode field.</p>
+
+<p>This field specifies the kind of query this message contains. See
+the <a href="../../iana/opcode/enum.Opcode.html"><code>Opcode</code></a> type for more information on the possible values and
+their meaning. Normal queries have the variant <a href="../../iana/opcode/enum.Opcode.html#variant.Query"><code>Opcode::Query</code></a>
+which is also the value set when creating a new header.</p>
+</div><h4 id='method.set_opcode' class="method"><span id='set_opcode.v' class='invisible'><code>fn <a href='#method.set_opcode' class='fnname'>set_opcode</a>(&amp;mut self, opcode: <a class="enum" href="../../../domain/iana/opcode/enum.Opcode.html" title="enum domain::iana::opcode::Opcode">Opcode</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the opcode field.</p>
+</div><h4 id='method.aa' class="method"><span id='aa.v' class='invisible'><code>fn <a href='#method.aa' class='fnname'>aa</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the AA bit is set.</p>
+
+<p>Using this bit, a name server generating a response states whether
+it is authoritative for the requested domain name, ie., whether this
+response is an <em>authoritative answer.</em> The field has no meaning in 
+a query.</p>
+</div><h4 id='method.set_aa' class="method"><span id='set_aa.v' class='invisible'><code>fn <a href='#method.set_aa' class='fnname'>set_aa</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the AA bit.</p>
+</div><h4 id='method.tc' class="method"><span id='tc.v' class='invisible'><code>fn <a href='#method.tc' class='fnname'>tc</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the TC bit is set.</p>
+
+<p>The <em>truncation</em> bit is set if there was more data available then
+fit into the message. This is typically used when employing
+datagram transports such as UDP to signal to try again using a
+stream transport such as TCP.</p>
+</div><h4 id='method.set_tc' class="method"><span id='set_tc.v' class='invisible'><code>fn <a href='#method.set_tc' class='fnname'>set_tc</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the TC bit.</p>
+</div><h4 id='method.rd' class="method"><span id='rd.v' class='invisible'><code>fn <a href='#method.rd' class='fnname'>rd</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the RD bit is set.</p>
+
+<p>The <em>recursion desired</em> bit may be set in a query to ask the name
+server to try and recursively gather a response if it doesn’t have
+the data available locally. The bit’s value is copied into the
+response.</p>
+</div><h4 id='method.set_rd' class="method"><span id='set_rd.v' class='invisible'><code>fn <a href='#method.set_rd' class='fnname'>set_rd</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the RD bit.</p>
+</div><h4 id='method.ra' class="method"><span id='ra.v' class='invisible'><code>fn <a href='#method.ra' class='fnname'>ra</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the RA bit is set.</p>
+
+<p>In a response, the <em>recursion available</em> bit denotes whether the
+responding name server supports recursion. It has no meaning in
+a query.</p>
+</div><h4 id='method.set_ra' class="method"><span id='set_ra.v' class='invisible'><code>fn <a href='#method.set_ra' class='fnname'>set_ra</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the RA bit.</p>
+</div><h4 id='method.z' class="method"><span id='z.v' class='invisible'><code>fn <a href='#method.z' class='fnname'>z</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the reserved bit is set.</p>
+
+<p>This bit must be <code>false</code> in all queries and responses.</p>
+</div><h4 id='method.set_z' class="method"><span id='set_z.v' class='invisible'><code>fn <a href='#method.set_z' class='fnname'>set_z</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the reserved bit.</p>
+</div><h4 id='method.ad' class="method"><span id='ad.v' class='invisible'><code>fn <a href='#method.ad' class='fnname'>ad</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the AD bit is set.</p>
+
+<p>The <em>authentic data</em> bit is used by security-aware recursive name
+servers to indicate that it considers all RRsets in its response to
+be authentic.</p>
+</div><h4 id='method.set_ad' class="method"><span id='set_ad.v' class='invisible'><code>fn <a href='#method.set_ad' class='fnname'>set_ad</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the AD bit.</p>
+</div><h4 id='method.cd' class="method"><span id='cd.v' class='invisible'><code>fn <a href='#method.cd' class='fnname'>cd</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>Returns whether the CD bit is set.</p>
+
+<p>The <em>checking disabled</em> bit is used by security-aware resolvers
+to indicate that it does not want upstream name servers to perform
+verification but rather would like to verify everything itself.</p>
+</div><h4 id='method.set_cd' class="method"><span id='set_cd.v' class='invisible'><code>fn <a href='#method.set_cd' class='fnname'>set_cd</a>(&amp;mut self, set: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the CD bit.</p>
+</div><h4 id='method.rcode' class="method"><span id='rcode.v' class='invisible'><code>fn <a href='#method.rcode' class='fnname'>rcode</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/iana/rcode/enum.Rcode.html" title="enum domain::iana::rcode::Rcode">Rcode</a></code></span></h4>
+<div class='docblock'><p>Returns the value of the RCODE field.</p>
+
+<p>The <em>response code</em> is used in a response to indicate what happened
+when processing the query. See the <a href="../../iana/rcode/enum.Rcode.html"><code>Rcode</code></a> type for information on
+possible values and their meaning.</p>
+</div><h4 id='method.set_rcode' class="method"><span id='set_rcode.v' class='invisible'><code>fn <a href='#method.set_rcode' class='fnname'>set_rcode</a>(&amp;mut self, rcode: <a class="enum" href="../../../domain/iana/rcode/enum.Rcode.html" title="enum domain::iana::rcode::Rcode">Rcode</a>)</code></span></h4>
+<div class='docblock'><p>Sets the value of the RCODE field.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#55' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#55' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#55' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/bits/header.rs.html#55' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../../domain/bits/header/struct.Header.html" title="struct domain::bits::header::Header">Header</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

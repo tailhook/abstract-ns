@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `SecAlg` enum in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, SecAlg">
+
+    <title>domain::iana::secalg::SecAlg - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>iana</a>::<wbr><a href='index.html'>secalg</a></p><script>window.sidebarCurrent = {name: 'SecAlg', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>domain</a>::<wbr><a href='../index.html'>iana</a>::<wbr><a href='index.html'>secalg</a>::<wbr><a class="enum" href=''>SecAlg</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#13-101' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum SecAlg {
+    RsaMd5,
+    Dh,
+    Dsa,
+    RsaSha1,
+    DsaNsec3Sha1,
+    RsaSha1Nsec3Sha1,
+    RsaSha256,
+    RsaSha512,
+    EccGost,
+    EcdsaP256Sha256,
+    EcdsaP384Sha384,
+    Indirect,
+    PrivateDns,
+    PrivateOid,
+    Int(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>),
+}</pre><div class='docblock'><p>See <a href="http://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml#dns-sec-alg-numbers-1">http://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml#dns-sec-alg-numbers-1</a></p>
+</div><h2 class='variants'>Variants</h2>
+<span id='variant.RsaMd5' class='variant'><span id='RsaMd5.v' class='invisible'><code>RsaMd5</code></span></span><div class='docblock'><p>RSA/MD5</p>
+
+<p>This algorithm was described in RFC 2537 and since has been
+deprecated due to weaknesses of the MD5 hash algorithm by RFC 3110
+which suggests to use RSA/SHA1 instead.</p>
+
+<p>This algorithm may not be used for zone signing but may be used
+for transaction security.</p>
+</div><span id='variant.Dh' class='variant'><span id='Dh.v' class='invisible'><code>Dh</code></span></span><div class='docblock'><p>Diffie-Hellman</p>
+
+<p>This algorithm is described in RFC 2539 for storing Diffie-Hellman
+(DH) keys in DNS resource records. It can not be used for zone
+signing but only for transaction security.</p>
+</div><span id='variant.Dsa' class='variant'><span id='Dsa.v' class='invisible'><code>Dsa</code></span></span><div class='docblock'><p>DSA/SHA1</p>
+
+<p>This algorithm is described in RFC 2536. It may be used both for
+zone signing and transaction security.</p>
+</div><span id='variant.RsaSha1' class='variant'><span id='RsaSha1.v' class='invisible'><code>RsaSha1</code></span></span><div class='docblock'><p>RSA/SHA-1</p>
+
+<p>This algorithm is described in RFC 3110. It may be used both for
+zone signing and transaction security. It is mandatory for DNSSEC
+implementations.</p>
+</div><span id='variant.DsaNsec3Sha1' class='variant'><span id='DsaNsec3Sha1.v' class='invisible'><code>DsaNsec3Sha1</code></span></span><div class='docblock'><p>DSA-NSEC3-SHA1</p>
+
+<p>This value is an alias for <code>Dsa</code> for use within NSEC3 records.</p>
+</div><span id='variant.RsaSha1Nsec3Sha1' class='variant'><span id='RsaSha1Nsec3Sha1.v' class='invisible'><code>RsaSha1Nsec3Sha1</code></span></span><div class='docblock'><p>RSASHA1-NSEC3-SHA1</p>
+
+<p>This value is an alias for <code>RsaSha1</code> for use within NSEC3 records.</p>
+</div><span id='variant.RsaSha256' class='variant'><span id='RsaSha256.v' class='invisible'><code>RsaSha256</code></span></span><div class='docblock'><p>RSA/SHA-256</p>
+
+<p>This algorithm is described in RFC 5702. It may be used for zone
+signing only.</p>
+</div><span id='variant.RsaSha512' class='variant'><span id='RsaSha512.v' class='invisible'><code>RsaSha512</code></span></span><div class='docblock'><p>RSA/SHA-512</p>
+
+<p>This algorithm is described in RFC 5702. It may be used for zone
+signing only.</p>
+</div><span id='variant.EccGost' class='variant'><span id='EccGost.v' class='invisible'><code>EccGost</code></span></span><div class='docblock'><p>GOST R 34.10-2001</p>
+
+<p>This algorithm is described in RFC 5933. It may be used for zone
+signing only.</p>
+</div><span id='variant.EcdsaP256Sha256' class='variant'><span id='EcdsaP256Sha256.v' class='invisible'><code>EcdsaP256Sha256</code></span></span><div class='docblock'><p>ECDSA Curve P-256 with SHA-256</p>
+
+<p>This algorithm is described in RFC 6605. It may be used for zone
+signing only.</p>
+</div><span id='variant.EcdsaP384Sha384' class='variant'><span id='EcdsaP384Sha384.v' class='invisible'><code>EcdsaP384Sha384</code></span></span><div class='docblock'><p>ECDSA Curve P-384 with SHA-384</p>
+
+<p>This algorithm is described in RFC 6605. It may be used for zone
+signing only.</p>
+</div><span id='variant.Indirect' class='variant'><span id='Indirect.v' class='invisible'><code>Indirect</code></span></span><div class='docblock'><p>Reserved for Indirect Keys</p>
+
+<p>This value is reserved by RFC 4034.</p>
+</div><span id='variant.PrivateDns' class='variant'><span id='PrivateDns.v' class='invisible'><code>PrivateDns</code></span></span><div class='docblock'><p>A private algorithm identified by a domain name.</p>
+
+<p>This value is defined in RFC 4034.</p>
+</div><span id='variant.PrivateOid' class='variant'><span id='PrivateOid.v' class='invisible'><code>PrivateOid</code></span></span><div class='docblock'><p>A private algorithm identified by a ISO OID.</p>
+
+<p>This value is defined in RFC 4034.</p>
+</div><span id='variant.Int' class='variant'><span id='Int.v' class='invisible'><code>Int(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>)</code></span></span><div class='docblock'><p>A raw algorithm value given through its integer value.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#103-149' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from_int' class="method"><span id='from_int.v' class='invisible'><code>fn <a href='#method.from_int' class='fnname'>from_int</a>(value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span></h4>
+<div class='docblock'><p>Returns the algorithm value for the given integer value.</p>
+</div><h4 id='method.to_int' class="method"><span id='to_int.v' class='invisible'><code>fn <a href='#method.to_int' class='fnname'>to_int</a>(self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a></code></span></h4>
+<div class='docblock'><p>Returns the integer value for this algorithm value.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#12' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html" title="trait core::marker::Copy">Copy</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#12' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#12' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt; for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#154-158' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from' class="method"><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html" title="trait core::str::FromStr">FromStr</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#169-207' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Err' class="type"><span id='Err.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#associatedtype.Err' class="type">Err</a> = <a class="struct" href="../../../domain/iana/secalg/struct.FromStrError.html" title="struct domain::iana::secalg::FromStrError">FromStrError</a></code></span></h4>
+<div class='docblock'><p>The associated error which can be returned from parsing.</p>
+</div><h4 id='method.from_str' class="method"><span id='from_str.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#tymethod.from_str' class='fnname'>from_str</a>(s: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="trait" href="https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html" title="trait core::str::FromStr">Err</a>&gt;</code></span></h4>
+<div class='docblock'><p>Returns the algorithm value for the given string.</p>
+
+<p>Recognized are the mnemonics equivalent to the algorithm number not
+regarding case as well as decimal integer numbers.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html" title="trait core::fmt::Display">Display</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#212-239' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class="method"><span id='fmt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#244-248' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt; for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#250-254' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq-1' class="method"><span id='eq.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne-1' class="method"><span id='ne.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#262' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html" title="trait core::cmp::PartialOrd">PartialOrd</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#267-271' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.partial_cmp' class="method"><span id='partial_cmp.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;<a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a>&gt;</code></span></h4>
+<div class='docblock'><p>This method returns an ordering between <code>self</code> and <code>other</code> values if one exists. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp">Read more</a></p>
+</div><h4 id='method.lt' class="method"><span id='lt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt">Read more</a></p>
+</div><h4 id='method.le' class="method"><span id='le.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le">Read more</a></p>
+</div><h4 id='method.gt' class="method"><span id='gt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt">Read more</a></p>
+</div><h4 id='method.ge' class="method"><span id='ge.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html" title="trait core::cmp::PartialOrd">PartialOrd</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt; for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#273-277' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.partial_cmp-1' class="method"><span id='partial_cmp.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a>&gt;</code></span></h4>
+<div class='docblock'><p>This method returns an ordering between <code>self</code> and <code>other</code> values if one exists. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#tymethod.partial_cmp">Read more</a></p>
+</div><h4 id='method.lt-1' class="method"><span id='lt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.lt">Read more</a></p>
+</div><h4 id='method.le-1' class="method"><span id='le.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests less than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&lt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.le">Read more</a></p>
+</div><h4 id='method.gt-1' class="method"><span id='gt.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.gt">Read more</a></p>
+</div><h4 id='method.ge-1' class="method"><span id='ge.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;Rhs) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>This method tests greater than or equal to (for <code>self</code> and <code>other</code>) and is used by the <code>&gt;=</code> operator. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html#method.ge">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord">Ord</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#285-289' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.cmp' class="method"><span id='cmp.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html#tymethod.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;<a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering">Ordering</a></code></span></h4>
+<div class='docblock'><p>This method returns an <code>Ordering</code> between <code>self</code> and <code>other</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html#tymethod.cmp">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> for <a class="enum" href="../../../domain/iana/secalg/enum.SecAlg.html" title="enum domain::iana::secalg::SecAlg">SecAlg</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/domain/iana/secalg.rs.html#294-298' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.hash' class="method"><span id='hash.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#tymethod.hash' class='fnname'>hash</a>&lt;H:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a>&gt;(&amp;self, state: &amp;mut H)</code></span></h4>
+<div class='docblock'><p>Feeds this value into the state given, updating the hasher as necessary.</p>
+</div><h4 id='method.hash_slice' class="method"><span id='hash_slice.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[Self]</a>, state: &amp;mut H) <span class="where fmt-newline">where H: <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a></span></code><div class='since' title='Stable since Rust version 1.3.0'>1.3.0</div></span></h4>
+<div class='docblock'><p>Feeds a slice of this type into the state provided.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

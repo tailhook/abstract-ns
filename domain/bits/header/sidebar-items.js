@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Header","The first part of the header of a DNS message."],["HeaderCounts","The section count part of the header section of a DNS message."],["HeaderSection","The complete header section of a DNS message."]]});

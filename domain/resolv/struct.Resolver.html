@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Resolver` struct in crate `domain`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Resolver">
+
+    <title>domain::resolv::Resolver - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>domain</a>::<wbr><a href='index.html'>resolv</a></p><script>window.sidebarCurrent = {name: 'Resolver', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>domain</a>::<wbr><a href='index.html'>resolv</a>::<wbr><a class="struct" href=''>Resolver</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/domain/resolv/public.rs.html#47' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Resolver(_);</pre><div class='docblock'><p>Access to a DNS resolver.</p>
+
+<p>This type collects all information making it possible to start DNS
+queries. You can create a new resoler using the system’s configuration
+using the <a href="#method.new"><code>new()</code></a> associate function or using your own configuration
+with <a href="#method.from_conf"><code>from_conf()</code></a>. Either function will spawn everything necessary
+into a tokio_core reactor core represented by a handle.</p>
+
+<p>Resolver values can be cloned relatively cheaply as they keep all
+information behind an arc. This is may already be useful when starting
+a query using the <a href="#method.query"><code>query()</code></a> method. Since queries need their own copy
+of resolver, the method consumes the resolver leaving it to clone it if
+you need it later on or saving a clone if you don’t.</p>
+
+<p>If you want to run a single query or lookup on a resolver synchronously,
+you can safe yourself all the boiler plate of creating a reactor core
+(even if this is nowhere near as dangerous as it sounds) and resolver by
+using the <a href="#method.run"><code>run()</code></a> or <a href="#method.run_with_conf"><code>run_with_conf()</code></a> associated functions.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../domain/resolv/struct.Resolver.html" title="struct domain::resolv::Resolver">Resolver</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/resolv/public.rs.html#62-128' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(reactor: &amp;<a class="struct" href="../../tokio_core/reactor/struct.Handle.html" title="struct tokio_core::reactor::Handle">Handle</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Creates a new resolver using the system’s default configuration.</p>
+
+<p>All the networking components of the resolver will be spawned into
+the reactor core referenced by <code>reactor</code>.</p>
+</div><h4 id='method.from_conf' class="method"><span id='from_conf.v' class='invisible'><code>fn <a href='#method.from_conf' class='fnname'>from_conf</a>(reactor: &amp;<a class="struct" href="../../tokio_core/reactor/struct.Handle.html" title="struct tokio_core::reactor::Handle">Handle</a>, conf: <a class="struct" href="../../domain/resolv/conf/struct.ResolvConf.html" title="struct domain::resolv::conf::ResolvConf">ResolvConf</a>) -&gt; Self</code></span></h4>
+<div class='docblock'><p>Creates a new resolver using the given configuration.</p>
+
+<p>All the components of the resolver will be spawned into the reactor
+referenced by <code>reactor</code>.</p>
+</div><h4 id='method.query' class="method"><span id='query.v' class='invisible'><code>fn <a href='#method.query' class='fnname'>query</a>&lt;N, Q&gt;(self, question: Q) -&gt; <a class="struct" href="../../domain/resolv/struct.Query.html" title="struct domain::resolv::Query">Query</a> <span class="where fmt-newline">where N: <a class="trait" href="../../domain/bits/name/trait.DName.html" title="trait domain::bits::name::DName">DName</a>, Q: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="../../domain/bits/question/struct.Question.html" title="struct domain::bits::question::Question">Question</a>&lt;N&gt;&gt;</span></code></span></h4>
+<div class='docblock'><p>Trades the resolver for a DNS query.</p>
+
+<p>This starts a query for something that can be turned into a question.
+In particular, both a tripel of a domain name, record type, and class
+as well as a pair of domain name and record type can be turned into
+a question, the latter assuming the class IN.</p>
+
+<p>If you need to keep the resolver, clone it before calling <code>query()</code>.</p>
+</div><h4 id='method.conf' class="method"><span id='conf.v' class='invisible'><code>fn <a href='#method.conf' class='fnname'>conf</a>(&amp;self) -&gt; &amp;<a class="struct" href="../../domain/resolv/conf/struct.ResolvConf.html" title="struct domain::resolv::conf::ResolvConf">ResolvConf</a></code></span></h4>
+<div class='docblock'><p>Returns a reference to the configuration of this resolver.</p>
+</div><h4 id='method.options' class="method"><span id='options.v' class='invisible'><code>fn <a href='#method.options' class='fnname'>options</a>(&amp;self) -&gt; &amp;<a class="struct" href="../../domain/resolv/conf/struct.ResolvOptions.html" title="struct domain::resolv::conf::ResolvOptions">ResolvOptions</a></code></span></h4>
+<div class='docblock'><p>Returns a reference to the configuration options of this resolver.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../domain/resolv/struct.Resolver.html" title="struct domain::resolv::Resolver">Resolver</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/resolv/public.rs.html#132-164' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'>
+<h1 id='shortcuts' class='section-header'><a href='#shortcuts'>Shortcuts</a></h1></div><div class='impl-items'><h4 id='method.run' class="method"><span id='run.v' class='invisible'><code>fn <a href='#method.run' class='fnname'>run</a>&lt;R, F&gt;(op: F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;R::<a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Item</a>, R::<a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Error</a>&gt; <span class="where fmt-newline">where R: <a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Future</a>, R::<a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Error</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a>&gt;, F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="struct" href="../../domain/resolv/struct.Resolver.html" title="struct domain::resolv::Resolver">Resolver</a>) -&gt; R</span></code></span></h4>
+<div class='docblock'><p>Synchronously perform a DNS operation atop a standard resolver.</p>
+
+<p>This associated functions removes almost all boiler plate for the
+case that you want to perform some DNS operation, either a query or
+lookup, on a resolver using the system’s configuration and wait for
+the result.</p>
+
+<p>The only argument is a closure taking a <code>Resolver</code> and returning a
+future. Whatever that future resolves to will be returned.</p>
+</div><h4 id='method.run_with_conf' class="method"><span id='run_with_conf.v' class='invisible'><code>fn <a href='#method.run_with_conf' class='fnname'>run_with_conf</a>&lt;R, F&gt;(conf: <a class="struct" href="../../domain/resolv/conf/struct.ResolvConf.html" title="struct domain::resolv::conf::ResolvConf">ResolvConf</a>, op: F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;R::<a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Item</a>, R::<a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Error</a>&gt; <span class="where fmt-newline">where R: <a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Future</a>, R::<a class="trait" href="../../futures/future/trait.Future.html" title="trait futures::future::Future">Error</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a>&gt;, F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html" title="trait core::ops::FnOnce">FnOnce</a>(<a class="struct" href="../../domain/resolv/struct.Resolver.html" title="struct domain::resolv::Resolver">Resolver</a>) -&gt; R</span></code></span></h4>
+<div class='docblock'><p>Synchronously perform a DNS operation atop a configuredresolver.</p>
+
+<p>This is like <a href="#method.run"><code>run()</code></a> but also takes a resolver configuration for
+tailor-making your own resolver.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../domain/resolv/struct.Resolver.html" title="struct domain::resolv::Resolver">Resolver</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/resolv/public.rs.html#46' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../domain/resolv/struct.Resolver.html" title="struct domain::resolv::Resolver">Resolver</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../domain/resolv/struct.Resolver.html" title="struct domain::resolv::Resolver">Resolver</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/domain/resolv/public.rs.html#46' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "domain";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

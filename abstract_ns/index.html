@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `abstract_ns` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, abstract_ns">
+
+    <title>abstract_ns - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'abstract_ns', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>abstract_ns</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/abstract_ns/lib.rs.html#1-57' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Abstract traits for name service library</p>
+
+<p>Here are small breakdown:</p>
+
+<ul>
+<li><code>Name</code> is currently an alias to <code>&amp;str</code> (but it may change in future)</li>
+<li><code>Address</code> is a structure which address resolves to. It&#39;s more than just
+a <code>SocketAddr</code> you have used to, but there is <code>Address::pick_one()</code>
+which does quick and dirty solution</li>
+<li><code>Resolver</code> is a structure which is a configured resolver. You may use
+many different resolvers in your application.
+Use <code>Resolver::resolve(name)</code> to get a future <code>Resolver::subscribe(name)</code>
+to get a stream of updates.</li>
+<li><code>MemResolver</code> is an in-memory hash table for addresses you may use for
+tests</li>
+<li><code>Router</code> is a way to specify different sources for different names, for
+example serve <code>*.consul</code> from local consul, other things from
+conventional DNS servers</li>
+</ul>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Address.html"
+                                  title='struct abstract_ns::Address'>Address</a></td>
+                           <td class='docblock-short'>
+                                <p>Address that nameservice has returned</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.AddressBuilder.html"
+                                  title='struct abstract_ns::AddressBuilder'>AddressBuilder</a></td>
+                           <td class='docblock-short'>
+                                <p>A builder interface for <code>Address</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.AddressIter.html"
+                                  title='struct abstract_ns::AddressIter'>AddressIter</a></td>
+                           <td class='docblock-short'>
+                                <p>Iterates over individual SocketAddr&#39;s (IPs) in the WeightedSet (i.e. a
+set of addresses having the same priority).</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.MemResolver.html"
+                                  title='struct abstract_ns::MemResolver'>MemResolver</a></td>
+                           <td class='docblock-short'>
+                                <p>A stub resolver that resolves names from in-memory hash table</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PriorityIter.html"
+                                  title='struct abstract_ns::PriorityIter'>PriorityIter</a></td>
+                           <td class='docblock-short'>
+                                <p>Iterator over <code>Address</code> that returns a set of addresses of the same
+priority on each iteration</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Router.html"
+                                  title='struct abstract_ns::Router'>Router</a></td>
+                           <td class='docblock-short'>
+                                <p>A helper which allows to resolve different names by different means</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RouterBuilder.html"
+                                  title='struct abstract_ns::RouterBuilder'>RouterBuilder</a></td>
+                           <td class='docblock-short'>
+                                <p>A builder/fluent interface to create a <code>Router</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.StaticStream.html"
+                                  title='struct abstract_ns::StaticStream'>StaticStream</a></td>
+                           <td class='docblock-short'>
+                                <p>A stream that resolves to a static addresss and never updates</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Union.html"
+                                  title='struct abstract_ns::Union'>Union</a></td>
+                           <td class='docblock-short'>
+                                <p>Represents a stream that is the result of <code>union_stream()</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.WeightedSet.html"
+                                  title='struct abstract_ns::WeightedSet'>WeightedSet</a></td>
+                           <td class='docblock-short'>
+                                <p>A structure that represents a set of addresses of the same priority</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Error.html"
+                                  title='enum abstract_ns::Error'>Error</a></td>
+                           <td class='docblock-short'>
+                                <p>A generic name resolution error</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.Resolver.html"
+                                  title='trait abstract_ns::Resolver'>Resolver</a></td>
+                           <td class='docblock-short'>
+                                <p>Main trait that does name resolution</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.union_addresses.html"
+                                  title='fn abstract_ns::union_addresses'>union_addresses</a></td>
+                           <td class='docblock-short'>
+                                <p>Union <code>Address</code> values into another address</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.union_stream.html"
+                                  title='fn abstract_ns::union_stream'>union_stream</a></td>
+                           <td class='docblock-short'>
+                                <p>Get the stream that emits address that is a union (superset) of all
+adderesses of underlying streams</p>
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="type" href="type.Name.html"
+                                  title='type abstract_ns::Name'>Name</a></td>
+                           <td class='docblock-short'>
+                                <p>A type alias that represents a name resolved by a name service</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="type" href="type.Weight.html"
+                                  title='type abstract_ns::Weight'>Weight</a></td>
+                           <td class='docblock-short'>
+                                <p>A type alias for a weight for each name in an address</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "abstract_ns";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
