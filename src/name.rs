@@ -39,6 +39,17 @@ struct Impl {
 #[derive(Debug, Eq, PartialEq, PartialOrd, Ord, Hash, Clone)]
 pub struct Name(Arc<Impl>);
 
+impl Name {
+    /// Returns hostname part of the name
+    pub fn host(&self) -> &str {
+        &self.0.host
+    }
+    /// Returns default port
+    pub fn default_port(&self) -> Option<u16> {
+        self.0.default_port
+    }
+}
+
 impl FromStr for Name {
     type Err = Error;
     fn from_str(value: &str) -> Result<Name, Error> {
@@ -123,6 +134,36 @@ mod test {
         assert_eq!(name_str("localhost"), bare("localhost"));
         assert_eq!(name_str("host.name.org"), bare("host.name.org"));
         assert_eq!(name_str("name.root."), bare("name.root."));
+    }
+
+    #[test]
+    fn display() {
+        assert_eq!(bare("localhost").to_string(), "localhost");
+        assert_eq!(bare("name.example.org.").to_string(), "name.example.org.");
+        assert_eq!(bare("name.example.org").to_string(), "name.example.org");
+        assert_eq!(full("name", 123).to_string(), "name:123");
+        assert_eq!(full("name.org", 2354).to_string(), "name.org:2354");
+        assert_eq!(full("name.org.", 2354).to_string(), "name.org.:2354");
+    }
+
+    #[test]
+    fn host() {
+        assert_eq!(bare("localhost").host(), "localhost");
+        assert_eq!(bare("name.example.org.").host(), "name.example.org.");
+        assert_eq!(bare("name.example.org").host(), "name.example.org");
+        assert_eq!(full("name", 123).host(), "name");
+        assert_eq!(full("name.org", 2354).host(), "name.org");
+        assert_eq!(full("name.org.", 2354).host(), "name.org.");
+    }
+
+    #[test]
+    fn port() {
+        assert_eq!(bare("localhost").default_port(), None);
+        assert_eq!(bare("name.example.org.").default_port(), None);
+        assert_eq!(bare("name.example.org").default_port(), None);
+        assert_eq!(full("name", 123).default_port(), Some(123));
+        assert_eq!(full("name.org", 2354).default_port(), Some(2354));
+        assert_eq!(full("name.org.", 2354).default_port(), Some(2354));
     }
 
     #[test]
