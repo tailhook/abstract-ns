@@ -4,7 +4,7 @@ extern crate abstract_ns;
 
 use futures::{Future};
 use futures::stream::{Stream};
-use abstract_ns::{MemResolver, Resolver};
+use abstract_ns::{Resolver, mem};
 use argparse::{ArgumentParser, Store};
 
 fn main() {
@@ -15,7 +15,7 @@ fn main() {
             .add_argument("hostname", Store, "Name to resolve");
         ap.parse_args_or_exit();
     }
-    let mut resolver = MemResolver::new();
+    let mut resolver = mem::MemResolver::new();
     resolver.add_host("localhost", "127.0.0.1".parse().unwrap());
     resolver.subscribe(&name.parse().unwrap()).for_each(|x| {
         println!("Addresses: {:?}", x);

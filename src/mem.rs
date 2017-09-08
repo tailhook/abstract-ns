@@ -1,3 +1,7 @@
+//! Resolver of the addresses directly from memory
+//!
+//! This resolver is useful for tests as well as for resolving some specific
+//! names like `localhost` (i.e. to construct name resolution for `/etc/hosts`)
 use std::collections::HashMap;
 use std::net::IpAddr;
 
@@ -9,12 +13,14 @@ use void::Void;
 use {Name, Address, PollResolver, Resolver, Error};
 
 /// A Stream that returns address from `MemResolver::subscribe`
-pub struct MemSubscription(Option<Address>);
+#[derive(Debug)]
+pub struct Subscription(Option<Address>);
 
 /// A stub resolver that resolves names from in-memory hash table
 ///
 /// While this resolver is mostly useful in tests, you can also use it inside
 /// a chain of resolvers to resolve localhost or other built-in names.
+#[derive(Debug)]
 pub struct MemResolver {
     names: HashMap<String, IpAddr>,
 }
@@ -60,22 +66,22 @@ impl PollResolver for MemResolver {
 }
 
 impl Resolver for MemResolver {
-    type Stream = MemSubscription;
-    fn subscribe(&self, name: &Name) -> MemSubscription {
+    type Stream = Subscription;
+    fn subscribe(&self, name: &Name) -> Subscription {
         match name.default_port() {
             Some(port) => {
                 if let Some(addr) = self.names.get(name.host()) {
-                    MemSubscription(Some((*addr, port).into()))
+                    Subscription(Some((*addr, port).into()))
                 } else {
-                    MemSubscription(None)
+                    Subscription(None)
                 }
             }
-            None => MemSubscription(None),
+            None => Subscription(None),
         }
     }
 }
 
-impl Stream for MemSubscription {
+impl Stream for Subscription {
     type Item = Address;
     type Error = Void;
 
@@ -89,13 +95,13 @@ impl Stream for MemSubscription {
 
 #[cfg(test)]
 mod test {
-    use super::MemSubscription;
+    use super::Subscription;
     use std::net::SocketAddr;
     use futures::{Stream, Async};
 
     #[test]
     fn static_stream() {
-        let mut s = MemSubscription(
+        let mut s = Subscription(
             Some("127.0.0.1:7879".parse::<SocketAddr>().unwrap().into()));
         let a = if let Ok(Async::Ready(Some(x))) = s.poll() {
             x

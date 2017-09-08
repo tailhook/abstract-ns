@@ -1,3 +1,5 @@
+//! Address type and helper structures to manipulate and introspect it
+//!
 use std::sync::Arc;
 use std::iter::FromIterator;
 use std::net::{IpAddr, SocketAddr};
@@ -6,11 +8,14 @@ use std::slice::Iter as VecIter;
 use rand::thread_rng;
 use rand::distributions::{IndependentSample, Range};
 
-use {Weight};
+/// A type alias for a weight for each name in an address
+///
+/// (don't rely on actual type, it's likely to change in near future)
+pub type Weight = u64;
 
 /// Address that nameservice has returned
 ///
-/// We hide this structure to allow future additions. There is `AddressBuilder`
+/// We hide this structure to allow future additions. There is `Builder`
 /// which provides a forward compatible way to build such address in a resolver
 /// and there are methods to extract data from it.
 ///
@@ -30,29 +35,33 @@ struct Internal {
 /// # Example
 ///
 /// ```
-/// use abstract_ns::AddressBuilder;
+/// use abstract_ns::addr::Builder;
 ///
-/// let mut builder = AddressBuilder::new();
+/// let mut builder = Builder::new();
 /// builder.add_addresses(&[(1, "127.0.0.1:80".parse().unwrap())]);
 /// let addr = builder.into_address();
 /// ```
-pub struct AddressBuilder {
+#[derive(Debug)]
+pub struct Builder {
     addresses: Vec<Vec<(Weight, SocketAddr)>>,
 }
 
 /// A structure that represents a set of addresses of the same priority
+#[derive(Debug)]
 pub struct WeightedSet<'a> {
     addresses: &'a [(Weight, SocketAddr)],
 }
 
 /// Iterator over `Address` that returns a set of addresses of the same
 /// priority on each iteration
+#[derive(Debug)]
 pub struct PriorityIter<'a>(VecIter<'a, Vec<(Weight, SocketAddr)>>);
 
 /// Iterates over individual SocketAddr's (IPs) in the WeightedSet (i.e. a
 /// set of addresses having the same priority).
 ///
 /// Note, this iterator effectively discards weights.
+#[derive(Debug)]
 pub struct AddressIter<'a>(VecIter<'a, (Weight, SocketAddr)>);
 
 impl<'a> Iterator for PriorityIter<'a> {
@@ -107,10 +116,10 @@ impl FromIterator<SocketAddr> for Address {
     }
 }
 
-impl AddressBuilder {
+impl Builder {
     /// Create a new empty address builder
-    pub fn new() -> AddressBuilder {
-        return AddressBuilder {
+    pub fn new() -> Builder {
+        return Builder {
             addresses: vec![Vec::new()],
         }
     }
@@ -120,7 +129,7 @@ impl AddressBuilder {
     /// You must add all addresses of the same priority with a single call
     /// to this function. Next call to `add_addresses` will add addresses with
     /// smaller priority
-    pub fn add_addresses<'x, I>(&mut self, items: I) -> &mut AddressBuilder
+    pub fn add_addresses<'x, I>(&mut self, items: I) -> &mut Builder
         where I: IntoIterator<Item=&'x (Weight, SocketAddr)>
     {
         self.addresses.push(items.into_iter().cloned().collect());
