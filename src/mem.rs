@@ -1,19 +1,15 @@
 use std::collections::HashMap;
 use std::net::IpAddr;
-use std::net::SocketAddr;
 
 use futures::stream::{Stream};
 use futures::future::{ok, err, FutureResult};
-use futures::{BoxFuture, IntoFuture, Future, Poll};
+use futures::{Async, Poll};
+use void::Void;
 
-use {Name, Address, Resolver, Error};
-use stream_once::StreamOnce;
+use {Name, Address, PollResolver, Resolver, Error};
 
-/// A stream that resolves to a static addresss and never updates
-///
-/// This is useful to provide a stream to localhost or for testing. It's meant
-/// to be used instead of `resolver.subscribe(...)`
-pub struct StaticStream(StreamOnce<FutureResult<Address, Error>>);
+/// A Stream that returns address from `MemResolver::subscribe`
+pub struct MemSubscription(Option<Address>);
 
 /// A stub resolver that resolves names from in-memory hash table
 ///
@@ -46,48 +42,61 @@ impl MemResolver {
     }
 }
 
-impl Resolver for MemResolver {
-    fn resolve(&self, name: &Name) -> BoxFuture<Address, Error> {
+impl PollResolver for MemResolver {
+    type Future = FutureResult<Address, Error>;
+    fn resolve(&self, name: &Name) -> FutureResult<Address, Error> {
         match name.default_port() {
             Some(port) => {
                 if let Some(addr) = self.names.get(name.host()) {
-                    ok((*addr, port).into()).boxed()
+                    ok((*addr, port).into())
                 } else {
-                    err(Error::NameNotFound).boxed()
+                    err(Error::NameNotFound)
                 }
             }
-            None => err(Error::NoDefaultPort).boxed()
+            None => err(Error::NoDefaultPort)
         }
 
     }
 }
 
-impl StaticStream {
-    /// Create a static stream from any thing convertible to the address
-    pub fn new<T: Into<Address>>(addr: T) -> StaticStream {
-        StaticStream(StreamOnce::new(ok(addr.into())))
+impl Resolver for MemResolver {
+    type Stream = MemSubscription;
+    fn subscribe(&self, name: &Name) -> MemSubscription {
+        match name.default_port() {
+            Some(port) => {
+                if let Some(addr) = self.names.get(name.host()) {
+                    MemSubscription(Some((*addr, port).into()))
+                } else {
+                    MemSubscription(None)
+                }
+            }
+            None => MemSubscription(None),
+        }
     }
 }
 
-impl Stream for StaticStream {
+impl Stream for MemSubscription {
     type Item = Address;
-    type Error = Error;
+    type Error = Void;
 
     fn poll(&mut self) -> Poll<Option<Self::Item>, Self::Error> {
-        self.0.poll()
+        match self.0.take() {
+            Some(x) => Ok(Async::Ready(Some(x))),
+            None => Ok(Async::NotReady),
+        }
     }
 }
 
 #[cfg(test)]
 mod test {
-    use super::StaticStream;
+    use super::MemSubscription;
     use std::net::SocketAddr;
     use futures::{Stream, Async};
 
     #[test]
     fn static_stream() {
-        let mut s = StaticStream::new(
-            "127.0.0.1:7879".parse::<SocketAddr>().unwrap());
+        let mut s = MemSubscription(
+            Some("127.0.0.1:7879".parse::<SocketAddr>().unwrap().into()));
         let a = if let Ok(Async::Ready(Some(x))) = s.poll() {
             x
         } else {

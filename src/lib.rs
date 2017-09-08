@@ -19,6 +19,7 @@
 
 extern crate futures;
 extern crate rand;
+extern crate void;
 #[macro_use] extern crate quick_error;
 
 /// A type alias for a weight for each name in an address
@@ -30,15 +31,12 @@ mod address;
 mod resolver;
 mod error;
 mod mem;
-mod stream_once;
-mod routing;
-mod union;
 mod name;
 
-pub use address::{Address, AddressBuilder, AddressIter, PriorityIter, WeightedSet};
+pub use address::{Address};
+pub use address::{AddressBuilder, AddressIter, PriorityIter};
+pub use address::{WeightedSet};
 pub use error::Error;
-pub use mem::{MemResolver, StaticStream};
+pub use mem::{MemResolver, MemSubscription};
 pub use name::Name;
-pub use resolver::Resolver;
-pub use routing::{RouterBuilder, Router};
-pub use union::{union_stream, union_addresses, Union};
+pub use resolver::{Resolver, PollResolver};

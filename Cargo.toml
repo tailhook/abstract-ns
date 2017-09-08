@@ -13,9 +13,10 @@ version = "0.3.4"
 authors = ["paul@colomiets.name"]
 
 [dependencies]
-futures = "0.1.2"
-quick-error = "1.1.0"
+futures = "0.1.15"
+quick-error = "1.2.0"
 rand = "0.3.14"
+void = "1.0.2"
 
 [dev-dependencies]
 futures-cpupool = "0.1.2"

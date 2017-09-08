@@ -106,7 +106,7 @@ impl fmt::Display for Name {
 mod test {
     use std::str::FromStr;
     use std::sync::Arc;
-    use super::{Name, Impl, Error, ErrorEnum as E};
+    use super::{Name, Impl};
 
     fn bare(host: &str) -> Name {
         Name(Arc::new(Impl {

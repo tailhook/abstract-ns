@@ -6,7 +6,7 @@ use std::io::{stderr, Write};
 use std::process::exit;
 
 use futures::{Future};
-use abstract_ns::{MemResolver, Resolver};
+use abstract_ns::{MemResolver, PollResolver, Resolver};
 use argparse::{ArgumentParser, Store};
 
 fn main() {

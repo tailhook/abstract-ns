@@ -1,9 +1,25 @@
-use futures::BoxFuture;
-use futures::stream::{Stream, BoxStream};
+use futures::Future;
+use futures::stream::Stream;
+use void::Void;
 
 use {Name, Address, Error};
-use stream_once::StreamOnce;
 
+
+/// A resolver of name to an address that runs once
+///
+/// You should prefer using `Resolver::subscribe` if your process
+/// is long-running.
+///
+/// See also `Resolver`
+pub trait PollResolver {
+
+    /// A future returned from `resolve()`
+    type Future: Future<Item=Address, Error=Error>;
+
+    /// Resolve a name to an address once
+    fn resolve(&self, name: &Name) -> Self::Future;
+
+}
 
 /// Main trait that does name resolution
 ///
@@ -20,18 +36,11 @@ use stream_once::StreamOnce;
 /// Also accepting a stream is more preferable than a future, because names
 /// do change over time and it's weird if user needs to restart an application
 /// to update host name.
-pub trait Resolver {
+pub trait Resolver: PollResolver {
 
-    /// Resolve a name to an address once
-    fn resolve(&self, name: &Name) -> BoxFuture<Address, Error>;
+    /// A stream returned from `subscribe()`
+    type Stream: Stream<Item=Address, Error=Void>;
 
     /// Resolve a name and subscribe to the updates
-    ///
-    /// Default implementation just yield a value once. But even if your source
-    /// doesn't provide updates, you should implement some polling. The reason
-    /// we don't do poling by default is because polling interval should either
-    /// depend on TTL (of a DNS record for example) or on user-defined setting.
-    fn subscribe(&self, name: &Name) -> BoxStream<Address, Error> {
-        StreamOnce::new(self.resolve(name)).boxed()
-    }
+    fn subscribe(&self, name: &Name) -> Self::Stream;
 }
