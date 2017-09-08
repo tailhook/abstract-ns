@@ -4,8 +4,8 @@ extern crate futures_cpupool;
 extern crate domain;
 extern crate abstract_ns;
 extern crate tokio_core;
-extern crate ns_dns_tokio;
-extern crate ns_std_threaded;
+// extern crate ns_dns_tokio;
+// extern crate ns_std_threaded;
 
 use std::io::{stderr, Write};
 use std::process::exit;
@@ -37,6 +37,8 @@ fn main() {
     conf.servers.push(conf::ServerConf::new(
         "127.0.0.1:8600".parse().unwrap()));
     conf.finalize();
+    unimplemented!();
+    /*
     router.add_suffix("consul",
         ns_dns_tokio::DnsResolver::new_from_resolver(
             resolv::Resolver::from_conf(&lp.handle(), conf)));
@@ -55,4 +57,5 @@ fn main() {
             exit(1);
         }
     }
+    */
 }

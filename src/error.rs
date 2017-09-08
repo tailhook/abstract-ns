@@ -33,6 +33,12 @@ quick_error! {
             description("name not found")
             display("name not found")
         }
+        /// The target resolver can only resolve host names and no default
+        /// port is specified
+        NoDefaultPort {
+            description("the resolver can only resolve hostname to an IP, \
+                address, so port must be specified to get full address")
+        }
     }
 }
 
@@ -45,7 +51,9 @@ impl Error {
             Error::TemporaryError(_) =>
                 IoError::new(IoErrorKind::Other, self),
             Error::NameNotFound =>
-                IoError::new(IoErrorKind::NotFound, self)
+                IoError::new(IoErrorKind::NotFound, self),
+            Error::NoDefaultPort =>
+                IoError::new(IoErrorKind::NotFound, self),
         }
     }
 }

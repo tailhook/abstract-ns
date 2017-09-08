@@ -2,7 +2,6 @@
 //!
 //! Here are small breakdown:
 //!
-//! * `Name` is currently an alias to `&str` (but it may change in future)
 //! * `Address` is a structure which address resolves to. It's more than just
 //!   a `SocketAddr` you have used to, but there is `Address::pick_one()`
 //!   which does quick and dirty solution
@@ -22,8 +21,6 @@ extern crate futures;
 extern crate rand;
 #[macro_use] extern crate quick_error;
 
-/// A type alias that represents a name resolved by a name service
-pub type Name<'a> = &'a str;
 /// A type alias for a weight for each name in an address
 ///
 /// (don't rely on actual type, it's likely to change in near future)
@@ -39,20 +36,9 @@ mod union;
 mod name;
 
 pub use address::{Address, AddressBuilder, AddressIter, PriorityIter, WeightedSet};
-pub use resolver::Resolver;
 pub use error::Error;
 pub use mem::{MemResolver, StaticStream};
+pub use name::Name;
+pub use resolver::Resolver;
 pub use routing::{RouterBuilder, Router};
 pub use union::{union_stream, union_addresses, Union};
-
-
-fn parse_name(name: &str) -> Option<(&str, Option<u16>)> {
-    if let Some(idx) = name.find(':') {
-        match name[idx+1..].parse() {
-            Ok(port) => Some((&name[..idx], Some(port))),
-            Err(_) => None,
-        }
-    } else {
-        Some((name, None))
-    }
-}

@@ -6,7 +6,7 @@ use futures::{BoxFuture, Future, failed};
 use futures::stream::{BoxStream, Stream};
 
 use stream_once::StreamOnce;
-use {Name, Address, Error, Resolver, MemResolver, parse_name};
+use {Name, Address, Error, Resolver, MemResolver};
 
 
 /// A builder/fluent interface to create a `Router`
@@ -39,7 +39,7 @@ impl RouterBuilder {
         })
     }
     /// Add a name that is resolved to a single IP (just like in `MemResolver`)
-    pub fn add_ip(&mut self, name: Name, ip: IpAddr) -> &mut Self {
+    pub fn add_ip(&mut self, name: &str, ip: IpAddr) -> &mut Self {
         self.0.names.add_host(name, ip);
         self
     }
@@ -78,44 +78,42 @@ impl RouterBuilder {
 }
 
 impl Resolver for Router {
-    fn resolve(&self, name: Name) -> BoxFuture<Address, Error> {
-        if let Some((host, _)) = parse_name(name) {
-            if self.0.names.contains_name(host) {
-                return self.0.names.resolve(name);
-            }
-            if let Some(resolver) = self.0.suffixes.get(host) {
-                return resolver.resolve(name);
-            } else {
-                for (idx, _) in host.match_indices('.') {
-                    let suffix = &host[idx+1..];
-                    if let Some(resolver) = self.0.suffixes.get(suffix) {
-                        return resolver.resolve(name);
-                    }
-                }
-                if let Some(ref resolver) = self.0.fallback {
+    fn resolve(&self, name: &Name) -> BoxFuture<Address, Error> {
+        let host = name.host();
+        if self.0.names.contains_name(host) {
+            return self.0.names.resolve(name);
+        }
+        if let Some(resolver) = self.0.suffixes.get(host) {
+            return resolver.resolve(name);
+        } else {
+            for (idx, _) in host.match_indices('.') {
+                let suffix = &host[idx+1..];
+                if let Some(resolver) = self.0.suffixes.get(suffix) {
                     return resolver.resolve(name);
                 }
+            }
+            if let Some(ref resolver) = self.0.fallback {
+                return resolver.resolve(name);
             }
         }
         failed(Error::NameNotFound).boxed()
     }
-    fn subscribe(&self, name: Name) -> BoxStream<Address, Error> {
-        if let Some((host, _)) = parse_name(name) {
-            if self.0.names.contains_name(host) {
-                return self.0.names.subscribe(name);
-            }
-            if let Some(resolver) = self.0.suffixes.get(host) {
-                return resolver.subscribe(name);
-            } else {
-                for (idx, _) in host.match_indices('.') {
-                    let suffix = &host[idx+1..];
-                    if let Some(resolver) = self.0.suffixes.get(suffix) {
-                        return resolver.subscribe(name);
-                    }
-                }
-                if let Some(ref resolver) = self.0.fallback {
+    fn subscribe(&self, name: &Name) -> BoxStream<Address, Error> {
+        let host = name.host();
+        if self.0.names.contains_name(host) {
+            return self.0.names.subscribe(name);
+        }
+        if let Some(resolver) = self.0.suffixes.get(host) {
+            return resolver.subscribe(name);
+        } else {
+            for (idx, _) in host.match_indices('.') {
+                let suffix = &host[idx+1..];
+                if let Some(resolver) = self.0.suffixes.get(suffix) {
                     return resolver.subscribe(name);
                 }
+            }
+            if let Some(ref resolver) = self.0.fallback {
+                return resolver.subscribe(name);
             }
         }
         StreamOnce::new(failed(Error::NameNotFound)).boxed()

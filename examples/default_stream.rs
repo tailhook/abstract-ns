@@ -17,7 +17,7 @@ fn main() {
     }
     let mut resolver = MemResolver::new();
     resolver.add_host("localhost", "127.0.0.1".parse().unwrap());
-    resolver.subscribe(&name).for_each(|x| {
+    resolver.subscribe(&name.parse().unwrap()).for_each(|x| {
         println!("Addresses: {:?}", x);
         println!("Pick one: {}", x.pick_one().unwrap());
         println!("Note: this example hangs, it's fine");

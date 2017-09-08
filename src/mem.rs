@@ -1,11 +1,12 @@
 use std::collections::HashMap;
 use std::net::IpAddr;
+use std::net::SocketAddr;
 
 use futures::stream::{Stream};
-use futures::future::{ok, FutureResult};
+use futures::future::{ok, err, FutureResult};
 use futures::{BoxFuture, IntoFuture, Future, Poll};
 
-use {Name, Address, Resolver, Error, parse_name};
+use {Name, Address, Resolver, Error};
 use stream_once::StreamOnce;
 
 /// A stream that resolves to a static addresss and never updates
@@ -34,10 +35,10 @@ impl MemResolver {
     /// Add a single host to resolve
     ///
     /// Note: only name without port number should be specified as name
-    pub fn add_host<S>(&mut self, name: S, address: IpAddr)
-        where S: Into<String>
+    pub fn add_host<S>(&mut self, host: S, address: IpAddr)
+        where S: Into<String>,
     {
-        self.names.insert(name.into(), address);
+        self.names.insert(host.into(), address);
     }
     /// Check if name is in resolver
     pub fn contains_name(&self, name: &str) -> bool {
@@ -46,24 +47,18 @@ impl MemResolver {
 }
 
 impl Resolver for MemResolver {
-    fn resolve(&self, name: Name) -> BoxFuture<Address, Error> {
-        match parse_name(name) {
-            Some((_, None)) => {
-                Err(Error::InvalidName(name.to_string(),
-                    "default port must be specified for stub resolver"))
-            }
-            Some((host, Some(port))) => {
-                if let Some(addr) = self.names.get(host) {
-                    Ok((*addr, port).into())
+    fn resolve(&self, name: &Name) -> BoxFuture<Address, Error> {
+        match name.default_port() {
+            Some(port) => {
+                if let Some(addr) = self.names.get(name.host()) {
+                    ok((*addr, port).into()).boxed()
                 } else {
-                    Err(Error::NameNotFound)
+                    err(Error::NameNotFound).boxed()
                 }
             }
-            None => {
-                Err(Error::InvalidName(name.to_string(),
-                    "default port can't be parsed"))
-            }
-        }.into_future().boxed()
+            None => err(Error::NoDefaultPort).boxed()
+        }
+
     }
 }
 
