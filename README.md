@@ -1,9 +1,11 @@
-=====================
 Abstract Name Service
 =====================
 
-:Status: Proof of Concept
-:Documentation: http://tailhook.github.io/abstract-ns
+*Status: Alpha*
+
+[Documentation](https://docs.rs/abstract-ns) |
+[Github](https://github.com/tailhook/abstract-ns) |
+[Crate](https://crates.io/crates/abstract-ns)
 
 This rust crate provides just abstract traits which may be used to build
 interoperable implementations of name dicovery.

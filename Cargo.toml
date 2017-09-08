@@ -4,7 +4,7 @@ description = """
     Abstract name service traits for use with futures (and tokio)
 """
 license = "MIT/Apache-2.0"
-readme = "README.rst"
+readme = "README.md"
 keywords = ["dns", "tokio", "name", "service", "discovery"]
 categories = ["asynchronous", "network-programming"]
 homepage = "http://github.com/tailhook/abstract-ns"
