@@ -27,45 +27,42 @@ quick_error! {
     }
 }
 
+/// A name is a barely ``Arc<String>`` but also checks that name is valid
+///
+/// Note: this is designed to be static, because it's often used inside
+/// the futures which can't contain non-static content.
 #[derive(Debug, Eq, PartialEq, PartialOrd, Ord, Hash, Clone)]
-struct Impl {
-    host: String,
-    default_port: Option<u16>,
+pub struct Name(Arc<String>);
+
+impl AsRef<str> for Name {
+    fn as_ref(&self) -> &str {
+        self.0.as_ref()
+    }
 }
 
-/// A name that can be resolved into an address
-///
-/// Create a name with `Name::from_str`
-#[derive(Debug, Eq, PartialEq, PartialOrd, Ord, Hash, Clone)]
-pub struct Name(Arc<Impl>);
-
 impl Name {
-    /// Returns hostname part of the name
-    pub fn host(&self) -> &str {
-        &self.0.host
+    /// Create a name from an Arc.
+    ///
+    /// This allows to keep Arc shared with
+    /// other components of your application
+    pub fn from_arc(arc: &Arc<String>) -> Result<Name, Error> {
+        namecheck(arc)?;
+        Ok(Name(arc.clone()))
     }
-    /// Returns default port
-    pub fn default_port(&self) -> Option<u16> {
-        self.0.default_port
+    /// Return a clone of the inner Arc
+    ///
+    /// This allows to keep Arc shared with
+    /// other components of your application
+    pub fn inner(&self) -> Arc<String> {
+        self.0.clone()
     }
 }
 
 impl FromStr for Name {
     type Err = Error;
     fn from_str(value: &str) -> Result<Name, Error> {
-        let mut pair = value.splitn(2, ':');
-        let name = pair.next().unwrap();
-        let port = match pair.next() {
-            Some(port_str) => {
-                Some(port_str.parse().map_err(ErrorEnum::InvalidPort)?)
-            }
-            None => None,
-        };
-        namecheck(name)?;
-        Ok(Name(Arc::new(Impl {
-            host: name.to_string(),
-            default_port: port,
-        })))
+        namecheck(value)?;
+        Ok(Name(Arc::new(value.into())))
     }
 }
 
@@ -94,10 +91,7 @@ fn namecheck(mut name: &str) -> Result<(), Error> {
 
 impl fmt::Display for Name {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self.0.default_port {
-            Some(p) => write!(f, "{}:{}", self.0.host, p),
-            None => f.write_str(&self.0.host),
-        }
+        f.write_str(&self.0)
     }
 }
 
@@ -106,27 +100,16 @@ impl fmt::Display for Name {
 mod test {
     use std::str::FromStr;
     use std::sync::Arc;
-    use super::{Name, Impl};
-
-    fn bare(host: &str) -> Name {
-        Name(Arc::new(Impl {
-            host: host.to_string(),
-            default_port: None,
-        }))
-    }
-
-    fn full(host: &str, port: u16) -> Name {
-        Name(Arc::new(Impl {
-            host: host.to_string(),
-            default_port: Some(port),
-        }))
-    }
+    use super::Name;
 
     fn name_str(src: &str) -> Name {
         Name::from_str(src).unwrap()
     }
     fn name_err(src: &str) -> String {
         Name::from_str(src).unwrap_err().to_string()
+    }
+    fn bare(name: &str) -> Name {
+        Name(Arc::new(name.into()))
     }
 
     #[test]
@@ -141,29 +124,6 @@ mod test {
         assert_eq!(bare("localhost").to_string(), "localhost");
         assert_eq!(bare("name.example.org.").to_string(), "name.example.org.");
         assert_eq!(bare("name.example.org").to_string(), "name.example.org");
-        assert_eq!(full("name", 123).to_string(), "name:123");
-        assert_eq!(full("name.org", 2354).to_string(), "name.org:2354");
-        assert_eq!(full("name.org.", 2354).to_string(), "name.org.:2354");
-    }
-
-    #[test]
-    fn host() {
-        assert_eq!(bare("localhost").host(), "localhost");
-        assert_eq!(bare("name.example.org.").host(), "name.example.org.");
-        assert_eq!(bare("name.example.org").host(), "name.example.org");
-        assert_eq!(full("name", 123).host(), "name");
-        assert_eq!(full("name.org", 2354).host(), "name.org");
-        assert_eq!(full("name.org.", 2354).host(), "name.org.");
-    }
-
-    #[test]
-    fn port() {
-        assert_eq!(bare("localhost").default_port(), None);
-        assert_eq!(bare("name.example.org.").default_port(), None);
-        assert_eq!(bare("name.example.org").default_port(), None);
-        assert_eq!(full("name", 123).default_port(), Some(123));
-        assert_eq!(full("name.org", 2354).default_port(), Some(2354));
-        assert_eq!(full("name.org.", 2354).default_port(), Some(2354));
     }
 
     #[test]
