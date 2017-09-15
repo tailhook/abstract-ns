@@ -24,7 +24,7 @@ pub trait ResolveHost {
     type FutureHost: Future<Item=Vec<IpAddr>, Error=Error>;
 
     /// Resolve a name to an address once
-    fn resolve_host(&self, name: Name) -> Self::FutureHost;
+    fn resolve_host(&self, name: &Name) -> Self::FutureHost;
 
 }
 
@@ -38,7 +38,7 @@ pub trait Resolve {
     type Future: Future<Item=Address, Error=Error>;
 
     /// Resolve a name to an address once
-    fn resolve(&self, name: Name) -> Self::Future;
+    fn resolve(&self, name: &Name) -> Self::Future;
 }
 
 /// A resolver that allows to subscribe on the host name and receive updates
