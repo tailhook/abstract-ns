@@ -1,5 +1,22 @@
 //! Abstract traits for name service library
 //!
+//! # Traits
+//!
+//! There are four traits:
+//!
+//! * ResolveHost
+//! * Resolve
+//! * HostSubscribe
+//! * Subscribe
+//!
+//! There are three category of users of the library:
+//!
+//! * Implementors of resolution methods
+//! * Service authors
+//! * Application writers
+//!
+//! Let's explain how to use traits to all of them.
+//!
 //! # Implementing A Resolver
 //!
 //! To implement a DNS resolver library implement
@@ -57,16 +74,15 @@
 
 extern crate futures;
 extern crate rand;
-extern crate void;
 #[macro_use] extern crate quick_error;
 
 mod error;
 mod name;
 mod resolver;
 pub mod addr;
-pub mod mem;
+// pub mod mem;  # Temporary
 
 pub use addr::{Address};
 pub use error::Error;
 pub use name::Name;
-pub use resolver::{Resolver, PollResolver};
+pub use resolver::{ResolveHost, Resolve, HostSubscribe, Subscribe};
