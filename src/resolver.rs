@@ -95,7 +95,7 @@ pub trait Subscribe {
     type Error: Into<Error>;
 
     /// A stream returned from `subscribe()`
-    type Stream: Stream<Item=Vec<IpAddr>, Error=Self::Error>;
+    type Stream: Stream<Item=Address, Error=Self::Error>;
 
     /// Resolve a name and subscribe to the updates
     ///
