@@ -74,6 +74,7 @@
 
 extern crate futures;
 extern crate rand;
+extern crate void;
 #[macro_use] extern crate quick_error;
 
 mod error;

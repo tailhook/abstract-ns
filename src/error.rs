@@ -1,6 +1,9 @@
 use std::error::{Error as StdError};
 use std::io::{Error as IoError, ErrorKind as IoErrorKind};
 
+use void::{unreachable, Void};
+
+
 quick_error! {
     /// A generic name resolution error
     ///
@@ -55,6 +58,12 @@ impl Error {
             Error::NoDefaultPort =>
                 IoError::new(IoErrorKind::NotFound, self),
         }
+    }
+}
+
+impl From<Void> for Error {
+    fn from(v: Void) -> Error {
+        unreachable(v);
     }
 }
 

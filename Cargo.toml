@@ -16,6 +16,7 @@ authors = ["paul@colomiets.name"]
 futures = "0.1.15"
 quick-error = "1.2.0"
 rand = "0.3.14"
+void = "1.0.2"
 
 [dev-dependencies]
 futures-cpupool = "0.1.2"
