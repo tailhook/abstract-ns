@@ -1,9 +1,8 @@
 use futures::Future;
 use futures::stream::Stream;
 use error::Error;
-use std::net::IpAddr;
 
-use {Name, Address};
+use {Name, Address, IpList};
 
 
 /// Resolves a hostname into a list of IpAddresses
@@ -21,7 +20,7 @@ use {Name, Address};
 pub trait ResolveHost {
 
     /// A future returned from `resolve()`
-    type FutureHost: Future<Item=Vec<IpAddr>, Error=Error>;
+    type FutureHost: Future<Item=IpList, Error=Error>;
 
     /// Resolve a name to an address once
     fn resolve_host(&self, name: &Name) -> Self::FutureHost;
@@ -60,7 +59,7 @@ pub trait HostSubscribe {
     type Error: Into<Error>;
 
     /// A stream returned from `subscribe()`
-    type HostStream: Stream<Item=Vec<IpAddr>, Error=Self::Error>;
+    type HostStream: Stream<Item=IpList, Error=Self::Error>;
 
     /// Resolve a name and subscribe to the updates
     ///
