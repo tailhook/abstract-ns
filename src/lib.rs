@@ -4,10 +4,28 @@
 //!
 //! There are four traits:
 //!
-//! * ResolveHost
-//! * Resolve
-//! * HostSubscribe
-//! * Subscribe
+//! * [`ResolveHost`](trait.ResolveHost.html)
+//!   -- resolves hostname to a list of IP addresses
+//!   (maps to `A` record in DNS)
+//! * [`Resolve`](trait.Resolve.html)
+//!   -- resolves service name to a set of weighted and prioritized host:port
+//!   pairs ([`Address`](struct.Address.html) struct).
+//!   Maps to `SRV` record in DNS.
+//! * [`HostSubscribe`](trait.HostSubscribe.html)
+//!   -- resolves hostname to a list of IP addresses and tracks changes of
+//!   the addresses
+//! * [`Subscribe`](trait.Subscribe.html)
+//!   -- resolves service name to an [`Address`](struct.Address.html) and
+//!   subscribes on updates of the address
+//!
+//! And there are two address types:
+//!
+//! * [`IpList`](ip_list/struct.IpList.html) -- represents `Arc<Vec<IpAddr>>`
+//! this is used as a result of hostname resolution and it should be converted
+//! into an `Address` struct.
+//! * [`Address`](addr/struct.Address.html) -- represets weighed and
+//! prioritized list of addresses, this is what all user code should accept
+//! for maximum flexibility.
 //!
 //! There are three category of users of the library:
 //!
@@ -19,17 +37,12 @@
 //!
 //! # Implementing A Resolver
 //!
-//! To implement a DNS resolver library implement
-//! [`Resolver`](trait.Resolver.html) or
-//! [`PollResolver`](trait.PollResolver.html) traits
+//! The `Resolve*` traits are used for ad-hoc resolution of the addresses.
 //!
-//! In particular, [`Resolver`](trait.Resolver.html) allows to
-//! [subscribe](trait.Resolver.html#tymethod.subscribe) on
-//! updates, and this is very important for long-running servers.
-//!
-//! On the other hand, if you don't have to implement `Resolver` if your
-//! data source doesn't support subscribing for updates. We have all the
-//! needed abstractions to periodially poll for updates.
+//! The `*Subscribe` traits are used to get updates for the name. If your
+//! name service supports updates you should implement it. If not, there
+//! are shims which periodically poll `resolve*` methods to get the
+//! update functionality.
 //!
 //! Resolver should do minimum work. I.e. if it uses DNS subsystem, it should
 //! only check DNS, and give `/etc/hosts` parsing ot other parts of the stack.
