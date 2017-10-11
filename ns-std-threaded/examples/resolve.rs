@@ -8,9 +8,8 @@ use std::io::{stderr, Write};
 use std::process::exit;
 
 use futures::{Future};
-use abstract_ns::Resolver;
+use abstract_ns::ResolveHost;
 use argparse::{ArgumentParser, Store};
-use futures_cpupool::CpuPool;
 use ns_std_threaded::ThreadedResolver;
 
 fn main() {
@@ -21,8 +20,8 @@ fn main() {
             .add_argument("hostname", Store, "Name to resolve");
         ap.parse_args_or_exit();
     }
-    let resolver = ThreadedResolver::new(CpuPool::new(20));
-    let res = resolver.resolve(&name).map(|x| {
+    let resolver = ThreadedResolver::new();
+    let res = resolver.resolve_host(&name.parse().unwrap()).map(|x| {
         println!("Addresses: {:?}", x);
         println!("Pick one: {}", x.pick_one().unwrap());
     }).wait();

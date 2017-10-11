@@ -4,9 +4,9 @@ extern crate futures_cpupool;
 
 use std::net::ToSocketAddrs;
 
-use futures::{BoxFuture, failed, Future};
-use abstract_ns::{Resolver, Name, Address, Error};
-use futures_cpupool::CpuPool;
+use futures::Async;
+use abstract_ns::{ResolveHost, Name, IpList, Error};
+use futures_cpupool::{CpuPool, CpuFuture};
 
 /// A resolver that uses ToSocketAddrs from stdlib in thread pool
 #[derive(Clone)]
@@ -14,48 +14,47 @@ pub struct ThreadedResolver {
     pool: CpuPool,
 }
 
+/// A Future returned from resolver
+pub struct Future(CpuFuture<IpList, Error>);
+
 impl ThreadedResolver {
+    /// Create a resolver with 8 threads in it's own thread pool
+    ///
+    /// Use `use_pool` with a configured `CpuPool` to change the
+    /// configuration or share thread pool with something else
+    pub fn new() -> Self {
+        ThreadedResolver {
+            pool: CpuPool::new(8),
+        }
+    }
     /// Create a new Resolver with the given thread pool
-    pub fn new(pool: CpuPool) -> Self {
+    pub fn use_pool(pool: CpuPool) -> Self {
         ThreadedResolver {
             pool: pool,
         }
     }
 }
 
-fn parse_name(name: &str) -> Option<(&str, Option<u16>)> {
-    if let Some(idx) = name.find(':') {
-        match name[idx+1..].parse() {
-            Ok(port) => Some((&name[..idx], Some(port))),
-            Err(_) => None,
-        }
-    } else {
-        Some((name, None))
+
+impl futures::Future for Future {
+    type Item = IpList;
+    type Error = Error;
+    fn poll(&mut self) -> Result<Async<IpList>, Error> {
+        self.0.poll()
     }
 }
 
-impl Resolver for ThreadedResolver {
-    fn resolve(&self, name: Name) -> BoxFuture<Address, Error> {
-        match parse_name(name) {
-            Some((_, None)) => {
-                failed(Error::InvalidName(name.to_string(),
-                    "default port must be specified for stub resolver"))
-                    .boxed()
+
+impl ResolveHost for ThreadedResolver {
+    type FutureHost = Future;
+    fn resolve_host(&self, name: &Name) -> Future {
+        let name = name.clone();
+        Future(self.pool.spawn_fn(move || {
+            match (name.as_ref(), 0).to_socket_addrs() {
+                Ok(it) => Ok(it.map(|sa| sa.ip())
+                    .collect::<Vec<_>>().into()),
+                Err(e) => Err(Error::TemporaryError(Box::new(e))),
             }
-            Some((host, Some(port))) => {
-                let host = host.to_string();
-                self.pool.spawn_fn(move || {
-                    match (&host[..], port).to_socket_addrs() {
-                        Ok(it) => Ok(it.collect()),
-                        Err(e) => Err(Error::TemporaryError(Box::new(e))),
-                    }
-                }).boxed()
-            }
-            None => {
-                failed(Error::InvalidName(name.to_string(),
-                    "default port can't be parsed"))
-                    .boxed()
-            }
-        }
+        }))
     }
 }
