@@ -1,7 +1,9 @@
+#![warn(missing_debug_implementations)]
 extern crate futures;
 extern crate abstract_ns;
 extern crate futures_cpupool;
 
+use std::fmt;
 use std::net::ToSocketAddrs;
 
 use futures::Async;
@@ -9,7 +11,7 @@ use abstract_ns::{ResolveHost, Name, IpList, Error};
 use futures_cpupool::{CpuPool, CpuFuture};
 
 /// A resolver that uses ToSocketAddrs from stdlib in thread pool
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ThreadedResolver {
     pool: CpuPool,
 }
@@ -56,5 +58,11 @@ impl ResolveHost for ThreadedResolver {
                 Err(e) => Err(Error::TemporaryError(Box::new(e))),
             }
         }))
+    }
+}
+
+impl fmt::Debug for Future {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "ns_std_threaded::Future {{}}")
     }
 }
