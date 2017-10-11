@@ -15,7 +15,7 @@ workspace = '../'
 futures = "0.1.2"
 tokio-core = "0.1.6"
 abstract-ns = { path = "..", version = "0.3.0" }
-domain = "0.2.0"
+domain = "0.2.2"
 
 [dev-dependencies]
 argparse = "0.2.1"

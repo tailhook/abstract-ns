@@ -10,7 +10,7 @@ use std::process::exit;
 
 use futures::{Future};
 use tokio_core::reactor::Core;
-use abstract_ns::Resolver;
+use abstract_ns::ResolveHost;
 use argparse::{ArgumentParser, Store};
 use ns_dns_tokio::DnsResolver;
 
@@ -25,7 +25,7 @@ fn main() {
     let mut core = Core::new().unwrap();
     let resolver = DnsResolver::system_config(&core.handle())
         .expect("initializing DNS resolver");
-    let res = core.run(resolver.resolve(&name).map(|x| {
+    let res = core.run(resolver.resolve_host(&name.parse().unwrap()).map(|x| {
         println!("Addresses: {:?}", x);
         println!("Pick one: {}", x.pick_one().unwrap());
     }));
