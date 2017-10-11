@@ -5,6 +5,7 @@ use std::net::IpAddr;
 use std::slice::Iter;
 use std::sync::Arc;
 
+use rand::{thread_rng, Rng};
 
 /// IpList is a wrapper type around `Vec<IpAddr>` which serves the same
 /// role as the `Address` but for resolving hostnames (or `A` records) instead
@@ -17,6 +18,19 @@ pub struct IpList(Arc<Vec<IpAddr>>);
 /// Iterator over ip addresses in IpList
 #[derive(Debug)]
 pub struct IpIterator<'a>(Iter<'a, IpAddr>);
+
+impl IpList {
+    /// Select one random address to connect to
+    ///
+    /// This function selects a random address from the list of addresses or
+    /// `None` if list is empty.
+    pub fn pick_one(&self) -> Option<IpAddr> {
+        if self.0.len() == 0 {
+            return None
+        }
+        thread_rng().choose(&self.0[..]).map(|&x| x)
+    }
+}
 
 impl<'a> Iterator for IpIterator<'a> {
     type Item = &'a IpAddr;
