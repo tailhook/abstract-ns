@@ -1,5 +1,6 @@
 //! Address type and helper structures to manipulate and introspect it
 //!
+use std::collections::HashSet;
 use std::sync::Arc;
 use std::iter::FromIterator;
 use std::net::{IpAddr, SocketAddr};
@@ -113,6 +114,12 @@ impl FromIterator<SocketAddr> for Address {
         Address(Arc::new(Internal {
             addresses: vec![iter.into_iter().map(|a| (1, a)).collect()],
         }))
+    }
+}
+
+impl AsRef<Address> for Address {
+    fn as_ref(&self) -> &Address {
+        self
     }
 }
 
@@ -275,10 +282,27 @@ impl<'a> PartialEq for WeightedSet<'a> {
     }
 }
 
+/// Union `Address` values into another address
+///
+/// Currently we return an Address having only priority 0 with all addresses
+/// contained in every input address's priority zero. Duplicates are removed.
+/// All addresses will have same weight
+pub fn union<I>(iter: I) -> Address
+    where I: IntoIterator,
+          I::Item: AsRef<Address>,
+{
+    let mut set = HashSet::new();
+    for child in iter {
+        set.extend(child.as_ref().at(0).addresses());
+    }
+    return set.into_iter().collect();
+}
+
 #[cfg(test)]
 mod test {
 
-    use super::Address;
+    use super::{Address, union};
+    use std::collections::HashSet;
     use std::net::{SocketAddr, IpAddr};
     use std::str::FromStr;
 
@@ -377,5 +401,27 @@ mod test {
         assert_eq!(l1.compare_addresses(&l2),
             (vec![SocketAddr::from_str("127.0.0.1:1234").unwrap()],
              vec![SocketAddr::from_str("127.0.0.2:1234").unwrap()]));
+    }
+
+
+    #[test]
+    fn test_union() {
+        let a1 = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+
+        let a2 = [ "127.0.0.2:1234", "10.0.0.1:3456" ]
+            .iter()
+            .map(|x| SocketAddr::from_str(x).unwrap())
+            .collect::<Address>();
+        let a = union([a1, a2].iter());
+        assert_eq!(a.at(0).addresses().collect::<HashSet<_>>(), vec![
+            SocketAddr::from_str("127.0.0.1:1234").unwrap(),
+            SocketAddr::from_str("127.0.0.2:1234").unwrap(),
+            SocketAddr::from_str("10.0.0.1:3456").unwrap(),
+            ].into_iter().collect::<HashSet<_>>());
+        // check for no duplicates
+        assert_eq!(a.at(0).addresses().collect::<Vec<_>>().len(), 3);
     }
 }
