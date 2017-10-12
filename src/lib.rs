@@ -91,9 +91,9 @@ extern crate void;
 #[macro_use] extern crate quick_error;
 
 mod error;
-mod name;
 mod resolver;
 pub mod addr;
+pub mod name;
 pub mod ip_list;
 // pub mod mem;  # Temporary
 

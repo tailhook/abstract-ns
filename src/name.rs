@@ -1,3 +1,5 @@
+//! Name type and helper types
+//!
 use std::fmt;
 use std::ascii::AsciiExt;
 use std::str::FromStr;
