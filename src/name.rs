@@ -34,7 +34,7 @@ quick_error! {
 /// Note: this is designed to be static, because it's often used inside
 /// the futures which can't contain non-static content.
 #[derive(Debug, Eq, PartialEq, PartialOrd, Ord, Hash, Clone)]
-pub struct Name(Arc<String>);
+pub struct Name(Arc<str>);
 
 impl AsRef<str> for Name {
     fn as_ref(&self) -> &str {
@@ -47,7 +47,7 @@ impl Name {
     ///
     /// This allows to keep Arc shared with
     /// other components of your application
-    pub fn from_arc(arc: &Arc<String>) -> Result<Name, Error> {
+    pub fn from_arc(arc: &Arc<str>) -> Result<Name, Error> {
         namecheck(arc)?;
         Ok(Name(arc.clone()))
     }
@@ -55,7 +55,7 @@ impl Name {
     ///
     /// This allows to keep Arc shared with
     /// other components of your application
-    pub fn inner(&self) -> Arc<String> {
+    pub fn inner(&self) -> Arc<str> {
         self.0.clone()
     }
 }
@@ -64,7 +64,7 @@ impl FromStr for Name {
     type Err = Error;
     fn from_str(value: &str) -> Result<Name, Error> {
         namecheck(value)?;
-        Ok(Name(Arc::new(value.into())))
+        Ok(Name(value.into()))
     }
 }
 
@@ -101,7 +101,6 @@ impl fmt::Display for Name {
 #[cfg(test)]
 mod test {
     use std::str::FromStr;
-    use std::sync::Arc;
     use super::Name;
 
     fn name_str(src: &str) -> Name {
@@ -111,7 +110,7 @@ mod test {
         Name::from_str(src).unwrap_err().to_string()
     }
     fn bare(name: &str) -> Name {
-        Name(Arc::new(name.into()))
+        Name(name.into())
     }
 
     #[test]
