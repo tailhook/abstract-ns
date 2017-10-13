@@ -112,7 +112,7 @@ impl FromIterator<SocketAddr> for Address {
         where T: IntoIterator<Item=SocketAddr>
     {
         Address(Arc::new(Internal {
-            addresses: vec![iter.into_iter().map(|a| (1, a)).collect()],
+            addresses: vec![iter.into_iter().map(|a| (0, a)).collect()],
         }))
     }
 }
