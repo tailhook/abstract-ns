@@ -42,14 +42,18 @@
 //! The `*Subscribe` traits are used to get updates for the name. If your
 //! name service supports updates you should implement it. If not, there
 //! are shims which periodically poll `resolve*` methods to get the
-//! update functionality.
+//! update functionality. Still if you want to poll again based on TTL value
+//! and your resolver does have this value you might want to implement
+//! `*Subscribe` traits too.
 //!
-//! Resolver should do minimum work. I.e. if it uses DNS subsystem, it should
-//! only check DNS, and give `/etc/hosts` parsing ot other parts of the stack.
+//! But `abstract-ns` is not just for DNS subsystem. You may want `*.consul`
+//! names to be resolved against consul and subscribe on updates in consul.
+//! Another option is to use eureka, etcd, or zookeeper. All of them having
+//! a way to deliver updates.
 //!
 //! # Writing Protocols
 //!
-//! In general, your library should depend on a minimum set of runctionality
+//! In general, your library should depend on a minimum set of functionality
 //! here. Here are the rules of thumb:
 //!
 //! 1. Clients: when you need to connect once, accept
@@ -60,11 +64,18 @@
 //!    by resolving a single name (into potentially multiple IP addresses),
 //!    a list of names, and a `Stream<Item=Vec<Name>>` (so that config is
 //!    adaptable). As well as adapters that help diffing the `Address`,
-//!    effectively allowing connection pool to adapt.
+//!    effectively allowing connection pool to adapt
+//!    (also take a look at [tk-pool])
 //! 3. Servers: accept `T: AsyncRead + AsyncWrite`, we have
-//!    [`tk-listen`](https://crates.io/crates/tk-listen) crate
-//!    that can turn all kinds of configuration into actually accepted
-//!    connections.
+//!    [tk-listen] crate that can turn all kinds of configuration
+//!    into actually accepted connections.
+//! 4. Servers: if you need more control accept `TcpStream`
+//!    or `Stream<io::Result<TcpStream>>`, this provides same flexibility
+//!    for name resolution but allows control over parameters of TCP socket
+//!    or of the accepting actual connections
+//!
+//! [tk-pool]: https://crates.io/crates/tk-pool
+//! [tk-listen]: https://crates.io/crates/tk-listen
 //!
 //! # Writing Applications
 //!
@@ -75,7 +86,7 @@
 //!
 //! As said in [Writing Protocols](#writing-protocols) section a single
 //! connection pool should use `T: Stream<Item=Address>` for as a name
-//! source, this allows good flexibility
+//! source, this allows good flexibility (also see [tk-pool])
 //!
 //! But in case you need kinda connection pool to a lot of different names
 //! and services, this is the good case for accepting `Resolver` trait itself.
