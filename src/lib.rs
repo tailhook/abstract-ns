@@ -106,7 +106,7 @@ mod resolver;
 pub mod addr;
 pub mod name;
 pub mod ip_list;
-// pub mod mem;  # Temporary
+pub mod combinators;
 
 pub use addr::Address;
 pub use ip_list::IpList;

@@ -2,6 +2,7 @@ use futures::Future;
 use futures::stream::Stream;
 use error::Error;
 
+use combinators::{FrozenSubscriber, NullResolver, NullHostResolver};
 use {Name, Address, IpList};
 
 
@@ -25,6 +26,26 @@ pub trait ResolveHost {
     /// Resolve a name to an address once
     fn resolve_host(&self, name: &Name) -> Self::FutureHost;
 
+    /// Create a subscriber that resolves once using this resolver
+    /// and never updates a stream
+    ///
+    /// This is mostly useful for tests
+    fn frozen_host_subscriber(self) -> FrozenSubscriber<Self>
+        where Self: Sized
+    {
+        FrozenSubscriber { resolver: self }
+    }
+
+    /// Create a thing that implements Resolve+ResolveHost but returns
+    /// `NameNotFound` on `resolve`
+    ///
+    /// This is needed to add resolver that can only resolve hostnames to
+    /// the router.
+    fn null_service_resolver(self) -> NullResolver<Self>
+        where Self: Sized
+    {
+        NullResolver { resolver: self }
+    }
 }
 
 /// Resolves a name of the service in to a set of addresses
@@ -38,6 +59,37 @@ pub trait Resolve {
 
     /// Resolve a name to an address once
     fn resolve(&self, name: &Name) -> Self::Future;
+
+    /// Create a subscriber that resolves once using this resolver
+    /// and never updates a stream
+    ///
+    /// This is mostly useful for tests
+    fn frozen_subscriber(self) -> FrozenSubscriber<Self>
+        where Self: Resolve + Sized
+    {
+        FrozenSubscriber { resolver: self }
+    }
+
+    /// Create a subscriber that resolves once using this resolver
+    /// and never updates a stream
+    ///
+    /// This is mostly useful for tests
+    fn frozen_service_subscriber(self) -> FrozenSubscriber<Self>
+        where Self: Sized
+    {
+        FrozenSubscriber { resolver: self }
+    }
+
+    /// Create a thing that implements Resolve+ResolveHost but returns
+    /// `NameNotFound` on `resolve_host`
+    ///
+    /// This is needed to add resolver that can only resolve services to
+    /// the router.
+    fn null_host_resolver(self) -> NullHostResolver<Self>
+        where Self: Sized
+    {
+        NullHostResolver { resolver: self }
+    }
 }
 
 /// A resolver that allows to subscribe on the host name and receive updates
