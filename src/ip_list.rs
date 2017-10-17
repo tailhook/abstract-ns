@@ -4,6 +4,7 @@
 use std::net::{IpAddr, SocketAddr};
 use std::slice::Iter;
 use std::sync::Arc;
+use std::iter::FromIterator;
 
 use rand::{thread_rng, Rng};
 use addr::Address;
@@ -61,5 +62,44 @@ impl<'a> IntoIterator for &'a IpList {
 impl From<Vec<IpAddr>> for IpList {
     fn from(vec: Vec<IpAddr>) -> IpList {
         IpList(Arc::new(vec))
+    }
+}
+
+impl FromIterator<IpAddr> for IpList {
+    fn from_iter<T>(iter: T) -> IpList
+        where T: IntoIterator<Item=IpAddr>,
+    {
+        IpList(Arc::new(iter.into_iter().collect()))
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use std::sync::Arc;
+    use std::net::IpAddr;
+    use super::IpList;
+
+    #[test]
+    fn test_from_iterator() {
+        let ip_list: IpList = ["127.0.0.1", "127.0.0.2"]
+            .iter().map(|x| x.parse().unwrap())
+            .collect();
+        assert_eq!(ip_list,
+            IpList(Arc::new(vec![
+                "127.0.0.1".parse().unwrap(),
+                "127.0.0.2".parse().unwrap(),
+            ])));
+    }
+
+    #[test]
+    fn test_from_vec() {
+        let vec = ["127.0.0.1", "127.0.0.2"]
+            .iter().map(|x| x.parse().unwrap())
+            .collect::<Vec<IpAddr>>();
+        assert_eq!(IpList::from(vec),
+            IpList(Arc::new(vec![
+                "127.0.0.1".parse().unwrap(),
+                "127.0.0.2".parse().unwrap(),
+            ])));
     }
 }
