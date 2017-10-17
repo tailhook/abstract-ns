@@ -1,3 +1,17 @@
+//! This crate provides a simple name resolver that uses lib's name resolution.
+//!
+//! Unfortunately libc doesn't provide asyncrhonous name resolution for many
+//! reasons so we run requests in a thread pool.
+//!
+//! For high-performance server applications this way is far from being
+//! performant, still it is the most compatible to everything else. So it
+//! might be used:
+//!
+//! 1. To provide maximum compatibility (i.e. good default for dev environment)
+//! 2. In applications where name resolution is not slow part
+//! 3. As a fallthrough resolver for `ns_router::Router` where more frequently
+//!    used name suffixes are overriden with faster resolver for that namespace
+#![warn(missing_docs)]
 #![warn(missing_debug_implementations)]
 extern crate futures;
 extern crate abstract_ns;
@@ -30,6 +44,9 @@ impl ThreadedResolver {
         }
     }
     /// Create a new Resolver with the given thread pool
+    ///
+    /// This is often used to share thread pool with other service or to
+    /// configure thread pool diffently
     pub fn use_pool(pool: CpuPool) -> Self {
         ThreadedResolver {
             pool: pool,
