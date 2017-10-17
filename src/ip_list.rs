@@ -1,7 +1,7 @@
 //! IpList type which is a list of ip addresses and helper structures to
 //! work with ip lists
 //!
-use std::net::{IpAddr, SocketAddr};
+use std::net::{IpAddr, SocketAddr, AddrParseError};
 use std::slice::Iter;
 use std::sync::Arc;
 use std::iter::FromIterator;
@@ -41,6 +41,20 @@ impl IpList {
     /// Create an `Address` object by attaching the specified to all addresses
     pub fn with_port(&self, port: u16) -> Address {
         self.iter().map(|x| SocketAddr::new(*x, port)).collect()
+    }
+
+    /// Parse a list of strings and put it into an ip_list
+    ///
+    /// This is mostly useful for unit tests
+    pub fn parse_list<I>(iter: I)
+        -> Result<IpList, AddrParseError>
+        where I: IntoIterator,
+              I::Item: AsRef<str>
+    {
+        Ok(IpList(Arc::new(iter.into_iter()
+            .map(|x| x.as_ref().parse())
+            .collect::<Result<Vec<_>, _>>()?
+        )))
     }
 }
 
@@ -85,10 +99,7 @@ mod test {
             .iter().map(|x| x.parse().unwrap())
             .collect();
         assert_eq!(ip_list,
-            IpList(Arc::new(vec![
-                "127.0.0.1".parse().unwrap(),
-                "127.0.0.2".parse().unwrap(),
-            ])));
+            IpList::parse_list(&[ "127.0.0.1", "127.0.0.2" ]).unwrap());
     }
 
     #[test]

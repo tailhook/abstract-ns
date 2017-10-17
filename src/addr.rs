@@ -3,7 +3,7 @@
 use std::collections::HashSet;
 use std::sync::Arc;
 use std::iter::FromIterator;
-use std::net::{IpAddr, SocketAddr};
+use std::net::{IpAddr, SocketAddr, AddrParseError};
 use std::slice::Iter as VecIter;
 
 use rand::thread_rng;
@@ -186,6 +186,24 @@ impl Address {
     /// Returns iterator over `WeightedSet`'s starting from high priority set
     pub fn iter(&self) -> PriorityIter {
         PriorityIter(self.0.addresses.iter())
+    }
+
+    /// Parse a list of strings and put it into an address
+    ///
+    /// This only uses one layer of addresses with same weights. And is mostly
+    /// useful for unit tests
+    pub fn parse_list<I>(iter: I)
+        -> Result<Address, AddrParseError>
+        where I: IntoIterator,
+              I::Item: AsRef<str>
+    {
+        Ok(Address(Arc::new(Internal {
+            addresses: vec![
+                iter.into_iter()
+                    .map(|x| x.as_ref().parse().map(|sa| (0, sa)))
+                    .collect::<Result<Vec<_>, _>>()?
+            ],
+        })))
     }
 }
 
@@ -406,15 +424,13 @@ mod test {
 
     #[test]
     fn test_union() {
-        let a1 = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
-            .iter()
-            .map(|x| SocketAddr::from_str(x).unwrap())
-            .collect::<Address>();
+        let a1 = Address::parse_list(
+            &[ "127.0.0.1:1234", "10.0.0.1:3456" ]
+            ).unwrap();
+        let a2 = Address::parse_list(
+            &[ "127.0.0.2:1234", "10.0.0.1:3456" ]
+            ).unwrap();
 
-        let a2 = [ "127.0.0.2:1234", "10.0.0.1:3456" ]
-            .iter()
-            .map(|x| SocketAddr::from_str(x).unwrap())
-            .collect::<Address>();
         let a = union([a1, a2].iter());
         assert_eq!(a.at(0).addresses().collect::<HashSet<_>>(), vec![
             SocketAddr::from_str("127.0.0.1:1234").unwrap(),
