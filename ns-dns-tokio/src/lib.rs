@@ -1,29 +1,55 @@
+//! This crate provides a simple name resolver that based on `domain` crate
+//!
+//! The `domain` crate is made as a one-stop thing for any DNS. Still
+//! `abstract-ns` provides subscriptions for updates and service discovery
+//! based on different services (and mapping between names and resolvers).
+//!
+//! Use this crate:
+//!
+//! 1. As a more efficient `ns-std-threaded` (with care!)
+//! 2. For DNS-based name resolution (no SRV yet)
+//!
+#![warn(missing_docs)]
+#![warn(missing_debug_implementations)]
 extern crate futures;
 extern crate abstract_ns;
 extern crate domain;
 extern crate tokio_core;
 
+use std::fmt;
 use std::str::FromStr;
-use std::net::{IpAddr, SocketAddr};
+use std::net::{IpAddr};
 use std::error::Error as StdError;
 
-use futures::{Future, Async, failed};
+use futures::{Future, Async};
 use tokio_core::reactor::Handle;
 use domain::resolv;
 use domain::iana::{Rtype, Class};
 use domain::rdata::A;
 use domain::bits::{Question, DNameBuf};
-use abstract_ns::{Name, Address, IpList, Error};
+use abstract_ns::{Name, IpList, Error};
 
-#[derive(Clone)]
+
+/// A main DNS resolver which implements all needed resolver traits
+#[derive(Clone, Debug)]
 pub struct DnsResolver {
     internal: resolv::Resolver,
 }
 
+/// A Future returned by `DnsResolver::resolve_host`
 pub struct HostFuture {
     name: Name,
     query: Option<resolv::Query>,
     error: Option<Error>,
+}
+
+
+impl fmt::Debug for HostFuture {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.debug_struct("HostFuture")
+        .field("name", &self.name)
+        .finish()
+    }
 }
 
 impl Future for HostFuture {
