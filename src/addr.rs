@@ -247,7 +247,7 @@ impl<'a> WeightedSet<'a> {
     /// This effectively discards weights, but may be useful for cases where
     /// you treat addresses as a set. For example to find out whether two
     /// `Address` values intersect over `SocketAddr`.
-    pub fn addresses(&self) -> AddressIter<'a> {
+    pub fn addresses(&self) -> AddressIter {
         AddressIter(self.addresses.iter())
     }
 
