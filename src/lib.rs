@@ -113,3 +113,9 @@ pub use ip_list::IpList;
 pub use error::Error;
 pub use name::Name;
 pub use resolver::{ResolveHost, Resolve, HostSubscribe, Subscribe};
+
+trait AssertTraits: Send + Sync {}
+impl AssertTraits for Address {}
+impl AssertTraits for IpList {}
+impl AssertTraits for Name {}
+impl AssertTraits for Error {}
