@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use futures::Future;
 use futures::stream::Stream;
 use error::Error;
@@ -160,4 +162,34 @@ pub trait Subscribe {
     /// should be returned so middleware and routers can failover to other
     /// sources and put errors to log.
     fn subscribe(&self, name: &Name) -> Self::Stream;
+}
+
+impl<T: Resolve> Resolve for Arc<T> {
+    type Future = T::Future;
+    fn resolve(&self, name: &Name) -> Self::Future {
+        (**self).resolve(name)
+    }
+}
+
+impl<T: ResolveHost> ResolveHost for Arc<T> {
+    type FutureHost = T::FutureHost;
+    fn resolve_host(&self, name: &Name) -> Self::FutureHost {
+        (**self).resolve_host(name)
+    }
+}
+
+impl<T: Subscribe> Subscribe for Arc<T> {
+    type Error = T::Error;
+    type Stream = T::Stream;
+    fn subscribe(&self, name: &Name) -> Self::Stream {
+        (**self).subscribe(name)
+    }
+}
+
+impl<T: HostSubscribe> HostSubscribe for Arc<T> {
+    type Error = T::Error;
+    type HostStream = T::HostStream;
+    fn subscribe_host(&self, name: &Name) -> Self::HostStream {
+        (**self).subscribe_host(name)
+    }
 }
