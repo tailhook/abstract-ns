@@ -58,6 +58,12 @@ pub struct WeightedSet<'a> {
 #[derive(Debug)]
 pub struct PriorityIter<'a>(VecIter<'a, Vec<(Weight, SocketAddr)>>);
 
+/// An owned wrapper around `AddressIter` implementing `IntoIterator`
+///
+/// Create it with `Address::addresses_at`
+#[derive(Debug)]
+pub struct OwnedAddressIter(Arc<Internal>, usize);
+
 /// Iterates over individual SocketAddr's (IPs) in the WeightedSet (i.e. a
 /// set of addresses having the same priority).
 ///
@@ -71,6 +77,16 @@ impl<'a> Iterator for PriorityIter<'a> {
         self.0.next().map(|vec| WeightedSet {
             addresses: &vec,
         })
+    }
+}
+
+impl<'a> IntoIterator for &'a OwnedAddressIter {
+    type Item = SocketAddr;
+    type IntoIter = AddressIter<'a>;
+    fn into_iter(self) -> AddressIter<'a> {
+        self.0.addresses.get(self.1)
+            .map(|vec| AddressIter(vec.iter()))
+            .unwrap_or(AddressIter([].iter()))
     }
 }
 
@@ -167,6 +183,15 @@ impl Address {
     /// Returns `None` if address is empty
     pub fn pick_one(&self) -> Option<SocketAddr> {
         self.at(0).pick_one()
+    }
+
+    /// Returns an owned iterator over addresses at priority
+    ///
+    /// This is similar to `self.at(pri).addresses()` but returns an owned
+    /// object that implements IntoIterator. This might be useful for streams
+    /// and futures where borrowed objects don't work
+    pub fn addresses_at(&self, priority: usize) -> OwnedAddressIter {
+        OwnedAddressIter(self.0.clone(), priority)
     }
 
     /// Returns the set of the hosts for the same priority
@@ -439,5 +464,18 @@ mod test {
             ].into_iter().collect::<HashSet<_>>());
         // check for no duplicates
         assert_eq!(a.at(0).addresses().collect::<Vec<_>>().len(), 3);
+    }
+
+    #[test]
+    fn test_addresses_at_lifetime() {
+        use futures::Future;
+        use futures::stream::{Stream, iter_ok};
+        assert_eq!(2usize,
+            iter_ok::<_, ()>(vec![Address::parse_list(
+                &["127.0.0.1:8080", "172.0.0.1:8010"]
+                ).unwrap()])
+            .map(|a| a.addresses_at(0))
+            .map(|a| a.into_iter().count())
+            .collect().wait().unwrap().into_iter().sum());
     }
 }
