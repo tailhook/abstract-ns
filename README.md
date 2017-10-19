@@ -1,7 +1,7 @@
 Abstract Name Service
 =====================
 
-*Status: Alpha*
+**Status: Beta**
 
 [Documentation](https://docs.rs/abstract-ns) |
 [Github](https://github.com/tailhook/abstract-ns) |
