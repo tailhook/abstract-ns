@@ -6,3 +6,13 @@ versions:
   block-start: ^\[package\]
   block-end: ^\[.*\]
   regex: ^version\s*=\s*"(\S+)"
+
+- file: ns-dns-tokio/Cargo.toml
+  block-start: ^\[dependencies\]
+  block-end: ^\[.*\]
+  regex: ^abstract-ns\s*=.*version\s*=\s*["']([^"']+)["']
+
+- file: ns-std-threaded/Cargo.toml
+  block-start: ^\[dependencies\]
+  block-end: ^\[.*\]
+  regex: ^abstract-ns\s*=.*version\s*=\s*["']([^"']+)["']
