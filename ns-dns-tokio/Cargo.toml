@@ -7,14 +7,14 @@ description = """
 license = "MIT/Apache-2.0"
 keywords = ["dns", "tokio", "name", "service", "discovery"]
 homepage = "http://github.com/tailhook/abstract-ns"
-version = "0.3.1"
+version = "0.4.0"
 authors = ["Paul Colomiets <paul@colomiets.name>"]
 workspace = '../'
 
 [dependencies]
 futures = "0.1.2"
 tokio-core = "0.1.6"
-abstract-ns = { path = "..", version = "0.3.4" }
+abstract-ns = { path = "..", version = "0.4.0" }
 domain = "0.2.2"
 
 [dev-dependencies]
