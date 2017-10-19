@@ -62,7 +62,7 @@ pub struct PriorityIter<'a>(VecIter<'a, Vec<(Weight, SocketAddr)>>);
 ///
 /// Create it with `Address::addresses_at`
 #[derive(Debug)]
-pub struct OwnedAddressIter(Arc<Internal>, usize);
+pub struct OwnedAddressIter(Arc<Internal>, usize, usize);
 
 /// Iterates over individual SocketAddr's (IPs) in the WeightedSet (i.e. a
 /// set of addresses having the same priority).
@@ -80,13 +80,14 @@ impl<'a> Iterator for PriorityIter<'a> {
     }
 }
 
-impl<'a> IntoIterator for &'a OwnedAddressIter {
+impl<'a> Iterator for OwnedAddressIter {
     type Item = SocketAddr;
-    type IntoIter = AddressIter<'a>;
-    fn into_iter(self) -> AddressIter<'a> {
+    fn next(&mut self) -> Option<SocketAddr> {
+        let n = self.2;
+        self.2 += 1;
         self.0.addresses.get(self.1)
-            .map(|vec| AddressIter(vec.iter()))
-            .unwrap_or(AddressIter([].iter()))
+            .and_then(|vec| vec.get(n))
+            .map(|&(_, addr)| addr)
     }
 }
 
@@ -191,7 +192,7 @@ impl Address {
     /// object that implements IntoIterator. This might be useful for streams
     /// and futures where borrowed objects don't work
     pub fn addresses_at(&self, priority: usize) -> OwnedAddressIter {
-        OwnedAddressIter(self.0.clone(), priority)
+        OwnedAddressIter(self.0.clone(), priority, 0)
     }
 
     /// Returns the set of the hosts for the same priority
@@ -349,6 +350,9 @@ mod test {
     use std::net::{SocketAddr, IpAddr};
     use std::str::FromStr;
 
+    use futures::Future;
+    use futures::stream::{Stream, iter_ok};
+
     #[test]
     fn test_iter() {
         let ab = [ "127.0.0.1:1234", "10.0.0.1:3456" ]
@@ -466,16 +470,21 @@ mod test {
         assert_eq!(a.at(0).addresses().collect::<Vec<_>>().len(), 3);
     }
 
+    fn check_type<S: Stream>(stream: S) -> S
+        where S::Item: IntoIterator<Item=SocketAddr>
+    {
+        stream
+    }
+
     #[test]
     fn test_addresses_at_lifetime() {
-        use futures::Future;
-        use futures::stream::{Stream, iter_ok};
         assert_eq!(2usize,
-            iter_ok::<_, ()>(vec![Address::parse_list(
-                &["127.0.0.1:8080", "172.0.0.1:8010"]
-                ).unwrap()])
-            .map(|a| a.addresses_at(0))
-            .map(|a| a.into_iter().count())
+            check_type(
+                iter_ok::<_, ()>(vec![Address::parse_list(
+                    &["127.0.0.1:8080", "172.0.0.1:8010"]
+                    ).unwrap()])
+                .map(|a| a.addresses_at(0))
+            ).map(|a| a.into_iter().count())
             .collect().wait().unwrap().into_iter().sum());
     }
 }
