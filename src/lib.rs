@@ -4,7 +4,7 @@
 //!
 //! There are four traits:
 //!
-//! * [`ResolveHost`](trait.ResolveHost.html)
+//! * [`HostResolve`](trait.HostResolve.html)
 //!   -- resolves hostname to a list of IP addresses
 //!   (maps to `A` record in DNS)
 //! * [`Resolve`](trait.Resolve.html)
@@ -37,7 +37,7 @@
 //!
 //! # Implementing A Resolver
 //!
-//! The `Resolve*` traits are used for ad-hoc resolution of the addresses.
+//! The `*Resolve` traits are used for ad-hoc resolution of the addresses.
 //!
 //! The `*Subscribe` traits are used to get updates for the name. If your
 //! name service supports updates you should implement it. If not, there
@@ -112,7 +112,7 @@ pub use addr::Address;
 pub use ip_list::IpList;
 pub use error::Error;
 pub use name::Name;
-pub use resolver::{ResolveHost, Resolve, HostSubscribe, Subscribe};
+pub use resolver::{HostResolve, Resolve, HostSubscribe, Subscribe};
 
 trait AssertTraits: Send + Sync {}
 impl AssertTraits for Address {}

@@ -10,7 +10,7 @@ use std::process::exit;
 
 use futures::{Future};
 use tokio_core::reactor::Core;
-use abstract_ns::ResolveHost;
+use abstract_ns::HostResolve;
 use argparse::{ArgumentParser, Store};
 use ns_dns_tokio::DnsResolver;
 

@@ -4,7 +4,7 @@ extern crate tokio_core;
 
 use futures::{Future, Stream};
 use futures::future::{FutureResult, ok};
-use abstract_ns::{ResolveHost, Resolve, Name, Address, IpList, Error};
+use abstract_ns::{HostResolve, Resolve, Name, Address, IpList, Error};
 use abstract_ns::{Subscribe, HostSubscribe};
 
 
@@ -18,16 +18,16 @@ struct SvcMock;
 struct Mock;
 
 
-impl ResolveHost for Mock {
-    type FutureHost = FutureResult<IpList, Error>;
-    fn resolve_host(&self, _name: &Name) -> Self::FutureHost {
+impl HostResolve for Mock {
+    type HostFuture = FutureResult<IpList, Error>;
+    fn resolve_host(&self, _name: &Name) -> Self::HostFuture {
         ok(vec!["127.0.0.1".parse().unwrap()].into())
     }
 }
 
-impl ResolveHost for HostMock {
-    type FutureHost = FutureResult<IpList, Error>;
-    fn resolve_host(&self, _name: &Name) -> Self::FutureHost {
+impl HostResolve for HostMock {
+    type HostFuture = FutureResult<IpList, Error>;
+    fn resolve_host(&self, _name: &Name) -> Self::HostFuture {
         ok(vec!["127.0.0.2".parse().unwrap()].into())
     }
 }
@@ -99,7 +99,7 @@ fn test_null_host() {
     .resolve_host(&"localhost".parse().unwrap()).wait().unwrap();
 }
 
-fn all_traits<T: Resolve + ResolveHost + Subscribe + HostSubscribe>(_: T) { }
+fn all_traits<T: Resolve + HostResolve + Subscribe + HostSubscribe>(_: T) { }
 
 #[test]
 fn test_mock_sub() {

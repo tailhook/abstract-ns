@@ -21,7 +21,7 @@ use std::fmt;
 use std::net::ToSocketAddrs;
 
 use futures::Async;
-use abstract_ns::{ResolveHost, Name, IpList, Error};
+use abstract_ns::{HostResolve, Name, IpList, Error};
 use futures_cpupool::{CpuPool, CpuFuture};
 
 /// A resolver that uses ToSocketAddrs from stdlib in thread pool
@@ -64,8 +64,8 @@ impl futures::Future for Future {
 }
 
 
-impl ResolveHost for ThreadedResolver {
-    type FutureHost = Future;
+impl HostResolve for ThreadedResolver {
+    type HostFuture = Future;
     fn resolve_host(&self, name: &Name) -> Future {
         let name = name.clone();
         Future(self.pool.spawn_fn(move || {

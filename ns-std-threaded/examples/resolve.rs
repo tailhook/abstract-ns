@@ -8,7 +8,7 @@ use std::io::{stderr, Write};
 use std::process::exit;
 
 use futures::{Future};
-use abstract_ns::ResolveHost;
+use abstract_ns::HostResolve;
 use argparse::{ArgumentParser, Store};
 use ns_std_threaded::ThreadedResolver;
 

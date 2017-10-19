@@ -113,8 +113,8 @@ impl DnsResolver {
     }
 }
 
-impl abstract_ns::ResolveHost for DnsResolver {
-    type FutureHost = HostFuture;
+impl abstract_ns::HostResolve for DnsResolver {
+    type HostFuture = HostFuture;
     fn resolve_host(&self, name: &Name) -> HostFuture {
         match DNameBuf::from_str(&format!("{}.", name)) {
             Ok(dname) => {

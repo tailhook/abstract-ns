@@ -20,13 +20,13 @@ use {Name, Address, IpList};
 /// it can't use a backup addresses and weights. So this should be used for
 /// simple cases and full blown `Resolve` trait (i.e. SRV records) for
 /// more complex ones.
-pub trait ResolveHost {
+pub trait HostResolve {
 
     /// A future returned from `resolve()`
-    type FutureHost: Future<Item=IpList, Error=Error>;
+    type HostFuture: Future<Item=IpList, Error=Error>;
 
     /// Resolve a name to an address once
-    fn resolve_host(&self, name: &Name) -> Self::FutureHost;
+    fn resolve_host(&self, name: &Name) -> Self::HostFuture;
 
     /// Create a subscriber that resolves once using this resolver
     /// and never updates a stream
@@ -38,7 +38,7 @@ pub trait ResolveHost {
         FrozenSubscriber { resolver: self }
     }
 
-    /// Create a thing that implements Resolve+ResolveHost but returns
+    /// Create a thing that implements Resolve+HostResolve but returns
     /// `NameNotFound` on `resolve`
     ///
     /// This is needed to add resolver that can only resolve hostnames to
@@ -54,7 +54,7 @@ pub trait ResolveHost {
 ///
 /// This is commonly done using SRV records, but can also be done
 /// as a wrapper around resolver by resolving a host and adding a
-/// default value (see `ResolveHost::with_default_port`.
+/// default value (see `HostResolve::with_default_port`.
 pub trait Resolve {
     /// A future returned from `resolve()`
     type Future: Future<Item=Address, Error=Error>;
@@ -82,7 +82,7 @@ pub trait Resolve {
         FrozenSubscriber { resolver: self }
     }
 
-    /// Create a thing that implements Resolve+ResolveHost but returns
+    /// Create a thing that implements Resolve+HostResolve but returns
     /// `NameNotFound` on `resolve_host`
     ///
     /// This is needed to add resolver that can only resolve services to
@@ -110,10 +110,10 @@ pub trait HostSubscribe {
     /// resolution (and all errors should be considered temporary as
     /// user can even fix invalid name by fixing configuration file while
     /// connection pool is operating).
-    type Error: Into<Error>;
+    type HostError: Into<Error>;
 
     /// A stream returned from `subscribe()`
-    type HostStream: Stream<Item=IpList, Error=Self::Error>;
+    type HostStream: Stream<Item=IpList, Error=Self::HostError>;
 
     /// Resolve a name and subscribe to the updates
     ///
@@ -171,9 +171,9 @@ impl<T: Resolve> Resolve for Arc<T> {
     }
 }
 
-impl<T: ResolveHost> ResolveHost for Arc<T> {
-    type FutureHost = T::FutureHost;
-    fn resolve_host(&self, name: &Name) -> Self::FutureHost {
+impl<T: HostResolve> HostResolve for Arc<T> {
+    type HostFuture = T::HostFuture;
+    fn resolve_host(&self, name: &Name) -> Self::HostFuture {
         (**self).resolve_host(name)
     }
 }
@@ -187,7 +187,7 @@ impl<T: Subscribe> Subscribe for Arc<T> {
 }
 
 impl<T: HostSubscribe> HostSubscribe for Arc<T> {
-    type Error = T::Error;
+    type HostError = T::HostError;
     type HostStream = T::HostStream;
     fn subscribe_host(&self, name: &Name) -> Self::HostStream {
         (**self).subscribe_host(name)

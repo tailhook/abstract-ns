@@ -2,7 +2,7 @@
 use futures::{Async, Future, Stream};
 use futures::future::{FutureResult, err};
 use {Name, Address, IpList, Error};
-use {Resolve, Subscribe, ResolveHost, HostSubscribe};
+use {Resolve, Subscribe, HostResolve, HostSubscribe};
 
 /// A stream returned from subscription on FrozenResolver
 ///
@@ -22,7 +22,7 @@ pub struct FrozenSubscriber<R> {
     pub(crate) resolver: R,
 }
 
-/// A resolver that implements implements Resolve+ResolveHost but returns
+/// A resolver that implements implements Resolve+HostResolve but returns
 /// `NameNotFound` on `resolve`
 ///
 /// This is needed to add resolver that can only resolve hostnames to
@@ -34,7 +34,7 @@ pub struct NullResolver<R> {
     pub(crate) resolver: R,
 }
 
-/// A resolver that implements implements Resolve+ResolveHost but returns
+/// A resolver that implements implements Resolve+HostResolve but returns
 /// `NameNotFound` on `resolve_host`
 ///
 /// This is needed to add resolver that can only resolve services to
@@ -91,30 +91,30 @@ impl<R: Resolve> Subscribe for FrozenSubscriber<R> {
     }
 }
 
-impl<R: ResolveHost> ResolveHost for NullResolver<R> {
-    type FutureHost = R::FutureHost;
-    fn resolve_host(&self, name: &Name) -> Self::FutureHost {
+impl<R: HostResolve> HostResolve for NullResolver<R> {
+    type HostFuture = R::HostFuture;
+    fn resolve_host(&self, name: &Name) -> Self::HostFuture {
         self.resolver.resolve_host(name)
     }
 }
 
-impl<R> ResolveHost for NullHostResolver<R> {
-    type FutureHost = FutureResult<IpList, Error>;
-    fn resolve_host(&self, _name: &Name) -> Self::FutureHost {
+impl<R> HostResolve for NullHostResolver<R> {
+    type HostFuture = FutureResult<IpList, Error>;
+    fn resolve_host(&self, _name: &Name) -> Self::HostFuture {
         err(Error::NameNotFound)
     }
 }
 
-impl<R: ResolveHost> ResolveHost for FrozenSubscriber<R> {
-    type FutureHost = R::FutureHost;
-    fn resolve_host(&self, name: &Name) -> Self::FutureHost {
+impl<R: HostResolve> HostResolve for FrozenSubscriber<R> {
+    type HostFuture = R::HostFuture;
+    fn resolve_host(&self, name: &Name) -> Self::HostFuture {
         self.resolver.resolve_host(name)
     }
 }
 
-impl<R: ResolveHost> HostSubscribe for FrozenSubscriber<R> {
-    type HostStream = StreamOnce<R::FutureHost>;
-    type Error = <R::FutureHost as Future>::Error;
+impl<R: HostResolve> HostSubscribe for FrozenSubscriber<R> {
+    type HostStream = StreamOnce<R::HostFuture>;
+    type HostError = <R::HostFuture as Future>::Error;
     fn subscribe_host(&self, name: &Name) -> Self::HostStream {
         StreamOnce { future: Some(self.resolve_host(name)) }
     }
