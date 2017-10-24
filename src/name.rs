@@ -80,7 +80,7 @@ fn namecheck(mut name: &str) -> Result<(), Error> {
         }
         if !piece.chars()
             .all(|c| c.is_ascii() &&
-                (c.is_lowercase() || c == '-' || c == '_'))
+                (c.is_lowercase() || c.is_numeric() || c == '-' || c == '_'))
         {
             return Err(ErrorEnum::InvalidChar.into());
         }
@@ -118,6 +118,19 @@ mod test {
         assert_eq!(name_str("localhost"), bare("localhost"));
         assert_eq!(name_str("host.name.org"), bare("host.name.org"));
         assert_eq!(name_str("name.root."), bare("name.root."));
+    }
+
+    #[test]
+    fn name_with_numbers() {
+        assert_eq!(name_str("x1"), bare("x1"));
+        assert_eq!(name_str("x1.y1"), bare("x1.y1"));
+        assert_eq!(name_str("1.2.x"), bare("1.2.x"));
+    }
+
+    #[test]
+    fn name_with_dashes() {
+        assert_eq!(name_str("x-a"), bare("x-a"));
+        assert_eq!(name_str("x-a.y-b"), bare("x-a.y-b"));
     }
 
     #[test]
