@@ -7,8 +7,8 @@ license = "MIT/Apache-2.0"
 readme = "README.md"
 keywords = ["dns", "tokio", "name", "service", "discovery"]
 categories = ["asynchronous", "network-programming"]
-homepage = "http://github.com/tailhook/abstract-ns"
-documentation = "http://tailhook.github.io/abstract-ns"
+homepage = "https://github.com/tailhook/abstract-ns"
+documentation = "https://docs.rs/abstract-ns
 version = "0.4.1"
 authors = ["paul@colomiets.name"]
 
