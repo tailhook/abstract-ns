@@ -50,15 +50,17 @@ impl<F: Future> Stream for StreamOnce<F> {
     type Item = F::Item;
     type Error = F::Error;
     fn poll(&mut self) -> Result<Async<Option<F::Item>>, F::Error> {
-        match self.future.as_mut() {
+        let result = match self.future.as_mut() {
             Some(f) => {
                 match f.poll()? {
-                    Async::Ready(v) => Ok(Async::Ready(Some(v))),
-                    Async::NotReady => Ok(Async::NotReady),
+                    Async::Ready(v) => v,
+                    Async::NotReady => return Ok(Async::NotReady),
                 }
             }
-            None => Ok(Async::NotReady),
-        }
+            None => return Ok(Async::NotReady),
+        };
+        self.future = None;
+        return Ok(Async::Ready(Some(result)));
     }
 }
 
