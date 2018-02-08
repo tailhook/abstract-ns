@@ -300,6 +300,11 @@ impl<'a> WeightedSet<'a> {
         }
         return (old, new);
     }
+
+    /// Number of addresses contained in set
+    pub fn len(&self) -> usize {
+        self.addresses.len()
+    }
 }
 
 impl<'a> PartialEq for WeightedSet<'a> {
