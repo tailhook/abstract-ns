@@ -6,7 +6,7 @@ use std::iter::FromIterator;
 use std::net::{IpAddr, SocketAddr, AddrParseError};
 use std::slice::Iter as VecIter;
 
-use rand::thread_rng;
+use rand::{thread_rng, Rng};
 use rand::distributions::{IndependentSample, Range};
 
 /// A type alias for a weight for each name in an address
@@ -256,7 +256,8 @@ impl<'a> WeightedSet<'a> {
         }
         let total_weight = self.addresses.iter().map(|&(w, _)| w).sum();
         if total_weight == 0 {
-            return Some(self.addresses[0].1);
+            // All addresses are equal
+            return Some(thread_rng().choose(self.addresses).unwrap().1)
         }
         let range = Range::new(0, total_weight);
         let mut n = range.ind_sample(&mut thread_rng());
