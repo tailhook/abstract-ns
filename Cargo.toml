@@ -15,7 +15,7 @@ authors = ["paul@colomiets.name"]
 [dependencies]
 futures = "0.1.15"
 quick-error = "1.2.0"
-rand = "0.4.2"
+rand = "0.5.0"
 void = "1.0.2"
 
 [dev-dependencies]

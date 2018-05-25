@@ -1,6 +1,7 @@
 //! Name type and helper types
 //!
 use std::fmt;
+#[allow(unused_imports, deprecated)]
 use std::ascii::AsciiExt;
 use std::str::FromStr;
 use std::num::ParseIntError;
